@@ -9,7 +9,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/spf13/cobra"
-	tmtypes "github.com/tendermint/tendermint/types"
+	tmtypes "github.com/reapchain/reapchain-core/types"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"

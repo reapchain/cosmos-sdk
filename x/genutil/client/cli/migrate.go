@@ -8,7 +8,7 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
-	tmjson "github.com/tendermint/tendermint/libs/json"
+	tmjson "github.com/reapchain/reapchain-core/libs/json"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"

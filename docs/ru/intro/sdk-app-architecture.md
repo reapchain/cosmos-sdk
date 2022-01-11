@@ -62,7 +62,7 @@ Tendermint — это независимая от разрабатываемог
 
 ## ABCI
 
-Tendermint передает приложению транзакции по сети через интерфейс [ABCI](https://github.com/tendermint/tendermint/tree/master/abci), который приложение должно реализовать.
+Tendermint передает приложению транзакции по сети через интерфейс [ABCI](https://github.com/reapchain/reapchain-core/tree/master/abci), который приложение должно реализовать.
 
 ```
 +---------------------+

@@ -9,7 +9,7 @@ import (
 	"math/big"
 
 	secp256k1 "github.com/btcsuite/btcd/btcec"
-	"github.com/tendermint/tendermint/crypto"
+	"github.com/reapchain/reapchain-core/crypto"
 	"golang.org/x/crypto/ripemd160" // nolint: staticcheck // necessary for Bitcoin address format
 
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -23,8 +23,8 @@ var _ codec.AminoMarshaler = &PrivKey{}
 const (
 	PrivKeySize = 32
 	keyType     = "secp256k1"
-	PrivKeyName = "tendermint/PrivKeySecp256k1"
-	PubKeyName  = "tendermint/PubKeySecp256k1"
+	PrivKeyName = "reapchain/PrivKeySecp256k1"
+	PubKeyName  = "reapchain/PubKeySecp256k1"
 )
 
 // Bytes returns the byte representation of the Private Key.

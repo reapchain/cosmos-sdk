@@ -7,12 +7,12 @@ import (
 	"time"
 
 	"github.com/cosmos/go-bip39"
-	cfg "github.com/tendermint/tendermint/config"
-	tmed25519 "github.com/tendermint/tendermint/crypto/ed25519"
-	tmos "github.com/tendermint/tendermint/libs/os"
-	"github.com/tendermint/tendermint/p2p"
-	"github.com/tendermint/tendermint/privval"
-	tmtypes "github.com/tendermint/tendermint/types"
+	cfg "github.com/reapchain/reapchain-core/config"
+	tmed25519 "github.com/reapchain/reapchain-core/crypto/ed25519"
+	tmos "github.com/reapchain/reapchain-core/libs/os"
+	"github.com/reapchain/reapchain-core/p2p"
+	"github.com/reapchain/reapchain-core/privval"
+	tmtypes "github.com/reapchain/reapchain-core/types"
 
 	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"

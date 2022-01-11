@@ -3,8 +3,8 @@ package proofs
 import (
 	"sort"
 
-	"github.com/tendermint/tendermint/libs/rand"
-	tmcrypto "github.com/tendermint/tendermint/proto/tendermint/crypto"
+	"github.com/reapchain/reapchain-core/libs/rand"
+	tmcrypto "github.com/reapchain/reapchain-core/proto/reapchain/crypto"
 
 	sdkmaps "github.com/cosmos/cosmos-sdk/store/internal/maps"
 )

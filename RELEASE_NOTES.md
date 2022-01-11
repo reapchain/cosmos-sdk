@@ -6,7 +6,7 @@ The main performance improvement concerns gRPC queries, which are now able to ru
 
 This release notably also:
 
-- bumps Tendermint to [v0.34.14](https://github.com/tendermint/tendermint/releases/tag/v0.34.14).
+- bumps Tendermint to [v0.34.14](https://github.com/reapchain/reapchain-core/releases/tag/v0.34.14).
 - bumps the `gin-gonic/gin` version to 1.7.0 to fix the upstream [security vulnerability](https://github.com/advisories/GHSA-h395-qcrw-5vmq).
 - adds a null guard with a user-friendly error message for possible nil `Amount` in tx fee `Coins`.
 

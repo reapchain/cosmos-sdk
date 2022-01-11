@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
-	tmos "github.com/tendermint/tendermint/libs/os"
+	tmos "github.com/reapchain/reapchain-core/libs/os"
 	dbm "github.com/tendermint/tm-db"
 
 	"github.com/cosmos/cosmos-sdk/crypto"

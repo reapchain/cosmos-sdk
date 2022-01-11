@@ -13,11 +13,11 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/require"
 
-	abci "github.com/tendermint/tendermint/abci/types"
-	tmjson "github.com/tendermint/tendermint/libs/json"
-	"github.com/tendermint/tendermint/libs/log"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
-	tmtypes "github.com/tendermint/tendermint/types"
+	abci "github.com/reapchain/reapchain-core/abci/types"
+	tmjson "github.com/reapchain/reapchain-core/libs/json"
+	"github.com/reapchain/reapchain-core/libs/log"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
+	tmtypes "github.com/reapchain/reapchain-core/types"
 	dbm "github.com/tendermint/tm-db"
 
 	"github.com/cosmos/cosmos-sdk/client"

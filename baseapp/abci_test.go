@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	abci "github.com/tendermint/tendermint/abci/types"
-	tmprototypes "github.com/tendermint/tendermint/proto/tendermint/types"
+	abci "github.com/reapchain/reapchain-core/abci/types"
+	tmprototypes "github.com/reapchain/reapchain-core/proto/reapchain/types"
 	dbm "github.com/tendermint/tm-db"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"

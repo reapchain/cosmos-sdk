@@ -10,10 +10,10 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/require"
-	abci "github.com/tendermint/tendermint/abci/types"
-	"github.com/tendermint/tendermint/libs/log"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
-	tmtypes "github.com/tendermint/tendermint/types"
+	abci "github.com/reapchain/reapchain-core/abci/types"
+	"github.com/reapchain/reapchain-core/libs/log"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
+	tmtypes "github.com/reapchain/reapchain-core/types"
 	dbm "github.com/tendermint/tm-db"
 
 	bam "github.com/cosmos/cosmos-sdk/baseapp"

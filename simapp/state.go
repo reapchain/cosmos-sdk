@@ -8,8 +8,8 @@ import (
 	"math/rand"
 	"time"
 
-	tmjson "github.com/tendermint/tendermint/libs/json"
-	tmtypes "github.com/tendermint/tendermint/types"
+	tmjson "github.com/reapchain/reapchain-core/libs/json"
+	tmtypes "github.com/reapchain/reapchain-core/types"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"

@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	tmtypes "github.com/tendermint/tendermint/types"
+	tmtypes "github.com/reapchain/reapchain-core/types"
 
 	"github.com/cosmos/cosmos-sdk/codec/legacy"
 	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
@@ -202,7 +202,7 @@ func TestValidatorMarshalUnmarshalJSON(t *testing.T) {
 	js, err := legacy.Cdc.MarshalJSON(validator)
 	require.NoError(t, err)
 	require.NotEmpty(t, js)
-	require.Contains(t, string(js), "\"consensus_pubkey\":{\"type\":\"tendermint/PubKeyEd25519\"")
+	require.Contains(t, string(js), "\"consensus_pubkey\":{\"type\":\"reapchain/PubKeyEd25519\"")
 	got := &types.Validator{}
 	err = legacy.Cdc.UnmarshalJSON(js, got)
 	assert.NoError(t, err)

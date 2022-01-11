@@ -9,8 +9,8 @@ import (
 	serverconfig "github.com/cosmos/cosmos-sdk/server/config"
 	"github.com/spf13/cast"
 	"github.com/spf13/cobra"
-	tmcli "github.com/tendermint/tendermint/libs/cli"
-	"github.com/tendermint/tendermint/libs/log"
+	tmcli "github.com/reapchain/reapchain-core/libs/cli"
+	"github.com/reapchain/reapchain-core/libs/log"
 	dbm "github.com/tendermint/tm-db"
 
 	"github.com/cosmos/cosmos-sdk/baseapp"

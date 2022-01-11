@@ -7,8 +7,8 @@ import (
 	"io"
 
 	"github.com/hdevalence/ed25519consensus"
-	"github.com/tendermint/tendermint/crypto"
-	"github.com/tendermint/tendermint/crypto/tmhash"
+	"github.com/reapchain/reapchain-core/crypto"
+	"github.com/reapchain/reapchain-core/crypto/tmhash"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
@@ -18,8 +18,8 @@ import (
 //-------------------------------------
 
 const (
-	PrivKeyName = "tendermint/PrivKeyEd25519"
-	PubKeyName  = "tendermint/PubKeyEd25519"
+	PrivKeyName = "reapchain/PrivKeyEd25519"
+	PubKeyName  = "reapchain/PubKeyEd25519"
 	// PubKeySize is is the size, in bytes, of public keys as used in this package.
 	PubKeySize = 32
 	// PrivKeySize is the size, in bytes, of private keys as used in this package.

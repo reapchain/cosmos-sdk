@@ -8,9 +8,9 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	tmjson "github.com/tendermint/tendermint/libs/json"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
-	tmtypes "github.com/tendermint/tendermint/types"
+	tmjson "github.com/reapchain/reapchain-core/libs/json"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
+	tmtypes "github.com/reapchain/reapchain-core/types"
 
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/server/types"

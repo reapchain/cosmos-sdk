@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/suite"
-	"github.com/tendermint/tendermint/libs/log"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
+	"github.com/reapchain/reapchain-core/libs/log"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
 	dbm "github.com/tendermint/tm-db"
 
 	"github.com/cosmos/cosmos-sdk/codec"

@@ -89,7 +89,7 @@ Signed MsgSignData json example:
     "signatures": [
       {
         "pub_key": {
-          "type": "tendermint/PubKeySecp256k1",
+          "type": "reapchain/PubKeySecp256k1",
           "value": "AqnDSiRoFmTPfq97xxEb2VkQ/Hm28cPsqsZm9jEVsYK9"
         },
         "signature": "8y8i34qJakkjse9pOD2De+dnlc4KvFgh0wQpes4eydN66D9kv7cmCEouRrkka9tlW9cAkIL52ErB+6ye7X5aEg=="

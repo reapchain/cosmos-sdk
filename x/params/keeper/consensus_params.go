@@ -1,8 +1,8 @@
 package keeper
 
 import (
-	abci "github.com/tendermint/tendermint/abci/types"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
+	abci "github.com/reapchain/reapchain-core/abci/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
 
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/x/params/types"

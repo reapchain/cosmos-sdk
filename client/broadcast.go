@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/tendermint/tendermint/mempool"
-	tmtypes "github.com/tendermint/tendermint/types"
+	"github.com/reapchain/reapchain-core/mempool"
+	tmtypes "github.com/reapchain/reapchain-core/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 

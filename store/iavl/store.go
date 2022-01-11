@@ -8,8 +8,8 @@ import (
 
 	ics23 "github.com/confio/ics23/go"
 	"github.com/cosmos/iavl"
-	abci "github.com/tendermint/tendermint/abci/types"
-	tmcrypto "github.com/tendermint/tendermint/proto/tendermint/crypto"
+	abci "github.com/reapchain/reapchain-core/abci/types"
+	tmcrypto "github.com/reapchain/reapchain-core/proto/reapchain/crypto"
 	dbm "github.com/tendermint/tm-db"
 
 	"github.com/cosmos/cosmos-sdk/store/cachekv"

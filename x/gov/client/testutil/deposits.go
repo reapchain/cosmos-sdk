@@ -10,7 +10,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/gov/client/cli"
 	"github.com/cosmos/cosmos-sdk/x/gov/types"
 	"github.com/stretchr/testify/suite"
-	tmcli "github.com/tendermint/tendermint/libs/cli"
+	tmcli "github.com/reapchain/reapchain-core/libs/cli"
 )
 
 type DepositTestSuite struct {

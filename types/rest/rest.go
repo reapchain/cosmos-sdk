@@ -13,7 +13,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/tendermint/tendermint/types"
+	"github.com/reapchain/reapchain-core/types"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"

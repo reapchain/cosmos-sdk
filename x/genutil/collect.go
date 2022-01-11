@@ -13,8 +13,8 @@ import (
 	"sort"
 	"strings"
 
-	cfg "github.com/tendermint/tendermint/config"
-	tmtypes "github.com/tendermint/tendermint/types"
+	cfg "github.com/reapchain/reapchain-core/config"
+	tmtypes "github.com/reapchain/reapchain-core/types"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"

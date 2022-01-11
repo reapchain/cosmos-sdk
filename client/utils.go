@@ -2,7 +2,7 @@ package client
 
 import (
 	"github.com/spf13/pflag"
-	rpchttp "github.com/tendermint/tendermint/rpc/client/http"
+	rpchttp "github.com/reapchain/reapchain-core/rpc/client/http"
 
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
