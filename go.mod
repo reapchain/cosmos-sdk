@@ -11,7 +11,7 @@ require (
 	github.com/coinbase/rosetta-sdk-go v0.6.10
 	github.com/confio/ics23/go v0.6.6
 	github.com/cosmos/go-bip39 v1.0.0
-	github.com/cosmos/iavl v0.17.2
+	github.com/reapchain/iavl v0.0.2
 	github.com/cosmos/ledger-cosmos-go v0.11.1
 	github.com/enigmampc/btcutil v1.0.3-0.20200723161021-e2fb6adb2a25
 	github.com/gogo/gateway v1.1.0
@@ -34,7 +34,7 @@ require (
 	github.com/prometheus/client_golang v1.11.0
 	github.com/prometheus/common v0.30.0
 	github.com/rakyll/statik v0.1.7
-	github.com/reapchain/reapchain-core v0.1.0
+	github.com/reapchain/reapchain-core v0.1.1
 	github.com/regen-network/cosmos-proto v0.3.1
 	github.com/rs/zerolog v1.23.0
 	github.com/spf13/cast v1.4.1
@@ -61,10 +61,4 @@ replace github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alp
 
 replace github.com/99designs/keyring => github.com/cosmos/keyring v1.1.7-0.20210622111912-ef00f8ac3d76
 
-// Fix upstream GHSA-h395-qcrw-5vmq vulnerability.
-// TODO Remove it: https://github.com/cosmos/cosmos-sdk/issues/10409
 replace github.com/gin-gonic/gin => github.com/gin-gonic/gin v1.7.0
-
-replace github.com/reapchain/reapchain-core v0.1.0 => /home/martin/evmos/reapchain-core
-
-replace github.com/cosmos/iavl v0.17.2 => /home/martin/evmos/iavl
