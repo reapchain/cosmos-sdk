@@ -12,9 +12,9 @@ import (
 	tversion "github.com/reapchain/reapchain-core/version"
 	yaml "gopkg.in/yaml.v2"
 
-	"github.com/cosmos/cosmos-sdk/client"
-	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/reapchain/cosmos-sdk/client"
+	cryptocodec "github.com/reapchain/cosmos-sdk/crypto/codec"
+	sdk "github.com/reapchain/cosmos-sdk/types"
 )
 
 // ShowNodeIDCmd - ported from Tendermint, dump node ID to stdout

@@ -11,7 +11,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/cosmos/cosmos-sdk/version"
+	"github.com/reapchain/cosmos-sdk/version"
 
 	abcitypes "github.com/reapchain/reapchain-core/abci/types"
 
@@ -21,14 +21,14 @@ import (
 	"github.com/reapchain/reapchain-core/rpc/client/http"
 	"google.golang.org/grpc"
 
-	crgerrs "github.com/cosmos/cosmos-sdk/server/rosetta/lib/errors"
-	crgtypes "github.com/cosmos/cosmos-sdk/server/rosetta/lib/types"
+	crgerrs "github.com/reapchain/cosmos-sdk/server/rosetta/lib/errors"
+	crgtypes "github.com/reapchain/cosmos-sdk/server/rosetta/lib/types"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	grpctypes "github.com/cosmos/cosmos-sdk/types/grpc"
-	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
-	auth "github.com/cosmos/cosmos-sdk/x/auth/types"
-	bank "github.com/cosmos/cosmos-sdk/x/bank/types"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	grpctypes "github.com/reapchain/cosmos-sdk/types/grpc"
+	authtx "github.com/reapchain/cosmos-sdk/x/auth/tx"
+	auth "github.com/reapchain/cosmos-sdk/x/auth/types"
+	bank "github.com/reapchain/cosmos-sdk/x/bank/types"
 
 	tmrpc "github.com/reapchain/reapchain-core/rpc/client"
 )

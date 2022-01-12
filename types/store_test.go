@@ -6,9 +6,9 @@ import (
 	"github.com/stretchr/testify/suite"
 	dbm "github.com/tendermint/tm-db"
 
-	"github.com/cosmos/cosmos-sdk/store/rootmulti"
-	"github.com/cosmos/cosmos-sdk/store/types"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/reapchain/cosmos-sdk/store/rootmulti"
+	"github.com/reapchain/cosmos-sdk/store/types"
+	sdk "github.com/reapchain/cosmos-sdk/types"
 )
 
 type storeTestSuite struct {

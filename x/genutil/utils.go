@@ -14,8 +14,8 @@ import (
 	"github.com/reapchain/reapchain-core/privval"
 	tmtypes "github.com/reapchain/reapchain-core/types"
 
-	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
-	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
+	cryptocodec "github.com/reapchain/cosmos-sdk/crypto/codec"
+	cryptotypes "github.com/reapchain/cosmos-sdk/crypto/types"
 )
 
 // ExportGenesisFile creates and writes the genesis configuration to disk. An

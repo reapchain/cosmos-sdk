@@ -12,8 +12,8 @@ import (
 	ctypes "github.com/reapchain/reapchain-core/rpc/core/types"
 	tmtypes "github.com/reapchain/reapchain-core/types"
 
-	"github.com/cosmos/cosmos-sdk/client/flags"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/reapchain/cosmos-sdk/client/flags"
+	sdkerrors "github.com/reapchain/cosmos-sdk/types/errors"
 )
 
 type MockClient struct {

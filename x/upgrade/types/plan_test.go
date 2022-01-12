@@ -9,9 +9,9 @@ import (
 	"github.com/reapchain/reapchain-core/libs/log"
 	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
 
-	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/x/upgrade/types"
+	codectypes "github.com/reapchain/cosmos-sdk/codec/types"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	"github.com/reapchain/cosmos-sdk/x/upgrade/types"
 )
 
 func mustParseTime(s string) time.Time {

@@ -5,14 +5,14 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/simapp"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	v038auth "github.com/cosmos/cosmos-sdk/x/auth/legacy/v038"
-	v039auth "github.com/cosmos/cosmos-sdk/x/auth/legacy/v039"
-	v036supply "github.com/cosmos/cosmos-sdk/x/bank/legacy/v036"
-	v038bank "github.com/cosmos/cosmos-sdk/x/bank/legacy/v038"
-	v040bank "github.com/cosmos/cosmos-sdk/x/bank/legacy/v040"
+	"github.com/reapchain/cosmos-sdk/client"
+	"github.com/reapchain/cosmos-sdk/simapp"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	v038auth "github.com/reapchain/cosmos-sdk/x/auth/legacy/v038"
+	v039auth "github.com/reapchain/cosmos-sdk/x/auth/legacy/v039"
+	v036supply "github.com/reapchain/cosmos-sdk/x/bank/legacy/v036"
+	v038bank "github.com/reapchain/cosmos-sdk/x/bank/legacy/v038"
+	v040bank "github.com/reapchain/cosmos-sdk/x/bank/legacy/v040"
 )
 
 func TestMigrate(t *testing.T) {

@@ -5,7 +5,7 @@ import (
 	"github.com/reapchain/reapchain-core/crypto/merkle"
 	tmmerkle "github.com/reapchain/reapchain-core/proto/reapchain/crypto"
 
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	sdkerrors "github.com/reapchain/cosmos-sdk/types/errors"
 )
 
 const (

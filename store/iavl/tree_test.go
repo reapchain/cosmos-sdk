@@ -3,7 +3,7 @@ package iavl
 import (
 	"testing"
 
-	"github.com/cosmos/iavl"
+	"github.com/reapchain/iavl"
 	"github.com/stretchr/testify/require"
 	dbm "github.com/tendermint/tm-db"
 )

@@ -8,9 +8,9 @@ import (
 	tmcfg "github.com/reapchain/reapchain-core/config"
 	tmcli "github.com/reapchain/reapchain-core/libs/cli"
 
-	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/client/flags"
-	"github.com/cosmos/cosmos-sdk/server"
+	"github.com/reapchain/cosmos-sdk/client"
+	"github.com/reapchain/cosmos-sdk/client/flags"
+	"github.com/reapchain/cosmos-sdk/server"
 )
 
 // Execute executes the root command of an application. It handles creating a

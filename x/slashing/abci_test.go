@@ -8,12 +8,12 @@ import (
 	abci "github.com/reapchain/reapchain-core/abci/types"
 	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
 
-	"github.com/cosmos/cosmos-sdk/simapp"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/x/slashing"
-	"github.com/cosmos/cosmos-sdk/x/staking"
-	"github.com/cosmos/cosmos-sdk/x/staking/teststaking"
-	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+	"github.com/reapchain/cosmos-sdk/simapp"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	"github.com/reapchain/cosmos-sdk/x/slashing"
+	"github.com/reapchain/cosmos-sdk/x/staking"
+	"github.com/reapchain/cosmos-sdk/x/staking/teststaking"
+	stakingtypes "github.com/reapchain/cosmos-sdk/x/staking/types"
 )
 
 func TestBeginBlocker(t *testing.T) {

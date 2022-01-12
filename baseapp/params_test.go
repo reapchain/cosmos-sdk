@@ -7,7 +7,7 @@ import (
 	abci "github.com/reapchain/reapchain-core/abci/types"
 	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
 
-	"github.com/cosmos/cosmos-sdk/baseapp"
+	"github.com/reapchain/cosmos-sdk/baseapp"
 )
 
 func TestValidateBlockParams(t *testing.T) {

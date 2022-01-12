@@ -7,7 +7,7 @@ import (
 
 	abci "github.com/reapchain/reapchain-core/abci/types"
 
-	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	banktypes "github.com/reapchain/cosmos-sdk/x/bank/types"
 )
 
 func (s *IntegrationTestSuite) TestQueryABCIHeight() {

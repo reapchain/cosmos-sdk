@@ -4,7 +4,7 @@ import (
 	"github.com/gogo/protobuf/proto"
 	tmbytes "github.com/reapchain/reapchain-core/libs/bytes"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdk "github.com/reapchain/cosmos-sdk/types"
 )
 
 // Evidence defines the contract which concrete evidence types of misbehavior

@@ -12,9 +12,9 @@ import (
 	tmtypes "github.com/reapchain/reapchain-core/types"
 	dbm "github.com/tendermint/tm-db"
 
-	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/server/api"
-	"github.com/cosmos/cosmos-sdk/server/config"
+	"github.com/reapchain/cosmos-sdk/client"
+	"github.com/reapchain/cosmos-sdk/server/api"
+	"github.com/reapchain/cosmos-sdk/server/config"
 )
 
 // ServerStartTime defines the time duration that the server need to stay running after startup

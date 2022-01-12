@@ -6,7 +6,7 @@ import (
 	"github.com/reapchain/reapchain-core/libs/rand"
 	tmcrypto "github.com/reapchain/reapchain-core/proto/reapchain/crypto"
 
-	sdkmaps "github.com/cosmos/cosmos-sdk/store/internal/maps"
+	sdkmaps "github.com/reapchain/cosmos-sdk/store/internal/maps"
 )
 
 // SimpleResult contains a merkle.SimpleProof along with all data needed to build the confio/proof

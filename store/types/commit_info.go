@@ -6,8 +6,8 @@ import (
 	ics23 "github.com/confio/ics23/go"
 	tmcrypto "github.com/reapchain/reapchain-core/proto/reapchain/crypto"
 
-	sdkmaps "github.com/cosmos/cosmos-sdk/store/internal/maps"
-	sdkproofs "github.com/cosmos/cosmos-sdk/store/internal/proofs"
+	sdkmaps "github.com/reapchain/cosmos-sdk/store/internal/maps"
+	sdkproofs "github.com/reapchain/cosmos-sdk/store/internal/proofs"
 )
 
 // GetHash returns the GetHash from the CommitID.
