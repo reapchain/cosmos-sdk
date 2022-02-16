@@ -34,7 +34,7 @@ require (
 	github.com/prometheus/common v0.30.0
 	github.com/rakyll/statik v0.1.7
 	github.com/reapchain/iavl v0.0.2
-	github.com/reapchain/reapchain-core v0.1.1
+	github.com/reapchain/reapchain-core v0.1.2
 	github.com/regen-network/cosmos-proto v0.3.1
 	github.com/rs/zerolog v1.23.0
 	github.com/spf13/cast v1.4.1
