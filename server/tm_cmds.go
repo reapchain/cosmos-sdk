@@ -4,15 +4,17 @@ package server
 
 import (
 	"fmt"
+	"strings"
 
-	"github.com/spf13/cobra"
 	tcmd "github.com/reapchain/reapchain-core/cmd/reapchain/commands"
+	"github.com/reapchain/reapchain-core/libs/cli"
 	"github.com/reapchain/reapchain-core/p2p"
 	pvm "github.com/reapchain/reapchain-core/privval"
 	tversion "github.com/reapchain/reapchain-core/version"
+	"github.com/spf13/cobra"
 	yaml "gopkg.in/yaml.v2"
 
-	"github.com/reapchain/cosmos-sdk/client"
+	"github.com/reapchain/cosmos-sdk/codec"
 	cryptocodec "github.com/reapchain/cosmos-sdk/crypto/codec"
 	sdk "github.com/reapchain/cosmos-sdk/types"
 )
@@ -46,25 +48,54 @@ func ShowValidatorCmd() *cobra.Command {
 			cfg := serverCtx.Config
 
 			privValidator := pvm.LoadFilePV(cfg.PrivValidatorKeyFile(), cfg.PrivValidatorStateFile())
-			pk, err := privValidator.GetPubKey()
+			valPubKey, err := privValidator.GetPubKey()
 			if err != nil {
 				return err
 			}
-			sdkPK, err := cryptocodec.FromTmPubKeyInterface(pk)
+			// sdkPK, err := cryptocodec.FromTmPubKeyInterface(pk)
+			// if err != nil {
+			// 	return err
+			// }
+			// clientCtx := client.GetClientContextFromCmd(cmd)
+			// bz, err := clientCtx.Codec.MarshalInterfaceJSON(sdkPK)
+			// if err != nil {
+			// 	return err
+			// }
+			// fmt.Println(string(bz))
+			// return nil
+			output, _ := cmd.Flags().GetString(cli.OutputFlag)
+			if strings.ToLower(output) == "json" {
+				return printlnJSON(valPubKey)
+			}
+
+			pubkey, err := cryptocodec.FromTmPubKeyInterface(valPubKey)
 			if err != nil {
 				return err
 			}
-			clientCtx := client.GetClientContextFromCmd(cmd)
-			bz, err := clientCtx.Codec.MarshalInterfaceJSON(sdkPK)
+			pubkeyBech32, err := sdk.Bech32ifyPubKey(sdk.Bech32PubKeyTypeConsPub, pubkey)
 			if err != nil {
 				return err
 			}
-			fmt.Println(string(bz))
+
+			fmt.Println(pubkeyBech32)
 			return nil
 		},
 	}
 
 	return &cmd
+}
+
+func printlnJSON(v interface{}) error {
+	cdc := codec.NewLegacyAmino()
+	cryptocodec.RegisterCrypto(cdc)
+
+	marshalled, err := cdc.MarshalJSON(v)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(string(marshalled))
+	return nil
 }
 
 // ShowAddressCmd - show this node's validator address

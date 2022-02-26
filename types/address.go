@@ -12,6 +12,7 @@ import (
 	"github.com/hashicorp/golang-lru/simplelru"
 	yaml "gopkg.in/yaml.v2"
 
+	"github.com/reapchain/cosmos-sdk/codec/legacy"
 	cryptotypes "github.com/reapchain/cosmos-sdk/crypto/types"
 	"github.com/reapchain/cosmos-sdk/internal/conv"
 	"github.com/reapchain/cosmos-sdk/types/address"
@@ -109,6 +110,34 @@ type Address interface {
 	Bytes() []byte
 	String() string
 	Format(s fmt.State, verb rune)
+}
+
+// Bech32PubKeyType defines a string type alias for a Bech32 public key type.
+type Bech32PubKeyType string
+
+// Bech32 conversion constants
+const (
+	Bech32PubKeyTypeAccPub  Bech32PubKeyType = "accpub"
+	Bech32PubKeyTypeValPub  Bech32PubKeyType = "valpub"
+	Bech32PubKeyTypeConsPub Bech32PubKeyType = "conspub"
+)
+
+func Bech32ifyPubKey(pkt Bech32PubKeyType, pubkey cryptotypes.PubKey) (string, error) {
+	var bech32Prefix string
+
+	switch pkt {
+	case Bech32PubKeyTypeAccPub:
+		bech32Prefix = GetConfig().GetBech32AccountPubPrefix()
+
+	case Bech32PubKeyTypeValPub:
+		bech32Prefix = GetConfig().GetBech32ValidatorPubPrefix()
+
+	case Bech32PubKeyTypeConsPub:
+		bech32Prefix = GetConfig().GetBech32ConsensusPubPrefix()
+
+	}
+
+	return bech32.ConvertAndEncode(bech32Prefix, legacy.Cdc.MustMarshalBinaryBare(pubkey))
 }
 
 // Ensure that different address types implement the interface

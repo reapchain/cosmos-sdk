@@ -89,6 +89,21 @@ func (pc *ProtoCodec) Unmarshal(bz []byte, ptr ProtoMarshaler) error {
 	return nil
 }
 
+// MustMarshalBinaryBare implements BinaryMarshaler.MustMarshalBinaryBare method.
+func (pc *ProtoCodec) MustMarshalBinaryBare(o ProtoMarshaler) []byte {
+	bz, err := pc.MarshalBinaryBare(o)
+	if err != nil {
+		panic(err)
+	}
+
+	return bz
+}
+
+// MarshalBinaryBare implements BinaryMarshaler.MarshalBinaryBare method.
+func (pc *ProtoCodec) MarshalBinaryBare(o ProtoMarshaler) ([]byte, error) {
+	return o.Marshal()
+}
+
 // MustUnmarshal implements BinaryMarshaler.MustUnmarshal method.
 // NOTE: this function must be used with a concrete type which
 // implements proto.Message. For interface please use the codec.UnmarshalInterface

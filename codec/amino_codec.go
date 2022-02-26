@@ -27,6 +27,16 @@ func (ac *AminoCodec) MustMarshal(o ProtoMarshaler) []byte {
 	return ac.LegacyAmino.MustMarshal(o)
 }
 
+// MarshalBinaryBare implements BinaryMarshaler.MarshalBinaryBare method.
+func (ac *AminoCodec) MarshalBinaryBare(o ProtoMarshaler) ([]byte, error) {
+	return ac.LegacyAmino.MarshalBinaryBare(o)
+}
+
+// MustMarshalBinaryBare implements BinaryMarshaler.MustMarshalBinaryBare method.
+func (ac *AminoCodec) MustMarshalBinaryBare(o ProtoMarshaler) []byte {
+	return ac.LegacyAmino.MustMarshalBinaryBare(o)
+}
+
 // MarshalLengthPrefixed implements BinaryMarshaler.MarshalLengthPrefixed method.
 func (ac *AminoCodec) MarshalLengthPrefixed(o ProtoMarshaler) ([]byte, error) {
 	return ac.LegacyAmino.MarshalLengthPrefixed(o)

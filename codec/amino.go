@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"io"
 
-	amino "github.com/tendermint/go-amino"
 	tmtypes "github.com/reapchain/reapchain-core/types"
+	amino "github.com/tendermint/go-amino"
 
 	"github.com/reapchain/cosmos-sdk/codec/types"
 )
@@ -87,6 +87,22 @@ func (cdc *LegacyAmino) Marshal(o interface{}) ([]byte, error) {
 
 func (cdc *LegacyAmino) MustMarshal(o interface{}) []byte {
 	bz, err := cdc.Marshal(o)
+	if err != nil {
+		panic(err)
+	}
+	return bz
+}
+
+func (cdc *LegacyAmino) MarshalBinaryBare(o interface{}) ([]byte, error) {
+	err := cdc.marshalAnys(o)
+	if err != nil {
+		return nil, err
+	}
+	return cdc.Amino.MarshalBinaryBare(o)
+}
+
+func (cdc *LegacyAmino) MustMarshalBinaryBare(o interface{}) []byte {
+	bz, err := cdc.MarshalBinaryBare(o)
 	if err != nil {
 		panic(err)
 	}

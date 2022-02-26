@@ -25,6 +25,9 @@ type (
 		// MustMarshal calls Marshal and panics if error is returned.
 		MustMarshal(o ProtoMarshaler) []byte
 
+		MarshalBinaryBare(o ProtoMarshaler) ([]byte, error)
+		MustMarshalBinaryBare(o ProtoMarshaler) []byte
+
 		// MarshalLengthPrefixed returns binary encoding of v with bytes length prefix.
 		MarshalLengthPrefixed(o ProtoMarshaler) ([]byte, error)
 		// MustMarshalLengthPrefixed calls MarshalLengthPrefixed and panics if
