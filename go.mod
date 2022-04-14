@@ -32,7 +32,7 @@ require (
 	github.com/prometheus/client_golang v1.12.1
 	github.com/prometheus/common v0.32.1
 	github.com/rakyll/statik v0.1.7
-	github.com/reapchain/iavl v0.0.3
+	github.com/reapchain/iavl v0.17.3
 	github.com/reapchain/reapchain-core v0.1.3
 	github.com/regen-network/cosmos-proto v0.3.1
 	github.com/rs/zerolog v1.23.0
@@ -64,4 +64,3 @@ replace github.com/99designs/keyring => github.com/cosmos/keyring v1.1.7-0.20210
 // TODO Remove it: https://github.com/reapchain/cosmos-sdk/issues/10409
 replace github.com/gin-gonic/gin => github.com/gin-gonic/gin v1.7.0
 
-replace github.com/reapchain/iavl v0.0.3 => /home/martin/evmos/upgrade/iavl
