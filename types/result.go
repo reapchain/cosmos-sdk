@@ -7,11 +7,11 @@ import (
 	"strings"
 
 	"github.com/gogo/protobuf/proto"
-	abci "github.com/tendermint/tendermint/abci/types"
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
+	abci "github.com/reapchain/reapchain-core/abci/types"
+	ctypes "github.com/reapchain/reapchain-core/rpc/core/types"
 
-	"github.com/cosmos/cosmos-sdk/codec"
-	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
+	"github.com/reapchain/cosmos-sdk/codec"
+	codectypes "github.com/reapchain/cosmos-sdk/codec/types"
 )
 
 var cdc = codec.NewLegacyAmino()
@@ -58,7 +58,7 @@ func (logs ABCIMessageLogs) String() (str string) {
 	return str
 }
 
-// NewResponseResultTx returns a TxResponse given a ResultTx from tendermint
+// NewResponseResultTx returns a TxResponse given a ResultTx from reapchain
 func NewResponseResultTx(res *ctypes.ResultTx, anyTx *codectypes.Any, timestamp string) *TxResponse {
 	if res == nil {
 		return nil
@@ -84,7 +84,7 @@ func NewResponseResultTx(res *ctypes.ResultTx, anyTx *codectypes.Any, timestamp 
 }
 
 // NewResponseFormatBroadcastTxCommit returns a TxResponse given a
-// ResultBroadcastTxCommit from tendermint.
+// ResultBroadcastTxCommit from reapchain.
 func NewResponseFormatBroadcastTxCommit(res *ctypes.ResultBroadcastTxCommit) *TxResponse {
 	if res == nil {
 		return nil
@@ -151,7 +151,7 @@ func newTxResponseDeliverTx(res *ctypes.ResultBroadcastTxCommit) *TxResponse {
 	}
 }
 
-// NewResponseFormatBroadcastTx returns a TxResponse given a ResultBroadcastTx from tendermint
+// NewResponseFormatBroadcastTx returns a TxResponse given a ResultBroadcastTx from reapchain
 func NewResponseFormatBroadcastTx(res *ctypes.ResultBroadcastTx) *TxResponse {
 	if res == nil {
 		return nil

@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"net"
 
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	sdkerrors "github.com/reapchain/cosmos-sdk/types/errors"
 )
 
-// Get a free address for a test tendermint server
+// Get a free address for a test reapchain server
 // protocol is either tcp, http, etc
 func FreeTCPAddr() (addr, port string, err error) {
 	l, err := net.Listen("tcp", "localhost:0")

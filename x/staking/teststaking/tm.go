@@ -1,12 +1,12 @@
 package teststaking
 
 import (
-	tmcrypto "github.com/tendermint/tendermint/crypto"
-	tmtypes "github.com/tendermint/tendermint/types"
+	tmcrypto "github.com/reapchain/reapchain-core/crypto"
+	tmtypes "github.com/reapchain/reapchain-core/types"
 
-	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/x/staking/types"
+	cryptocodec "github.com/reapchain/cosmos-sdk/crypto/codec"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	"github.com/reapchain/cosmos-sdk/x/staking/types"
 )
 
 // GetTmConsPubKey gets the validator's public key as a tmcrypto.PubKey.
@@ -19,7 +19,7 @@ func GetTmConsPubKey(v types.Validator) (tmcrypto.PubKey, error) {
 	return cryptocodec.ToTmPubKeyInterface(pk)
 }
 
-// ToTmValidator casts an SDK validator to a tendermint type Validator.
+// ToTmValidator casts an SDK validator to a reapchain type Validator.
 func ToTmValidator(v types.Validator, r sdk.Int) (*tmtypes.Validator, error) {
 	tmPk, err := GetTmConsPubKey(v)
 	if err != nil {
@@ -29,7 +29,7 @@ func ToTmValidator(v types.Validator, r sdk.Int) (*tmtypes.Validator, error) {
 	return tmtypes.NewValidator(tmPk, v.ConsensusPower(r)), nil
 }
 
-// ToTmValidators casts all validators to the corresponding tendermint type.
+// ToTmValidators casts all validators to the corresponding reapchain type.
 func ToTmValidators(v types.Validators, r sdk.Int) ([]*tmtypes.Validator, error) {
 	validators := make([]*tmtypes.Validator, len(v))
 	var err error

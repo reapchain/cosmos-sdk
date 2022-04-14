@@ -634,7 +634,7 @@ Example:
 ```bash
 simd tx staking create-validator \
   --amount=1000000stake \
-  --pubkey=$(simd tendermint show-validator) \
+  --pubkey=$(simd reapchain show-validator) \
   --moniker="my-moniker" \
   --website="https://myweb.site" \
   --details="description of your validator" \

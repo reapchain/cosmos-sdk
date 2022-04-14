@@ -209,7 +209,7 @@ func SubmitProposalEventHandler(ev proto.Message) (err error) {
 // should be implemented somewhere in the SDK. The SDK can include an EventEmitters for tm.event='Tx'
 // and/or tm.event='NewBlock' (the new block events may contain typed events)
 func TxEmitter(ctx context.Context, cliCtx client.Context, ehs ...EventHandler) (err error) {
-    // Instantiate and start tendermint RPC client
+    // Instantiate and start reapchain RPC client
     client, err := cliCtx.GetNode()
     if err != nil {
         return err

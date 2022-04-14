@@ -1267,13 +1267,13 @@ func (m *QueryServiceDescriptor) GetMethods() []*QueryMethodDescriptor {
 }
 
 // QueryMethodDescriptor describes a queryable method of a query service
-// no other info is provided beside method name and tendermint queryable path
+// no other info is provided beside method name and reapchain queryable path
 // because it would be redundant with the grpc reflection service
 type QueryMethodDescriptor struct {
 	// name is the protobuf name (not fullname) of the method
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// full_query_path is the path that can be used to query
-	// this method via tendermint abci.Query
+	// this method via reapchain abci.Query
 	FullQueryPath string `protobuf:"bytes,2,opt,name=full_query_path,json=fullQueryPath,proto3" json:"full_query_path,omitempty"`
 }
 

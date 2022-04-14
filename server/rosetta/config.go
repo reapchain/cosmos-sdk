@@ -8,10 +8,10 @@ import (
 	"github.com/coinbase/rosetta-sdk-go/types"
 	"github.com/spf13/pflag"
 
-	crg "github.com/cosmos/cosmos-sdk/server/rosetta/lib/server"
+	crg "github.com/reapchain/cosmos-sdk/server/rosetta/lib/server"
 
-	"github.com/cosmos/cosmos-sdk/codec"
-	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
+	"github.com/reapchain/cosmos-sdk/codec"
+	codectypes "github.com/reapchain/cosmos-sdk/codec/types"
 )
 
 // configuration defaults constants
@@ -22,7 +22,7 @@ const (
 	DefaultAddr = ":8080"
 	// DefaultRetries is the default number of retries
 	DefaultRetries = 5
-	// DefaultTendermintEndpoint is the default value for the tendermint endpoint
+	// DefaultTendermintEndpoint is the default value for the reapchain endpoint
 	DefaultTendermintEndpoint = "localhost:26657"
 	// DefaultGRPCEndpoint is the default value for the gRPC endpoint
 	DefaultGRPCEndpoint = "localhost:9090"
@@ -36,7 +36,7 @@ const (
 const (
 	FlagBlockchain         = "blockchain"
 	FlagNetwork            = "network"
-	FlagTendermintEndpoint = "tendermint"
+	FlagTendermintEndpoint = "reapchain"
 	FlagGRPCEndpoint       = "grpc"
 	FlagAddr               = "addr"
 	FlagRetries            = "retries"
@@ -51,7 +51,7 @@ type Config struct {
 	// Network defines the network name
 	Network string
 	// TendermintRPC defines the endpoint to connect to
-	// tendermint RPC, specifying 'tcp://' before is not
+	// reapchain RPC, specifying 'tcp://' before is not
 	// required, usually it's at port 26657 of the
 	TendermintRPC string
 	// GRPCEndpoint defines the cosmos application gRPC endpoint
@@ -108,7 +108,7 @@ func (c *Config) validate() error {
 		return fmt.Errorf("grpc endpoint not provided")
 	}
 	if c.TendermintRPC == "" {
-		return fmt.Errorf("tendermint rpc not provided")
+		return fmt.Errorf("reapchain rpc not provided")
 	}
 	if !strings.HasPrefix(c.TendermintRPC, "tcp://") {
 		c.TendermintRPC = fmt.Sprintf("tcp://%s", c.TendermintRPC)
@@ -196,7 +196,7 @@ func ServerFromConfig(conf *Config) (crg.Server, error) {
 func SetFlags(flags *pflag.FlagSet) {
 	flags.String(FlagBlockchain, DefaultBlockchain, "the blockchain type")
 	flags.String(FlagNetwork, DefaultNetwork, "the network name")
-	flags.String(FlagTendermintEndpoint, DefaultTendermintEndpoint, "the tendermint rpc endpoint, without tcp://")
+	flags.String(FlagTendermintEndpoint, DefaultTendermintEndpoint, "the reapchain rpc endpoint, without tcp://")
 	flags.String(FlagGRPCEndpoint, DefaultGRPCEndpoint, "the app gRPC endpoint")
 	flags.String(FlagAddr, DefaultAddr, "the address rosetta will bind to")
 	flags.Int(FlagRetries, DefaultRetries, "the number of retries that will be done before quitting")

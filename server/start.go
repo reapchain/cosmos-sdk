@@ -9,35 +9,35 @@ import (
 	"runtime/pprof"
 	"time"
 
-	"github.com/cosmos/cosmos-sdk/codec"
+	"github.com/reapchain/cosmos-sdk/codec"
 
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 
-	"github.com/tendermint/tendermint/abci/server"
-	tcmd "github.com/tendermint/tendermint/cmd/tendermint/commands"
-	tmos "github.com/tendermint/tendermint/libs/os"
-	"github.com/tendermint/tendermint/node"
-	"github.com/tendermint/tendermint/p2p"
-	pvm "github.com/tendermint/tendermint/privval"
-	"github.com/tendermint/tendermint/proxy"
-	"github.com/tendermint/tendermint/rpc/client/local"
+	"github.com/reapchain/reapchain-core/abci/server"
+	tcmd "github.com/reapchain/reapchain-core/cmd/reapchain/commands"
+	tmos "github.com/reapchain/reapchain-core/libs/os"
+	"github.com/reapchain/reapchain-core/node"
+	"github.com/reapchain/reapchain-core/p2p"
+	pvm "github.com/reapchain/reapchain-core/privval"
+	"github.com/reapchain/reapchain-core/proxy"
+	"github.com/reapchain/reapchain-core/rpc/client/local"
 
-	"github.com/cosmos/cosmos-sdk/server/rosetta"
-	crgserver "github.com/cosmos/cosmos-sdk/server/rosetta/lib/server"
+	"github.com/reapchain/cosmos-sdk/server/rosetta"
+	crgserver "github.com/reapchain/cosmos-sdk/server/rosetta/lib/server"
 
-	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/client/flags"
-	"github.com/cosmos/cosmos-sdk/server/api"
-	"github.com/cosmos/cosmos-sdk/server/config"
-	servergrpc "github.com/cosmos/cosmos-sdk/server/grpc"
-	"github.com/cosmos/cosmos-sdk/server/types"
-	storetypes "github.com/cosmos/cosmos-sdk/store/types"
+	"github.com/reapchain/cosmos-sdk/client"
+	"github.com/reapchain/cosmos-sdk/client/flags"
+	"github.com/reapchain/cosmos-sdk/server/api"
+	"github.com/reapchain/cosmos-sdk/server/config"
+	servergrpc "github.com/reapchain/cosmos-sdk/server/grpc"
+	"github.com/reapchain/cosmos-sdk/server/types"
+	storetypes "github.com/reapchain/cosmos-sdk/store/types"
 )
 
 // Tendermint full-node start flags
 const (
-	flagWithTendermint     = "with-tendermint"
+	flagWithTendermint     = "with-reapchain"
 	flagAddress            = "address"
 	flagTransport          = "transport"
 	flagTraceStore         = "trace-store"
@@ -138,7 +138,7 @@ which accepts a path for the resulting pprof file.
 	}
 
 	cmd.Flags().String(flags.FlagHome, defaultNodeHome, "The application home directory")
-	cmd.Flags().Bool(flagWithTendermint, true, "Run abci app embedded in-process with tendermint")
+	cmd.Flags().Bool(flagWithTendermint, true, "Run abci app embedded in-process with reapchain")
 	cmd.Flags().String(flagAddress, "tcp://0.0.0.0:26658", "Listen address")
 	cmd.Flags().String(flagTransport, "socket", "Transport protocol: socket, grpc")
 	cmd.Flags().String(flagTraceStore, "", "Enable KVStore tracing to an output file")
@@ -282,7 +282,7 @@ func startInProcess(ctx *Context, clientCtx client.Context, appCreator types.App
 
 	// Add the tx service to the gRPC router. We only need to register this
 	// service if API or gRPC is enabled, and avoid doing so in the general
-	// case, because it spawns a new local tendermint RPC client.
+	// case, because it spawns a new local reapchain RPC client.
 	if config.API.Enable || config.GRPC.Enable {
 		clientCtx = clientCtx.WithClient(local.New(tmNode))
 

@@ -5,8 +5,8 @@ package rest_test
 import (
 	"fmt"
 
-	"github.com/cosmos/cosmos-sdk/types/rest"
-	"github.com/cosmos/cosmos-sdk/x/staking/types"
+	"github.com/reapchain/cosmos-sdk/types/rest"
+	"github.com/reapchain/cosmos-sdk/x/staking/types"
 )
 
 func (s *IntegrationTestSuite) TestLegacyGetValidators() {
@@ -55,7 +55,7 @@ func (s *IntegrationTestSuite) TestLegacyGetValidators() {
 				s.Require().Greater(len(validators), 0)
 				// While we're at it, also check that the consensus_pubkey is
 				// an Any, and not bech32 anymore.
-				s.Require().Contains(string(resp.Result), "\"consensus_pubkey\": {\n      \"type\": \"tendermint/PubKeyEd25519\",")
+				s.Require().Contains(string(resp.Result), "\"consensus_pubkey\": {\n      \"type\": \"reapchain/PubKeyEd25519\",")
 			}
 		})
 	}

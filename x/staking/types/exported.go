@@ -1,10 +1,10 @@
 package types
 
 import (
-	tmprotocrypto "github.com/tendermint/tendermint/proto/tendermint/crypto"
+	tmprotocrypto "github.com/reapchain/reapchain-core/proto/reapchain/crypto"
 
-	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	cryptotypes "github.com/reapchain/cosmos-sdk/crypto/types"
+	sdk "github.com/reapchain/cosmos-sdk/types"
 )
 
 // DelegationI delegation bond for a delegated proof of stake system
@@ -28,7 +28,7 @@ type ValidatorI interface {
 	GetConsAddr() (sdk.ConsAddress, error)                  // validation consensus address
 	GetTokens() sdk.Int                                     // validation tokens
 	GetBondedTokens() sdk.Int                               // validator bonded tokens
-	GetConsensusPower(sdk.Int) int64                        // validation power in tendermint
+	GetConsensusPower(sdk.Int) int64                        // validation power in reapchain
 	GetCommission() sdk.Dec                                 // validator commission rate
 	GetMinSelfDelegation() sdk.Int                          // validator minimum self delegation
 	GetDelegatorShares() sdk.Dec                            // total outstanding delegator shares

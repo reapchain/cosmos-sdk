@@ -7,7 +7,7 @@ import (
 
 	ics23 "github.com/confio/ics23/go"
 
-	sdkmaps "github.com/cosmos/cosmos-sdk/store/internal/maps"
+	sdkmaps "github.com/reapchain/cosmos-sdk/store/internal/maps"
 )
 
 var (
@@ -15,7 +15,7 @@ var (
 	ErrEmptyKeyInData = errors.New("data contains empty key")
 )
 
-// TendermintSpec constrains the format from ics23-tendermint (crypto/merkle SimpleProof)
+// TendermintSpec constrains the format from ics23-reapchain (crypto/merkle SimpleProof)
 var TendermintSpec = &ics23.ProofSpec{
 	LeafSpec: &ics23.LeafOp{
 		Prefix:       []byte{0},

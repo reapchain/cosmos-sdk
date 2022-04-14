@@ -6,35 +6,35 @@ import (
 	"fmt"
 	"reflect"
 
-	auth "github.com/cosmos/cosmos-sdk/x/auth/types"
+	auth "github.com/reapchain/cosmos-sdk/x/auth/types"
 
-	"github.com/tendermint/tendermint/crypto"
+	"github.com/reapchain/reapchain-core/crypto"
 
 	"github.com/btcsuite/btcd/btcec"
-	tmcoretypes "github.com/tendermint/tendermint/rpc/core/types"
+	tmcoretypes "github.com/reapchain/reapchain-core/rpc/core/types"
 
-	crgtypes "github.com/cosmos/cosmos-sdk/server/rosetta/lib/types"
+	crgtypes "github.com/reapchain/cosmos-sdk/server/rosetta/lib/types"
 
-	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
-	"github.com/cosmos/cosmos-sdk/types/tx/signing"
+	"github.com/reapchain/cosmos-sdk/crypto/keys/secp256k1"
+	"github.com/reapchain/cosmos-sdk/types/tx/signing"
 
 	rosettatypes "github.com/coinbase/rosetta-sdk-go/types"
-	abci "github.com/tendermint/tendermint/abci/types"
-	tmtypes "github.com/tendermint/tendermint/types"
+	abci "github.com/reapchain/reapchain-core/abci/types"
+	tmtypes "github.com/reapchain/reapchain-core/types"
 
-	crgerrs "github.com/cosmos/cosmos-sdk/server/rosetta/lib/errors"
+	crgerrs "github.com/reapchain/cosmos-sdk/server/rosetta/lib/errors"
 
-	sdkclient "github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/codec"
-	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	authsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
-	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	sdkclient "github.com/reapchain/cosmos-sdk/client"
+	"github.com/reapchain/cosmos-sdk/codec"
+	codectypes "github.com/reapchain/cosmos-sdk/codec/types"
+	cryptotypes "github.com/reapchain/cosmos-sdk/crypto/types"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	authsigning "github.com/reapchain/cosmos-sdk/x/auth/signing"
+	banktypes "github.com/reapchain/cosmos-sdk/x/bank/types"
 )
 
 // Converter is a utility that can be used to convert
-// back and forth from rosetta to sdk and tendermint types
+// back and forth from rosetta to sdk and reapchain types
 // IMPORTANT NOTES:
 // - IT SHOULD BE USED ONLY TO DEAL WITH THINGS
 //   IN A STATELESS WAY! IT SHOULD NEVER INTERACT DIRECTLY
@@ -43,16 +43,16 @@ import (
 // - IT SHOULD RETURN cosmos rosetta gateway error types!
 type Converter interface {
 	// ToSDK exposes the methods that convert
-	// rosetta types to cosmos sdk and tendermint types
+	// rosetta types to cosmos sdk and reapchain types
 	ToSDK() ToSDKConverter
 	// ToRosetta exposes the methods that convert
-	// sdk and tendermint types to rosetta types
+	// sdk and reapchain types to rosetta types
 	ToRosetta() ToRosettaConverter
 }
 
 // ToRosettaConverter is an interface that exposes
 // all the functions used to convert sdk and
-// tendermint types to rosetta known types
+// reapchain types to rosetta known types
 type ToRosettaConverter interface {
 	// BlockResponse returns a block response given a result block
 	BlockResponse(block *tmcoretypes.ResultBlock) crgtypes.BlockResponse
@@ -72,21 +72,21 @@ type ToRosettaConverter interface {
 	SignerData(anyAccount *codectypes.Any) (*SignerData, error)
 	// SigningComponents returns rosetta's components required to build a signable transaction
 	SigningComponents(tx authsigning.Tx, metadata *ConstructionMetadata, rosPubKeys []*rosettatypes.PublicKey) (txBytes []byte, payloadsToSign []*rosettatypes.SigningPayload, err error)
-	// Tx converts a tendermint transaction and tx result if provided to a rosetta tx
+	// Tx converts a reapchain transaction and tx result if provided to a rosetta tx
 	Tx(rawTx tmtypes.Tx, txResult *abci.ResponseDeliverTx) (*rosettatypes.Transaction, error)
-	// TxIdentifiers converts a tendermint tx to transaction identifiers
+	// TxIdentifiers converts a reapchain tx to transaction identifiers
 	TxIdentifiers(txs []tmtypes.Tx) []*rosettatypes.TransactionIdentifier
 	// BalanceOps converts events to balance operations
 	BalanceOps(status string, events []abci.Event) []*rosettatypes.Operation
-	// SyncStatus converts a tendermint status to sync status
+	// SyncStatus converts a reapchain status to sync status
 	SyncStatus(status *tmcoretypes.ResultStatus) *rosettatypes.SyncStatus
-	// Peers converts tendermint peers to rosetta
+	// Peers converts reapchain peers to rosetta
 	Peers(peers []tmcoretypes.Peer) []*rosettatypes.Peer
 }
 
 // ToSDKConverter is an interface that exposes
 // all the functions used to convert rosetta types
-// to tendermint and sdk types
+// to reapchain and sdk types
 type ToSDKConverter interface {
 	// UnsignedTx converts rosetta operations to an unsigned cosmos sdk transactions
 	UnsignedTx(ops []*rosettatypes.Operation) (tx authsigning.Tx, err error)
@@ -264,7 +264,7 @@ func (c converter) Ops(status string, msg sdk.Msg) ([]*rosettatypes.Operation, e
 	return ops, nil
 }
 
-// Tx converts a tendermint raw transaction and its result (if provided) to a rosetta transaction
+// Tx converts a reapchain raw transaction and its result (if provided) to a rosetta transaction
 func (c converter) Tx(rawTx tmtypes.Tx, txResult *abci.ResponseDeliverTx) (*rosettatypes.Transaction, error) {
 	// decode tx
 	tx, err := c.txDecode(rawTx)
@@ -513,7 +513,7 @@ func (c converter) HashToTxType(hashBytes []byte) (txType TransactionType, realH
 	}
 }
 
-// StatusToSyncStatus converts a tendermint status to rosetta sync status
+// StatusToSyncStatus converts a reapchain status to rosetta sync status
 func (c converter) SyncStatus(status *tmcoretypes.ResultStatus) *rosettatypes.SyncStatus {
 	// determine sync status
 	var stage = StatusPeerSynced
@@ -528,7 +528,7 @@ func (c converter) SyncStatus(status *tmcoretypes.ResultStatus) *rosettatypes.Sy
 	}
 }
 
-// TxIdentifiers converts a tendermint raw transactions into an array of rosetta tx identifiers
+// TxIdentifiers converts a reapchain raw transactions into an array of rosetta tx identifiers
 func (c converter) TxIdentifiers(txs []tmtypes.Tx) []*rosettatypes.TransactionIdentifier {
 	converted := make([]*rosettatypes.TransactionIdentifier, len(txs))
 	for i, tx := range txs {
@@ -538,7 +538,7 @@ func (c converter) TxIdentifiers(txs []tmtypes.Tx) []*rosettatypes.TransactionId
 	return converted
 }
 
-// tmResultBlockToRosettaBlockResponse converts a tendermint result block to block response
+// tmResultBlockToRosettaBlockResponse converts a reapchain result block to block response
 func (c converter) BlockResponse(block *tmcoretypes.ResultBlock) crgtypes.BlockResponse {
 	var parentBlock *rosettatypes.BlockIdentifier
 

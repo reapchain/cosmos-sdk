@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"reflect"
 
-	abci "github.com/tendermint/tendermint/abci/types"
+	abci "github.com/reapchain/reapchain-core/abci/types"
 )
 
 const (
@@ -19,7 +19,7 @@ const (
 	internalABCICode      uint32 = 1
 )
 
-// ABCIInfo returns the ABCI error information as consumed by the tendermint
+// ABCIInfo returns the ABCI error information as consumed by the reapchain
 // client. Returned codespace, code, and log message should be used as a ABCI response.
 // Any error that does not provide ABCICode information is categorized as error
 // with code 1, codespace UndefinedCodespace

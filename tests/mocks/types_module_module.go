@@ -8,16 +8,16 @@ import (
 	json "encoding/json"
 	reflect "reflect"
 
-	client "github.com/cosmos/cosmos-sdk/client"
-	codec "github.com/cosmos/cosmos-sdk/codec"
-	types "github.com/cosmos/cosmos-sdk/codec/types"
-	types0 "github.com/cosmos/cosmos-sdk/types"
-	module "github.com/cosmos/cosmos-sdk/types/module"
+	client "github.com/reapchain/cosmos-sdk/client"
+	codec "github.com/reapchain/cosmos-sdk/codec"
+	types "github.com/reapchain/cosmos-sdk/codec/types"
+	types0 "github.com/reapchain/cosmos-sdk/types"
+	module "github.com/reapchain/cosmos-sdk/types/module"
 	gomock "github.com/golang/mock/gomock"
 	mux "github.com/gorilla/mux"
 	runtime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	cobra "github.com/spf13/cobra"
-	types1 "github.com/tendermint/tendermint/abci/types"
+	types1 "github.com/reapchain/reapchain-core/abci/types"
 )
 
 // MockAppModuleBasic is a mock of AppModuleBasic interface.

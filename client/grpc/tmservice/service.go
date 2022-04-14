@@ -8,12 +8,12 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/client/rpc"
-	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
-	qtypes "github.com/cosmos/cosmos-sdk/types/query"
-	"github.com/cosmos/cosmos-sdk/version"
+	"github.com/reapchain/cosmos-sdk/client"
+	"github.com/reapchain/cosmos-sdk/client/rpc"
+	codectypes "github.com/reapchain/cosmos-sdk/codec/types"
+	cryptotypes "github.com/reapchain/cosmos-sdk/crypto/types"
+	qtypes "github.com/reapchain/cosmos-sdk/types/query"
+	"github.com/reapchain/cosmos-sdk/version"
 )
 
 // This is the struct that we will implement all the handlers on.
@@ -25,7 +25,7 @@ type queryServer struct {
 var _ ServiceServer = queryServer{}
 var _ codectypes.UnpackInterfacesMessage = &GetLatestValidatorSetResponse{}
 
-// NewQueryServer creates a new tendermint query server.
+// NewQueryServer creates a new reapchain query server.
 func NewQueryServer(clientCtx client.Context, interfaceRegistry codectypes.InterfaceRegistry) ServiceServer {
 	return queryServer{
 		clientCtx:         clientCtx,
@@ -197,7 +197,7 @@ func (s queryServer) GetNodeInfo(ctx context.Context, req *GetNodeInfoRequest) (
 	return &resp, nil
 }
 
-// RegisterTendermintService registers the tendermint queries on the gRPC router.
+// RegisterTendermintService registers the reapchain queries on the gRPC router.
 func RegisterTendermintService(
 	qrt gogogrpc.Server,
 	clientCtx client.Context,
@@ -209,7 +209,7 @@ func RegisterTendermintService(
 	)
 }
 
-// RegisterGRPCGatewayRoutes mounts the tendermint service's GRPC-gateway routes on the
+// RegisterGRPCGatewayRoutes mounts the reapchain service's GRPC-gateway routes on the
 // given Mux.
 func RegisterGRPCGatewayRoutes(clientConn gogogrpc.ClientConn, mux *runtime.ServeMux) {
 	RegisterServiceHandlerClient(context.Background(), mux, NewServiceClient(clientConn))

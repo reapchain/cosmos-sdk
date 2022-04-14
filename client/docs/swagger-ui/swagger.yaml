@@ -740,7 +740,7 @@ paths:
                         properties:
                           type:
                             type: string
-                            example: tendermint/PubKeySecp256k1
+                            example: reapchain/PubKeySecp256k1
                           value:
                             type: string
                             example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -888,7 +888,7 @@ paths:
                               properties:
                                 type:
                                   type: string
-                                  example: tendermint/PubKeySecp256k1
+                                  example: reapchain/PubKeySecp256k1
                                 value:
                                   type: string
                                   example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -979,7 +979,7 @@ paths:
                         properties:
                           type:
                             type: string
-                            example: tendermint/PubKeySecp256k1
+                            example: reapchain/PubKeySecp256k1
                           value:
                             type: string
                             example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -1131,7 +1131,7 @@ paths:
                         properties:
                           type:
                             type: string
-                            example: tendermint/PubKeySecp256k1
+                            example: reapchain/PubKeySecp256k1
                           value:
                             type: string
                             example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -1219,7 +1219,7 @@ paths:
                     properties:
                       type:
                         type: string
-                        example: tendermint/PubKeySecp256k1
+                        example: reapchain/PubKeySecp256k1
                       value:
                         type: string
                         example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -1381,7 +1381,7 @@ paths:
                     properties:
                       type:
                         type: string
-                        example: tendermint/PubKeySecp256k1
+                        example: reapchain/PubKeySecp256k1
                       value:
                         type: string
                         example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -1654,7 +1654,7 @@ paths:
                     properties:
                       type:
                         type: string
-                        example: tendermint/PubKeySecp256k1
+                        example: reapchain/PubKeySecp256k1
                       value:
                         type: string
                         example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -1869,7 +1869,7 @@ paths:
                     properties:
                       type:
                         type: string
-                        example: tendermint/PubKeySecp256k1
+                        example: reapchain/PubKeySecp256k1
                       value:
                         type: string
                         example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -2087,7 +2087,7 @@ paths:
                     properties:
                       type:
                         type: string
-                        example: tendermint/PubKeySecp256k1
+                        example: reapchain/PubKeySecp256k1
                       value:
                         type: string
                         example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -2689,7 +2689,7 @@ paths:
                         properties:
                           type:
                             type: string
-                            example: tendermint/PubKeySecp256k1
+                            example: reapchain/PubKeySecp256k1
                           value:
                             type: string
                             example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -2739,7 +2739,7 @@ paths:
                     properties:
                       type:
                         type: string
-                        example: tendermint/PubKeySecp256k1
+                        example: reapchain/PubKeySecp256k1
                       value:
                         type: string
                         example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -2908,7 +2908,7 @@ paths:
                     properties:
                       type:
                         type: string
-                        example: tendermint/PubKeySecp256k1
+                        example: reapchain/PubKeySecp256k1
                       value:
                         type: string
                         example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -3140,7 +3140,7 @@ paths:
                     properties:
                       type:
                         type: string
-                        example: tendermint/PubKeySecp256k1
+                        example: reapchain/PubKeySecp256k1
                       value:
                         type: string
                         example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -3413,7 +3413,7 @@ paths:
                     properties:
                       type:
                         type: string
-                        example: tendermint/PubKeySecp256k1
+                        example: reapchain/PubKeySecp256k1
                       value:
                         type: string
                         example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -3629,7 +3629,7 @@ paths:
                     properties:
                       type:
                         type: string
-                        example: tendermint/PubKeySecp256k1
+                        example: reapchain/PubKeySecp256k1
                       value:
                         type: string
                         example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -3973,7 +3973,7 @@ paths:
                     properties:
                       type:
                         type: string
-                        example: tendermint/PubKeySecp256k1
+                        example: reapchain/PubKeySecp256k1
                       value:
                         type: string
                         example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -4126,7 +4126,7 @@ paths:
                     properties:
                       type:
                         type: string
-                        example: tendermint/PubKeySecp256k1
+                        example: reapchain/PubKeySecp256k1
                       value:
                         type: string
                         example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -4272,7 +4272,7 @@ paths:
                     properties:
                       type:
                         type: string
-                        example: tendermint/PubKeySecp256k1
+                        example: reapchain/PubKeySecp256k1
                       value:
                         type: string
                         example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -4502,7 +4502,7 @@ paths:
                     properties:
                       type:
                         type: string
-                        example: tendermint/PubKeySecp256k1
+                        example: reapchain/PubKeySecp256k1
                       value:
                         type: string
                         example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -23639,7 +23639,7 @@ definitions:
                 properties:
                   type:
                     type: string
-                    example: tendermint/PubKeySecp256k1
+                    example: reapchain/PubKeySecp256k1
                   value:
                     type: string
                     example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -23735,7 +23735,7 @@ definitions:
                       properties:
                         type:
                           type: string
-                          example: tendermint/PubKeySecp256k1
+                          example: reapchain/PubKeySecp256k1
                         value:
                           type: string
                           example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -23802,7 +23802,7 @@ definitions:
             properties:
               type:
                 type: string
-                example: tendermint/PubKeySecp256k1
+                example: reapchain/PubKeySecp256k1
               value:
                 type: string
                 example: Avz04VhtKJh8ACCVzlI8aTosGy0ikFXKIVHQ3jKMrosH
@@ -37848,7 +37848,7 @@ definitions:
               called memo,
 
               but should be called `note` instead (see
-              https://github.com/cosmos/cosmos-sdk/issues/9122).
+              https://github.com/reapchain/cosmos-sdk/issues/9122).
           timeout_height:
             type: string
             format: uint64
@@ -38425,7 +38425,7 @@ definitions:
           memo,
 
           but should be called `note` instead (see
-          https://github.com/cosmos/cosmos-sdk/issues/9122).
+          https://github.com/reapchain/cosmos-sdk/issues/9122).
       timeout_height:
         type: string
         format: uint64

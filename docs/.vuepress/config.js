@@ -80,7 +80,7 @@ module.exports = {
             },
             {
               title: "SDK API Reference",
-              path: "https://godoc.org/github.com/cosmos/cosmos-sdk"
+              path: "https://godoc.org/github.com/reapchain/cosmos-sdk"
             },
             {
               title: "REST API Spec",
@@ -113,7 +113,7 @@ module.exports = {
     },
     footer: {
       question: {
-        text: "Chat with Cosmos developers in <a href='https://discord.gg/W8trcGV' target='_blank'>Discord</a> or reach out on the <a href='https://forum.cosmos.network/c/tendermint' target='_blank'>SDK Developer Forum</a> to learn more."
+        text: "Chat with Cosmos developers in <a href='https://discord.gg/W8trcGV' target='_blank'>Discord</a> or reach out on the <a href='https://forum.cosmos.network/c/reapchain' target='_blank'>SDK Developer Forum</a> to learn more."
       },
       logo: "/logo-bw.svg",
       textLink: {
@@ -189,11 +189,11 @@ module.exports = {
             {
               title: "Contributing to the docs",
               url:
-                "https://github.com/cosmos/cosmos-sdk/blob/master/docs/DOCS_README.md"
+                "https://github.com/reapchain/cosmos-sdk/blob/master/docs/DOCS_README.md"
             },
             {
               title: "Source code on GitHub",
-              url: "https://github.com/cosmos/cosmos-sdk/"
+              url: "https://github.com/reapchain/cosmos-sdk/"
             }
           ]
         }

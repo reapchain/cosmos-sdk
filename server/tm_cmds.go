@@ -6,15 +6,15 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	tcmd "github.com/tendermint/tendermint/cmd/tendermint/commands"
-	"github.com/tendermint/tendermint/p2p"
-	pvm "github.com/tendermint/tendermint/privval"
-	tversion "github.com/tendermint/tendermint/version"
+	tcmd "github.com/reapchain/reapchain-core/cmd/reapchain/commands"
+	"github.com/reapchain/reapchain-core/p2p"
+	pvm "github.com/reapchain/reapchain-core/privval"
+	tversion "github.com/reapchain/reapchain-core/version"
 	yaml "gopkg.in/yaml.v2"
 
-	"github.com/cosmos/cosmos-sdk/client"
-	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/reapchain/cosmos-sdk/client"
+	cryptocodec "github.com/reapchain/cosmos-sdk/crypto/codec"
+	sdk "github.com/reapchain/cosmos-sdk/types"
 )
 
 // ShowNodeIDCmd - ported from Tendermint, dump node ID to stdout
@@ -40,7 +40,7 @@ func ShowNodeIDCmd() *cobra.Command {
 func ShowValidatorCmd() *cobra.Command {
 	cmd := cobra.Command{
 		Use:   "show-validator",
-		Short: "Show this node's tendermint validator info",
+		Short: "Show this node's reapchain validator info",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			serverCtx := GetServerContextFromCmd(cmd)
 			cfg := serverCtx.Config
@@ -71,7 +71,7 @@ func ShowValidatorCmd() *cobra.Command {
 func ShowAddressCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "show-address",
-		Short: "Shows this node's tendermint validator consensus address",
+		Short: "Shows this node's reapchain validator consensus address",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			serverCtx := GetServerContextFromCmd(cmd)
 			cfg := serverCtx.Config
@@ -86,11 +86,11 @@ func ShowAddressCmd() *cobra.Command {
 	return cmd
 }
 
-// VersionCmd prints tendermint and ABCI version numbers.
+// VersionCmd prints reapchain and ABCI version numbers.
 func VersionCmd() *cobra.Command {
 	return &cobra.Command{
 		Use:   "version",
-		Short: "Print tendermint libraries' version",
+		Short: "Print reapchain libraries' version",
 		Long: `Print protocols' and libraries' version numbers
 against which this app has been compiled.
 `,
@@ -116,7 +116,7 @@ against which this app has been compiled.
 	}
 }
 
-// UnsafeResetAllCmd - extension of the tendermint command, resets initialization
+// UnsafeResetAllCmd - extension of the reapchain command, resets initialization
 func UnsafeResetAllCmd() *cobra.Command {
 	return &cobra.Command{
 		Use:   "unsafe-reset-all",

@@ -61,7 +61,7 @@ Proto definition:
 // MsgSignData defines an arbitrary, general-purpose, off-chain message
 message MsgSignData {
     // Signer is the sdk.AccAddress of the message signer
-    bytes Signer = 1 [(gogoproto.jsontag) = "signer", (gogoproto.casttype) = "github.com/cosmos/cosmos-sdk/types.AccAddress"];
+    bytes Signer = 1 [(gogoproto.jsontag) = "signer", (gogoproto.casttype) = "github.com/reapchain/cosmos-sdk/types.AccAddress"];
     // Data represents the raw bytes of the content that is signed (text, json, etc)
     bytes Data = 2 [(gogoproto.jsontag) = "data"];
 }
@@ -89,7 +89,7 @@ Signed MsgSignData json example:
     "signatures": [
       {
         "pub_key": {
-          "type": "tendermint/PubKeySecp256k1",
+          "type": "reapchain/PubKeySecp256k1",
           "value": "AqnDSiRoFmTPfq97xxEb2VkQ/Hm28cPsqsZm9jEVsYK9"
         },
         "signature": "8y8i34qJakkjse9pOD2De+dnlc4KvFgh0wQpes4eydN66D9kv7cmCEouRrkka9tlW9cAkIL52ErB+6ye7X5aEg=="
@@ -127,6 +127,6 @@ Backwards compatibility is maintained as this is a new message spec definition.
 ## References
 
 1. https://github.com/cosmos/ics/pull/33
-2. https://github.com/cosmos/cosmos-sdk/pull/7727#discussion_r515668204
-3. https://github.com/cosmos/cosmos-sdk/pull/7727#issuecomment-722478477
-4. https://github.com/cosmos/cosmos-sdk/pull/7727#issuecomment-721062923
+2. https://github.com/reapchain/cosmos-sdk/pull/7727#discussion_r515668204
+3. https://github.com/reapchain/cosmos-sdk/pull/7727#issuecomment-722478477
+4. https://github.com/reapchain/cosmos-sdk/pull/7727#issuecomment-721062923

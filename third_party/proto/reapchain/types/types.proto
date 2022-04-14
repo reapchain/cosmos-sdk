@@ -1,13 +1,13 @@
 syntax = "proto3";
-package tendermint.types;
+package reapchain.types;
 
-option go_package = "github.com/tendermint/tendermint/proto/tendermint/types";
+option go_package = "github.com/reapchain/reapchain-core/proto/reapchain/types";
 
 import "gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
-import "tendermint/crypto/proof.proto";
-import "tendermint/version/types.proto";
-import "tendermint/types/validator.proto";
+import "reapchain/crypto/proof.proto";
+import "reapchain/version/types.proto";
+import "reapchain/types/validator.proto";
 
 // BlockIdFlag indicates which BlcokID the signature is for
 enum BlockIDFlag {
@@ -43,7 +43,7 @@ message PartSetHeader {
 message Part {
   uint32                  index = 1;
   bytes                   bytes = 2;
-  tendermint.crypto.Proof proof = 3 [(gogoproto.nullable) = false];
+  reapchain.crypto.Proof proof = 3 [(gogoproto.nullable) = false];
 }
 
 // BlockID
@@ -54,10 +54,10 @@ message BlockID {
 
 // --------------------------------
 
-// Header defines the structure of a Tendermint block header.
+// Header defines the structure of a reapchain block header.
 message Header {
   // basic block info
-  tendermint.version.Consensus version  = 1 [(gogoproto.nullable) = false];
+  reapchain.version.Consensus version  = 1 [(gogoproto.nullable) = false];
   string                       chain_id = 2 [(gogoproto.customname) = "ChainID"];
   int64                        height   = 3;
   google.protobuf.Timestamp    time     = 4 [(gogoproto.nullable) = false, (gogoproto.stdtime) = true];
@@ -139,7 +139,7 @@ message SignedHeader {
 
 message LightBlock {
   SignedHeader                  signed_header = 1;
-  tendermint.types.ValidatorSet validator_set = 2;
+  reapchain.types.ValidatorSet validator_set = 2;
 }
 
 message BlockMeta {
@@ -153,5 +153,5 @@ message BlockMeta {
 message TxProof {
   bytes                   root_hash = 1;
   bytes                   data      = 2;
-  tendermint.crypto.Proof proof     = 3;
+  reapchain.crypto.Proof proof     = 3;
 }

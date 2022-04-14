@@ -2,7 +2,7 @@ package server
 
 import (
 	"github.com/rs/zerolog"
-	tmlog "github.com/tendermint/tendermint/libs/log"
+	tmlog "github.com/reapchain/reapchain-core/libs/log"
 )
 
 var _ tmlog.Logger = (*ZeroLogWrapper)(nil)

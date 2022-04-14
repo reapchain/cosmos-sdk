@@ -6,19 +6,19 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/cosmos/cosmos-sdk/codec"
-	"github.com/cosmos/cosmos-sdk/codec/legacy"
-	"github.com/cosmos/cosmos-sdk/codec/types"
-	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
-	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	kmultisig "github.com/cosmos/cosmos-sdk/crypto/keys/multisig"
-	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
-	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
-	"github.com/cosmos/cosmos-sdk/crypto/types/multisig"
-	"github.com/cosmos/cosmos-sdk/simapp"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/tx/signing"
-	"github.com/cosmos/cosmos-sdk/x/auth/legacy/legacytx"
+	"github.com/reapchain/cosmos-sdk/codec"
+	"github.com/reapchain/cosmos-sdk/codec/legacy"
+	"github.com/reapchain/cosmos-sdk/codec/types"
+	cryptocodec "github.com/reapchain/cosmos-sdk/crypto/codec"
+	"github.com/reapchain/cosmos-sdk/crypto/keyring"
+	kmultisig "github.com/reapchain/cosmos-sdk/crypto/keys/multisig"
+	"github.com/reapchain/cosmos-sdk/crypto/keys/secp256k1"
+	cryptotypes "github.com/reapchain/cosmos-sdk/crypto/types"
+	"github.com/reapchain/cosmos-sdk/crypto/types/multisig"
+	"github.com/reapchain/cosmos-sdk/simapp"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	"github.com/reapchain/cosmos-sdk/types/tx/signing"
+	"github.com/reapchain/cosmos-sdk/x/auth/legacy/legacytx"
 )
 
 func TestNewMultiSig(t *testing.T) {
@@ -390,29 +390,29 @@ func TestAminoUnmarshalJSON(t *testing.T) {
 	// v0.39, hence the `threshold` field as a string.
 	// We are testing that when unmarshaling this JSON into a LegacyAminoPubKey
 	// with amino, there's no error.
-	// ref: https://github.com/cosmos/cosmos-sdk/issues/8776
+	// ref: https://github.com/reapchain/cosmos-sdk/issues/8776
 	pkJSON := `{
-	"type": "tendermint/PubKeyMultisigThreshold",
+	"type": "reapchain/PubKeyMultisigThreshold",
 	"value": {
 		"pubkeys": [
 			{
-			"type": "tendermint/PubKeySecp256k1",
+			"type": "reapchain/PubKeySecp256k1",
 			"value": "AzYxq2VNeD10TyABwOgV36OVWDIMn8AtI4OFA0uQX2MK"
 			},
 			{
-			"type": "tendermint/PubKeySecp256k1",
+			"type": "reapchain/PubKeySecp256k1",
 			"value": "A39cdsrm00bTeQ3RVZVqjkH8MvIViO9o99c8iLiNO35h"
 			},
 			{
-			"type": "tendermint/PubKeySecp256k1",
+			"type": "reapchain/PubKeySecp256k1",
 			"value": "A/uLLCZph8MkFg2tCxqSMGwFfPHdt1kkObmmrqy9aiYD"
 			},
 			{
-			"type": "tendermint/PubKeySecp256k1",
+			"type": "reapchain/PubKeySecp256k1",
 			"value": "A4mOMhM5gPDtBAkAophjRs6uDGZm4tD4Dbok3ai4qJi8"
 			},
 			{
-			"type": "tendermint/PubKeySecp256k1",
+			"type": "reapchain/PubKeySecp256k1",
 			"value": "A90icFucrjNNz2SAdJWMApfSQcARIqt+M2x++t6w5fFs"
 			}
 		],

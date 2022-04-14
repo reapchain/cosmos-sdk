@@ -8,9 +8,9 @@ import (
 	"io"
 
 	amino "github.com/tendermint/go-amino"
-	tmtypes "github.com/tendermint/tendermint/types"
+	tmtypes "github.com/reapchain/reapchain-core/types"
 
-	"github.com/cosmos/cosmos-sdk/codec/types"
+	"github.com/reapchain/cosmos-sdk/codec/types"
 )
 
 // LegacyAmino defines a wrapper for an Amino codec that properly
@@ -31,7 +31,7 @@ func NewLegacyAmino() *LegacyAmino {
 // codec.
 func RegisterEvidences(cdc *LegacyAmino) {
 	cdc.Amino.RegisterInterface((*tmtypes.Evidence)(nil), nil)
-	cdc.Amino.RegisterConcrete(&tmtypes.DuplicateVoteEvidence{}, "tendermint/DuplicateVoteEvidence", nil)
+	cdc.Amino.RegisterConcrete(&tmtypes.DuplicateVoteEvidence{}, "reapchain/DuplicateVoteEvidence", nil)
 }
 
 // MarshalJSONIndent provides a utility for indented JSON encoding of an object

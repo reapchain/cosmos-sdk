@@ -1,18 +1,18 @@
 syntax = "proto3";
-package tendermint.abci;
+package reapchain.abci;
 
-option go_package = "github.com/tendermint/tendermint/abci/types";
+option go_package = "github.com/reapchain/reapchain-core/abci/types";
 
 // For more information on gogo.proto, see:
 // https://github.com/gogo/protobuf/blob/master/extensions.md
-import "tendermint/crypto/proof.proto";
-import "tendermint/types/types.proto";
-import "tendermint/crypto/keys.proto";
-import "tendermint/types/params.proto";
+import "reapchain/crypto/proof.proto";
+import "reapchain/types/types.proto";
+import "reapchain/crypto/keys.proto";
+import "reapchain/types/params.proto";
 import "google/protobuf/timestamp.proto";
 import "gogoproto/gogo.proto";
 
-// This file is copied from http://github.com/tendermint/abci
+// This file is copied from http://github.com/reapchain/abci
 // NOTE: When using custom types, mind the warnings.
 // https://github.com/gogo/protobuf/blob/master/custom_types.md#warnings-and-issues
 
@@ -76,7 +76,7 @@ message RequestQuery {
 
 message RequestBeginBlock {
   bytes                   hash                 = 1;
-  tendermint.types.Header header               = 2 [(gogoproto.nullable) = false];
+  reapchain.types.Header header               = 2 [(gogoproto.nullable) = false];
   LastCommitInfo          last_commit_info     = 3 [(gogoproto.nullable) = false];
   repeated Evidence       byzantine_validators = 4 [(gogoproto.nullable) = false];
 }
@@ -192,7 +192,7 @@ message ResponseQuery {
   int64                      index     = 5;
   bytes                      key       = 6;
   bytes                      value     = 7;
-  tendermint.crypto.ProofOps proof_ops = 8;
+  reapchain.crypto.ProofOps proof_ops = 8;
   int64                      height    = 9;
   string                     codespace = 10;
 }
@@ -283,9 +283,9 @@ message ResponseApplySnapshotChunk {
 // that can be adjusted by the abci app
 message ConsensusParams {
   BlockParams                      block     = 1;
-  tendermint.types.EvidenceParams  evidence  = 2;
-  tendermint.types.ValidatorParams validator = 3;
-  tendermint.types.VersionParams   version   = 4;
+  reapchain.types.EvidenceParams  evidence  = 2;
+  reapchain.types.ValidatorParams validator = 3;
+  reapchain.types.VersionParams   version   = 4;
 }
 
 // BlockParams contains limits on the block size.
@@ -341,7 +341,7 @@ message Validator {
 
 // ValidatorUpdate
 message ValidatorUpdate {
-  tendermint.crypto.PublicKey pub_key = 1 [(gogoproto.nullable) = false];
+  reapchain.crypto.PublicKey pub_key = 1 [(gogoproto.nullable) = false];
   int64                       power   = 2;
 }
 
@@ -370,7 +370,7 @@ message Evidence {
   ];
   // Total voting power of the validator set in case the ABCI application does
   // not store historical validators.
-  // https://github.com/tendermint/tendermint/issues/4581
+  // https://github.com/reapchain/reapchain-core/issues/4581
   int64 total_voting_power = 5;
 }
 

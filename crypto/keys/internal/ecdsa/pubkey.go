@@ -7,10 +7,10 @@ import (
 	"fmt"
 	"math/big"
 
-	tmcrypto "github.com/tendermint/tendermint/crypto"
+	tmcrypto "github.com/reapchain/reapchain-core/crypto"
 
-	"github.com/cosmos/cosmos-sdk/types/address"
-	"github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/reapchain/cosmos-sdk/types/address"
+	"github.com/reapchain/cosmos-sdk/types/errors"
 )
 
 // signatureFromBytes function roughly copied from secp256k1_nocgo.go

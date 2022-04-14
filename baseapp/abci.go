@@ -5,22 +5,20 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"sort"
 	"strings"
 	"syscall"
 	"time"
 
-	"github.com/gogo/protobuf/proto"
-	abci "github.com/tendermint/tendermint/abci/types"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
+	abci "github.com/reapchain/reapchain-core/abci/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
 	"google.golang.org/grpc/codes"
 	grpcstatus "google.golang.org/grpc/status"
 
-	"github.com/cosmos/cosmos-sdk/codec"
-	snapshottypes "github.com/cosmos/cosmos-sdk/snapshots/types"
-	"github.com/cosmos/cosmos-sdk/telemetry"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/reapchain/cosmos-sdk/codec"
+	snapshottypes "github.com/reapchain/cosmos-sdk/snapshots/types"
+	"github.com/reapchain/cosmos-sdk/telemetry"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	sdkerrors "github.com/reapchain/cosmos-sdk/types/errors"
 )
 
 // InitChain implements the ABCI interface. It runs the initialization logic
@@ -62,25 +60,25 @@ func (app *BaseApp) InitChain(req abci.RequestInitChain) (res abci.ResponseInitC
 	res = app.initChainer(app.deliverState.ctx, req)
 
 	// sanity check
-	if len(req.Validators) > 0 {
-		if len(req.Validators) != len(res.Validators) {
-			panic(
-				fmt.Errorf(
-					"len(RequestInitChain.Validators) != len(GenesisValidators) (%d != %d)",
-					len(req.Validators), len(res.Validators),
-				),
-			)
-		}
-
-		sort.Sort(abci.ValidatorUpdates(req.Validators))
-		sort.Sort(abci.ValidatorUpdates(res.Validators))
-
-		for i := range res.Validators {
-			if !proto.Equal(&res.Validators[i], &req.Validators[i]) {
-				panic(fmt.Errorf("genesisValidators[%d] != req.Validators[%d] ", i, i))
-			}
-		}
-	}
+	//if len(req.Validators) > 0 {
+	//	if len(req.Validators) != len(res.Validators) {
+	//		panic(
+	//			fmt.Errorf(
+	//				"len(RequestInitChain.Validators) != len(GenesisValidators) (%d != %d)",
+	//				len(req.Validators), len(res.Validators),
+	//			),
+	//		)
+	//	}
+	//
+	//	sort.Sort(abci.ValidatorUpdates(req.Validators))
+	//	sort.Sort(abci.ValidatorUpdates(res.Validators))
+	//
+	//	for i := range res.Validators {
+	//		if !proto.Equal(&res.Validators[i], &req.Validators[i]) {
+	//			panic(fmt.Errorf("genesisValidators[%d] != req.Validators[%d] ", i, i))
+	//		}
+	//	}
+	//}
 
 	// In the case of a new chain, AppHash will be the hash of an empty string.
 	// During an upgrade, it'll be the hash of the last committed block.
@@ -403,7 +401,7 @@ func (app *BaseApp) Query(req abci.RequestQuery) (res abci.ResponseQuery) {
 	defer telemetry.MeasureSince(time.Now(), "abci", "query")
 
 	// Add panic recovery for all queries.
-	// ref: https://github.com/cosmos/cosmos-sdk/pull/8039
+	// ref: https://github.com/reapchain/cosmos-sdk/pull/8039
 	defer func() {
 		if r := recover(); r != nil {
 			res = sdkerrors.QueryResult(sdkerrors.Wrapf(sdkerrors.ErrPanic, "%v", r))

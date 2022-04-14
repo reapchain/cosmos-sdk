@@ -6,8 +6,8 @@ import (
 
 	"github.com/coinbase/rosetta-sdk-go/types"
 
-	crgerrs "github.com/cosmos/cosmos-sdk/server/rosetta/lib/errors"
-	crgtypes "github.com/cosmos/cosmos-sdk/server/rosetta/lib/types"
+	crgerrs "github.com/reapchain/cosmos-sdk/server/rosetta/lib/errors"
+	crgtypes "github.com/reapchain/cosmos-sdk/server/rosetta/lib/types"
 )
 
 // genesisBlockFetchTimeout defines a timeout to fetch the genesis block
@@ -35,7 +35,7 @@ func NewOnlineNetwork(network *types.NetworkIdentifier, client crgtypes.Client) 
 
 // OnlineNetwork groups together all the components required for the full rosetta implementation
 type OnlineNetwork struct {
-	client crgtypes.Client // used to query cosmos app + tendermint
+	client crgtypes.Client // used to query cosmos app + reapchain
 
 	network        *types.NetworkIdentifier      // identifies the network, it's static
 	networkOptions *types.NetworkOptionsResponse // identifies the network options, it's static

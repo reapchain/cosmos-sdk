@@ -12,8 +12,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/cosmos/cosmos-sdk/client/flags"
-	"github.com/cosmos/cosmos-sdk/server"
+	"github.com/reapchain/cosmos-sdk/client/flags"
+	"github.com/reapchain/cosmos-sdk/server"
 )
 
 var cancelledInPreRun = errors.New("Cancelled in prerun")
@@ -59,9 +59,9 @@ func TestInterceptConfigsPreRunHandlerCreatesConfigFilesWhenMissing(t *testing.T
 		t.Fatal("config.toml created as empty file")
 	}
 
-	// Test that tendermint config is initialized
+	// Test that reapchain config is initialized
 	if serverCtx.Config == nil {
-		t.Fatal("tendermint config not created")
+		t.Fatal("reapchain config not created")
 	}
 
 	// Test that app.toml is created
@@ -172,7 +172,7 @@ func TestInterceptConfigsPreRunHandlerReadsFlags(t *testing.T) {
 		t.Fatalf("Could not set home flag [%T] %v", err, err)
 	}
 
-	// This flag is added by tendermint
+	// This flag is added by reapchain
 	if err := cmd.Flags().Set("rpc.laddr", testAddr); err != nil {
 		t.Fatalf("Could not set address flag [%T] %v", err, err)
 	}
@@ -205,7 +205,7 @@ func TestInterceptConfigsPreRunHandlerReadsEnvVars(t *testing.T) {
 	}
 	basename := path.Base(executableName)
 	basename = strings.ReplaceAll(basename, ".", "_")
-	// This is added by tendermint
+	// This is added by reapchain
 	envVarName := fmt.Sprintf("%s_RPC_LADDR", strings.ToUpper(basename))
 	os.Setenv(envVarName, testAddr)
 	t.Cleanup(func() {
@@ -259,7 +259,7 @@ func newPrecedenceCommon(t *testing.T) precedenceCommon {
 	// Store the name of the env. var.
 	retval.envVarName = fmt.Sprintf("%s_RPC_LADDR", strings.ToUpper(basename))
 
-	// Store the flag name. This flag is added by tendermint
+	// Store the flag name. This flag is added by reapchain
 	retval.flagName = "rpc.laddr"
 
 	// Create a tempdir and create './config' under that
@@ -380,7 +380,7 @@ func TestInterceptConfigsPreRunHandlerPrecedenceConfigDefault(t *testing.T) {
 
 // Ensure that if interceptConfigs encounters any error other than non-existen errors
 // that we correctly return the offending error, for example a permission error.
-// See https://github.com/cosmos/cosmos-sdk/issues/7578
+// See https://github.com/reapchain/cosmos-sdk/issues/7578
 func TestInterceptConfigsWithBadPermissions(t *testing.T) {
 	tempDir := t.TempDir()
 	subDir := filepath.Join(tempDir, "nonPerms")

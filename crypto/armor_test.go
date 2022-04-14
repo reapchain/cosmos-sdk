@@ -9,17 +9,17 @@ import (
 
 	"github.com/stretchr/testify/require"
 	"github.com/tendermint/crypto/bcrypt"
-	tmcrypto "github.com/tendermint/tendermint/crypto"
-	"github.com/tendermint/tendermint/crypto/armor"
-	"github.com/tendermint/tendermint/crypto/xsalsa20symmetric"
+	tmcrypto "github.com/reapchain/reapchain-core/crypto"
+	"github.com/reapchain/reapchain-core/crypto/armor"
+	"github.com/reapchain/reapchain-core/crypto/xsalsa20symmetric"
 
-	"github.com/cosmos/cosmos-sdk/codec/legacy"
-	"github.com/cosmos/cosmos-sdk/crypto"
-	"github.com/cosmos/cosmos-sdk/crypto/hd"
-	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
-	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
-	"github.com/cosmos/cosmos-sdk/types"
+	"github.com/reapchain/cosmos-sdk/codec/legacy"
+	"github.com/reapchain/cosmos-sdk/crypto"
+	"github.com/reapchain/cosmos-sdk/crypto/hd"
+	"github.com/reapchain/cosmos-sdk/crypto/keyring"
+	"github.com/reapchain/cosmos-sdk/crypto/keys/secp256k1"
+	cryptotypes "github.com/reapchain/cosmos-sdk/crypto/types"
+	"github.com/reapchain/cosmos-sdk/types"
 )
 
 func TestArmorUnarmorPrivKey(t *testing.T) {
@@ -62,7 +62,7 @@ func TestArmorUnarmorPrivKey(t *testing.T) {
 		"salt": fmt.Sprintf("%X", saltBytes),
 		"type": "secp256k",
 	}
-	armored = armor.EncodeArmor("TENDERMINT PRIVATE KEY", headerWrongKdf, encBytes)
+	armored = armor.EncodeArmor("REAPCHAIN PRIVATE KEY", headerWrongKdf, encBytes)
 	_, _, err = crypto.UnarmorDecryptPrivKey(armored, "passphrase")
 	require.Error(t, err)
 	require.Equal(t, "unrecognized KDF type: wrong", err.Error())
@@ -95,14 +95,14 @@ func TestArmorUnarmorPubKey(t *testing.T) {
 	require.NoError(t, err)
 	_, _, err = crypto.UnarmorPubKeyBytes(armored)
 	require.Error(t, err)
-	require.Equal(t, `couldn't unarmor bytes: unrecognized armor type "TENDERMINT PRIVATE KEY", expected: "TENDERMINT PUBLIC KEY"`, err.Error())
+	require.Equal(t, `couldn't unarmor bytes: unrecognized armor type "REAPCHAIN PRIVATE KEY", expected: "REAPCHAIN PUBLIC KEY"`, err.Error())
 
 	// armor pubkey manually
 	header := map[string]string{
 		"version": "0.0.0",
 		"type":    "unknown",
 	}
-	armored = armor.EncodeArmor("TENDERMINT PUBLIC KEY", header, pubBytes)
+	armored = armor.EncodeArmor("REAPCHAIN PUBLIC KEY", header, pubBytes)
 	_, algo, err = crypto.UnarmorPubKeyBytes(armored)
 	require.NoError(t, err)
 	// return secp256k1 if version is 0.0.0
@@ -112,7 +112,7 @@ func TestArmorUnarmorPubKey(t *testing.T) {
 	header = map[string]string{
 		"type": "unknown",
 	}
-	armored = armor.EncodeArmor("TENDERMINT PUBLIC KEY", header, pubBytes)
+	armored = armor.EncodeArmor("REAPCHAIN PUBLIC KEY", header, pubBytes)
 	bz, algo, err := crypto.UnarmorPubKeyBytes(armored)
 	require.Nil(t, bz)
 	require.Empty(t, algo)
@@ -124,7 +124,7 @@ func TestArmorUnarmorPubKey(t *testing.T) {
 		"type":    "unknown",
 		"version": "unknown",
 	}
-	armored = armor.EncodeArmor("TENDERMINT PUBLIC KEY", header, pubBytes)
+	armored = armor.EncodeArmor("REAPCHAIN PUBLIC KEY", header, pubBytes)
 	bz, algo, err = crypto.UnarmorPubKeyBytes(armored)
 	require.Nil(t, bz)
 	require.Empty(t, algo)
@@ -151,7 +151,7 @@ func TestUnarmorInfoBytesErrors(t *testing.T) {
 		"version": "0.0.1",
 	}
 	unarmoredBytes, err = crypto.UnarmorInfoBytes(armor.EncodeArmor(
-		"TENDERMINT KEY INFO", header, []byte("plain-text")))
+		"REAPCHAIN KEY INFO", header, []byte("plain-text")))
 	require.Error(t, err)
 	require.Equal(t, "unrecognized version: 0.0.1", err.Error())
 	require.Nil(t, unarmoredBytes)

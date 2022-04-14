@@ -5,13 +5,13 @@ import (
 	"time"
 
 	"github.com/gogo/protobuf/proto"
-	abci "github.com/tendermint/tendermint/abci/types"
-	tmbytes "github.com/tendermint/tendermint/libs/bytes"
-	"github.com/tendermint/tendermint/libs/log"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
+	abci "github.com/reapchain/reapchain-core/abci/types"
+	tmbytes "github.com/reapchain/reapchain-core/libs/bytes"
+	"github.com/reapchain/reapchain-core/libs/log"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
 
-	"github.com/cosmos/cosmos-sdk/store/gaskv"
-	stypes "github.com/cosmos/cosmos-sdk/store/types"
+	"github.com/reapchain/cosmos-sdk/store/gaskv"
+	stypes "github.com/reapchain/cosmos-sdk/store/types"
 )
 
 /*
@@ -105,7 +105,7 @@ func (c Context) WithMultiStore(ms MultiStore) Context {
 	return c
 }
 
-// WithBlockHeader returns a Context with an updated tendermint block header in UTC time.
+// WithBlockHeader returns a Context with an updated reapchain block header in UTC time.
 func (c Context) WithBlockHeader(header tmproto.Header) Context {
 	// https://github.com/gogo/protobuf/issues/519
 	header.Time = header.Time.UTC()
@@ -113,7 +113,7 @@ func (c Context) WithBlockHeader(header tmproto.Header) Context {
 	return c
 }
 
-// WithHeaderHash returns a Context with an updated tendermint block header hash.
+// WithHeaderHash returns a Context with an updated reapchain block header hash.
 func (c Context) WithHeaderHash(hash []byte) Context {
 	temp := make([]byte, len(hash))
 	copy(temp, hash)
@@ -122,7 +122,7 @@ func (c Context) WithHeaderHash(hash []byte) Context {
 	return c
 }
 
-// WithBlockTime returns a Context with an updated tendermint block header time in UTC time
+// WithBlockTime returns a Context with an updated reapchain block header time in UTC time
 func (c Context) WithBlockTime(newTime time.Time) Context {
 	newHeader := c.BlockHeader()
 	// https://github.com/gogo/protobuf/issues/519

@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdk "github.com/reapchain/cosmos-sdk/types"
 )
 
 type utilsTestSuite struct {
@@ -29,10 +29,10 @@ func (s *utilsTestSuite) TestSortJSON() {
 		wantErr      bool
 	}{
 		// simple case
-		{unsortedJSON: `{"cosmos":"foo", "atom":"bar",  "tendermint":"foobar"}`,
-			want: `{"atom":"bar","cosmos":"foo","tendermint":"foobar"}`, wantErr: false},
+		{unsortedJSON: `{"cosmos":"foo", "atom":"bar",  "reapchain":"foobar"}`,
+			want: `{"atom":"bar","cosmos":"foo","reapchain":"foobar"}`, wantErr: false},
 		// failing case (invalid JSON):
-		{unsortedJSON: `"cosmos":"foo",,,, "atom":"bar",  "tendermint":"foobar"}`,
+		{unsortedJSON: `"cosmos":"foo",,,, "atom":"bar",  "reapchain":"foobar"}`,
 			want:    "",
 			wantErr: true},
 		// genesis.json

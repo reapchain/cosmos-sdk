@@ -17,7 +17,7 @@ services:
       "rosetta",
       "--blockchain", "app",
       "--network", "network",
-      "--tendermint", "cosmos:26657",
+      "--reapchain", "cosmos:26657",
       "--grpc", "cosmos:9090",
       "--addr", ":8080",
     ]

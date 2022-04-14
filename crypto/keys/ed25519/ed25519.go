@@ -7,19 +7,19 @@ import (
 	"io"
 
 	"github.com/hdevalence/ed25519consensus"
-	"github.com/tendermint/tendermint/crypto"
-	"github.com/tendermint/tendermint/crypto/tmhash"
+	"github.com/reapchain/reapchain-core/crypto"
+	"github.com/reapchain/reapchain-core/crypto/tmhash"
 
-	"github.com/cosmos/cosmos-sdk/codec"
-	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
-	"github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/reapchain/cosmos-sdk/codec"
+	cryptotypes "github.com/reapchain/cosmos-sdk/crypto/types"
+	"github.com/reapchain/cosmos-sdk/types/errors"
 )
 
 //-------------------------------------
 
 const (
-	PrivKeyName = "tendermint/PrivKeyEd25519"
-	PubKeyName  = "tendermint/PubKeyEd25519"
+	PrivKeyName = "reapchain/PrivKeyEd25519"
+	PubKeyName  = "reapchain/PubKeyEd25519"
 	// PubKeySize is is the size, in bytes, of public keys as used in this package.
 	PubKeySize = 32
 	// PrivKeySize is the size, in bytes, of private keys as used in this package.
@@ -118,9 +118,9 @@ func (privKey *PrivKey) UnmarshalAminoJSON(bz []byte) error {
 }
 
 // GenPrivKey generates a new ed25519 private key. These ed25519 keys must not
-// be used in SDK apps except in a tendermint validator context.
+// be used in SDK apps except in a reapchain validator context.
 // It uses OS randomness in conjunction with the current global random seed
-// in tendermint/libs/common to generate the private key.
+// in reapchain/libs/common to generate the private key.
 func GenPrivKey() *PrivKey {
 	return genPrivKey(crypto.CReader())
 }
@@ -139,7 +139,7 @@ func genPrivKey(rand io.Reader) *PrivKey {
 
 // GenPrivKeyFromSecret hashes the secret with SHA2, and uses
 // that 32 byte output to create the private key.
-// NOTE: ed25519 keys must not be used in SDK apps except in a tendermint validator context.
+// NOTE: ed25519 keys must not be used in SDK apps except in a reapchain validator context.
 // NOTE: secret should be the output of a KDF like bcrypt,
 // if it's derived from user input.
 func GenPrivKeyFromSecret(secret []byte) *PrivKey {
@@ -155,7 +155,7 @@ var _ codec.AminoMarshaler = &PubKey{}
 
 // Address is the SHA256-20 of the raw pubkey bytes.
 // It doesn't implement ADR-28 addresses and it must not be used
-// in SDK except in a tendermint validator context.
+// in SDK except in a reapchain validator context.
 func (pubKey *PubKey) Address() crypto.Address {
 	if len(pubKey.Key) != PubKeySize {
 		panic("pubkey is incorrect size")

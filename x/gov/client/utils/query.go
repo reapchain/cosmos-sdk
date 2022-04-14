@@ -3,16 +3,16 @@ package utils
 import (
 	"fmt"
 
-	"github.com/cosmos/cosmos-sdk/client"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
-	"github.com/cosmos/cosmos-sdk/x/gov/types"
+	"github.com/reapchain/cosmos-sdk/client"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	sdkerrors "github.com/reapchain/cosmos-sdk/types/errors"
+	authtx "github.com/reapchain/cosmos-sdk/x/auth/tx"
+	"github.com/reapchain/cosmos-sdk/x/gov/types"
 )
 
 const (
 	defaultPage  = 1
-	defaultLimit = 30 // should be consistent with tendermint/tendermint/rpc/core/pipe.go:19
+	defaultLimit = 30 // should be consistent with reapchain/reapchain/rpc/core/pipe.go:19
 )
 
 // Proposer contains metadata of a governance proposal used for querying a
@@ -347,7 +347,7 @@ func QueryProposalByID(proposalID uint64, clientCtx client.Context, queryRoute s
 // combineEvents queries txs by events with all events from each event group,
 // and combines all those events together.
 //
-// Tx are indexed in tendermint via their Msgs `Type()`, which can be:
+// Tx are indexed in reapchain via their Msgs `Type()`, which can be:
 // - via legacy Msgs (amino or proto), their `Type()` is a custom string,
 // - via ADR-031 proto msgs, their `Type()` is the protobuf FQ method name.
 // In searching for events, we search for both `Type()`s, and we use the

@@ -5,8 +5,8 @@ import (
 
 	"github.com/coinbase/rosetta-sdk-go/types"
 
-	"github.com/cosmos/cosmos-sdk/server/rosetta/lib/errors"
-	crgtypes "github.com/cosmos/cosmos-sdk/server/rosetta/lib/types"
+	"github.com/reapchain/cosmos-sdk/server/rosetta/lib/errors"
+	crgtypes "github.com/reapchain/cosmos-sdk/server/rosetta/lib/types"
 )
 
 // AccountBalance retrieves the account balance of an address
@@ -87,7 +87,7 @@ func (on OnlineNetwork) Block(ctx context.Context, request *types.BlockRequest) 
 }
 
 // BlockTransaction gets the given transaction in the specified block, we do not need to check the block itself too
-// due to the fact that tendermint achieves instant finality
+// due to the fact that reapchain achieves instant finality
 func (on OnlineNetwork) BlockTransaction(ctx context.Context, request *types.BlockTransactionRequest) (*types.BlockTransactionResponse, *types.Error) {
 	tx, err := on.client.GetTx(ctx, request.TransactionIdentifier.Hash)
 	if err != nil {
