@@ -26,6 +26,7 @@ var (
 	defaultCommissionMaxRate       = "0.2"
 	defaultCommissionMaxChangeRate = "0.01"
 	defaultMinSelfDelegation       = "1"
+	defaultValidatorType           = "standing"
 )
 
 // NewTxCmd returns a root CLI command handler for all x/staking transaction commands.
@@ -78,6 +79,8 @@ func NewCreateValidatorCmd() *cobra.Command {
 
 	cmd.Flags().String(FlagIP, "", fmt.Sprintf("The node's public IP. It takes effect only when used in combination with --%s", flags.FlagGenerateOnly))
 	cmd.Flags().String(FlagNodeID, "", "The node's ID")
+
+	cmd.Flags().AddFlagSet(FlagSetValidatorTypeCreate())
 	flags.AddTxFlagsToCmd(cmd)
 
 	_ = cmd.MarkFlagRequired(flags.FlagFrom)
@@ -326,8 +329,10 @@ func newBuildCreateValidatorMsg(clientCtx client.Context, txf tx.Factory, fs *fl
 		return txf, nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "minimum self delegation must be a positive integer")
 	}
 
+	validatorType, _ := fs.GetString(FlagType)
+
 	msg, err := types.NewMsgCreateValidator(
-		sdk.ValAddress(valAddr), pk, amount, description, commissionRates, minSelfDelegation,
+		sdk.ValAddress(valAddr), pk, amount, description, commissionRates, minSelfDelegation, validatorType,
 	)
 	if err != nil {
 		return txf, nil, err
@@ -364,6 +369,7 @@ func CreateValidatorMsgFlagSet(ipDefault string) (fs *flag.FlagSet, defaultsDesc
 	fsCreateValidator.AddFlagSet(FlagSetMinSelfDelegation())
 	fsCreateValidator.AddFlagSet(FlagSetAmount())
 	fsCreateValidator.AddFlagSet(FlagSetPublicKey())
+	fsCreateValidator.AddFlagSet(FlagSetValidatorTypeCreate())
 
 	defaultsDesc = fmt.Sprintf(`
 	delegation amount:           %s
@@ -371,9 +377,11 @@ func CreateValidatorMsgFlagSet(ipDefault string) (fs *flag.FlagSet, defaultsDesc
 	commission max rate:         %s
 	commission max change rate:  %s
 	minimum self delegation:     %s
+	validator type:				 %s
 `, defaultAmount, defaultCommissionRate,
 		defaultCommissionMaxRate, defaultCommissionMaxChangeRate,
-		defaultMinSelfDelegation)
+		defaultMinSelfDelegation,
+		defaultValidatorType)
 
 	return fsCreateValidator, defaultsDesc
 }
@@ -397,6 +405,7 @@ type TxCreateValidatorConfig struct {
 	SecurityContact string
 	Details         string
 	Identity        string
+	ValidatorType   string
 }
 
 func PrepareConfigForTxCreateValidator(flagSet *flag.FlagSet, moniker, nodeID, chainID string, valPubKey cryptotypes.PubKey) (TxCreateValidatorConfig, error) {
@@ -490,6 +499,10 @@ func PrepareConfigForTxCreateValidator(flagSet *flag.FlagSet, moniker, nodeID, c
 		c.MinSelfDelegation = defaultMinSelfDelegation
 	}
 
+	if c.ValidatorType == "" {
+		c.ValidatorType = defaultValidatorType
+	}
+
 	return c, nil
 }
 
@@ -528,7 +541,7 @@ func BuildCreateValidatorMsg(clientCtx client.Context, config TxCreateValidatorC
 	}
 
 	msg, err := types.NewMsgCreateValidator(
-		sdk.ValAddress(valAddr), config.PubKey, amount, description, commissionRates, minSelfDelegation,
+		sdk.ValAddress(valAddr), config.PubKey, amount, description, commissionRates, minSelfDelegation, config.ValidatorType,
 	)
 	if err != nil {
 		return txBldr, msg, err

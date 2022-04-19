@@ -1253,7 +1253,7 @@ Result is the union of ResponseFormat and ResponseCheckTx.
 | ----- | ---- | ----- | ----------- |
 | `data` | [bytes](#bytes) |  | Data is any data returned from message or handler execution. It MUST be length prefixed in order to separate data from multiple message executions. |
 | `log` | [string](#string) |  | Log contains the log information from message or handler execution. |
-| `events` | [tendermint.abci.Event](#tendermint.abci.Event) | repeated | Events contains a slice of Event objects that were emitted during message or handler execution. |
+| `events` | [reapchain.abci.Event](#reapchain.abci.Event) | repeated | Events contains a slice of Event objects that were emitted during message or handler execution. |
 
 
 
@@ -1337,21 +1337,21 @@ TxResponse defines a structure containing relevant tx data and metadata. The
 tags are stringified and the log is JSON decoded.
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| `height` | [int64](#int64) |  | The block height |
-| `txhash` | [string](#string) |  | The transaction hash. |
-| `codespace` | [string](#string) |  | Namespace for the Code |
-| `code` | [uint32](#uint32) |  | Response code. |
-| `data` | [string](#string) |  | Result bytes, if any. |
-| `raw_log` | [string](#string) |  | The output of the application's logger (raw string). May be non-deterministic. |
+| Field | Type                                                       | Label | Description |
+| ----- |------------------------------------------------------------| ----- | ----------- |
+| `height` | [int64](#int64)                                            |  | The block height |
+| `txhash` | [string](#string)                                          |  | The transaction hash. |
+| `codespace` | [string](#string)                                          |  | Namespace for the Code |
+| `code` | [uint32](#uint32)                                          |  | Response code. |
+| `data` | [string](#string)                                          |  | Result bytes, if any. |
+| `raw_log` | [string](#string)                                          |  | The output of the application's logger (raw string). May be non-deterministic. |
 | `logs` | [ABCIMessageLog](#cosmos.base.abci.v1beta1.ABCIMessageLog) | repeated | The output of the application's logger (typed). May be non-deterministic. |
-| `info` | [string](#string) |  | Additional information. May be non-deterministic. |
-| `gas_wanted` | [int64](#int64) |  | Amount of gas requested for transaction. |
-| `gas_used` | [int64](#int64) |  | Amount of gas consumed by transaction. |
-| `tx` | [google.protobuf.Any](#google.protobuf.Any) |  | The request transaction bytes. |
-| `timestamp` | [string](#string) |  | Time of the previous block. For heights > 1, it's the weighted median of the timestamps of the valid votes in the block.LastCommit. For height == 1, it's genesis time. |
-| `events` | [tendermint.abci.Event](#tendermint.abci.Event) | repeated | Events defines all the events emitted by processing a transaction. Note, these events include those emitted by processing all the messages and those emitted from the ante handler. Whereas Logs contains the events, with additional metadata, emitted only by processing the messages.
+| `info` | [string](#string)                                          |  | Additional information. May be non-deterministic. |
+| `gas_wanted` | [int64](#int64)                                            |  | Amount of gas requested for transaction. |
+| `gas_used` | [int64](#int64)                                            |  | Amount of gas consumed by transaction. |
+| `tx` | [google.protobuf.Any](#google.protobuf.Any)                |  | The request transaction bytes. |
+| `timestamp` | [string](#string)                                          |  | Time of the previous block. For heights > 1, it's the weighted median of the timestamps of the valid votes in the block.LastCommit. For height == 1, it's genesis time. |
+| `events` | [reapchain.abci.Event](#reapchain.abci.Event)             | repeated | Events defines all the events emitted by processing a transaction. Note, these events include those emitted by processing all the messages and those emitted from the ante handler. Whereas Logs contains the events, with additional metadata, emitted only by processing the messages.
 
 Since: cosmos-sdk 0.42.11, 0.44.5, 0.45 |
 
@@ -2973,8 +2973,8 @@ GetBlockByHeightResponse is the response type for the Query/GetBlockByHeight RPC
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| `block_id` | [tendermint.types.BlockID](#tendermint.types.BlockID) |  |  |
-| `block` | [tendermint.types.Block](#tendermint.types.Block) |  |  |
+| `block_id` | [reapchain.types.BlockID](#reapchain.types.BlockID) |  |  |
+| `block` | [reapchain.types.Block](#reapchain.types.Block) |  |  |
 
 
 
@@ -2999,8 +2999,8 @@ GetLatestBlockResponse is the response type for the Query/GetLatestBlock RPC met
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| `block_id` | [tendermint.types.BlockID](#tendermint.types.BlockID) |  |  |
-| `block` | [tendermint.types.Block](#tendermint.types.Block) |  |  |
+| `block_id` | [reapchain.types.BlockID](#reapchain.types.BlockID) |  |  |
+| `block` | [reapchain.types.Block](#reapchain.types.Block) |  |  |
 
 
 
@@ -3057,7 +3057,7 @@ GetNodeInfoResponse is the request type for the Query/GetNodeInfo RPC method.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| `default_node_info` | [tendermint.p2p.DefaultNodeInfo](#tendermint.p2p.DefaultNodeInfo) |  |  |
+| `default_node_info` | [reapchain.p2p.DefaultNodeInfo](#reapchain.p2p.DefaultNodeInfo) |  |  |
 | `application_version` | [VersionInfo](#cosmos.base.tendermint.v1beta1.VersionInfo) |  |  |
 
 
@@ -3193,12 +3193,12 @@ Service defines the gRPC querier service for tendermint queries.
 
 | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
 | ----------- | ------------ | ------------- | ------------| ------- | -------- |
-| `GetNodeInfo` | [GetNodeInfoRequest](#cosmos.base.tendermint.v1beta1.GetNodeInfoRequest) | [GetNodeInfoResponse](#cosmos.base.tendermint.v1beta1.GetNodeInfoResponse) | GetNodeInfo queries the current node info. | GET|/cosmos/base/tendermint/v1beta1/node_info|
-| `GetSyncing` | [GetSyncingRequest](#cosmos.base.tendermint.v1beta1.GetSyncingRequest) | [GetSyncingResponse](#cosmos.base.tendermint.v1beta1.GetSyncingResponse) | GetSyncing queries node syncing. | GET|/cosmos/base/tendermint/v1beta1/syncing|
-| `GetLatestBlock` | [GetLatestBlockRequest](#cosmos.base.tendermint.v1beta1.GetLatestBlockRequest) | [GetLatestBlockResponse](#cosmos.base.tendermint.v1beta1.GetLatestBlockResponse) | GetLatestBlock returns the latest block. | GET|/cosmos/base/tendermint/v1beta1/blocks/latest|
-| `GetBlockByHeight` | [GetBlockByHeightRequest](#cosmos.base.tendermint.v1beta1.GetBlockByHeightRequest) | [GetBlockByHeightResponse](#cosmos.base.tendermint.v1beta1.GetBlockByHeightResponse) | GetBlockByHeight queries block for given height. | GET|/cosmos/base/tendermint/v1beta1/blocks/{height}|
-| `GetLatestValidatorSet` | [GetLatestValidatorSetRequest](#cosmos.base.tendermint.v1beta1.GetLatestValidatorSetRequest) | [GetLatestValidatorSetResponse](#cosmos.base.tendermint.v1beta1.GetLatestValidatorSetResponse) | GetLatestValidatorSet queries latest validator-set. | GET|/cosmos/base/tendermint/v1beta1/validatorsets/latest|
-| `GetValidatorSetByHeight` | [GetValidatorSetByHeightRequest](#cosmos.base.tendermint.v1beta1.GetValidatorSetByHeightRequest) | [GetValidatorSetByHeightResponse](#cosmos.base.tendermint.v1beta1.GetValidatorSetByHeightResponse) | GetValidatorSetByHeight queries validator-set at a given height. | GET|/cosmos/base/tendermint/v1beta1/validatorsets/{height}|
+| `GetNodeInfo` | [GetNodeInfoRequest](#cosmos.base.tendermint.v1beta1.GetNodeInfoRequest) | [GetNodeInfoResponse](#cosmos.base.tendermint.v1beta1.GetNodeInfoResponse) | GetNodeInfo queries the current node info. | GET|/cosmos/base/reapchain/v1beta1/node_info|
+| `GetSyncing` | [GetSyncingRequest](#cosmos.base.tendermint.v1beta1.GetSyncingRequest) | [GetSyncingResponse](#cosmos.base.tendermint.v1beta1.GetSyncingResponse) | GetSyncing queries node syncing. | GET|/cosmos/base/reapchain/v1beta1/syncing|
+| `GetLatestBlock` | [GetLatestBlockRequest](#cosmos.base.tendermint.v1beta1.GetLatestBlockRequest) | [GetLatestBlockResponse](#cosmos.base.tendermint.v1beta1.GetLatestBlockResponse) | GetLatestBlock returns the latest block. | GET|/cosmos/base/reapchain/v1beta1/blocks/latest|
+| `GetBlockByHeight` | [GetBlockByHeightRequest](#cosmos.base.tendermint.v1beta1.GetBlockByHeightRequest) | [GetBlockByHeightResponse](#cosmos.base.tendermint.v1beta1.GetBlockByHeightResponse) | GetBlockByHeight queries block for given height. | GET|/cosmos/base/reapchain/v1beta1/blocks/{height}|
+| `GetLatestValidatorSet` | [GetLatestValidatorSetRequest](#cosmos.base.tendermint.v1beta1.GetLatestValidatorSetRequest) | [GetLatestValidatorSetResponse](#cosmos.base.tendermint.v1beta1.GetLatestValidatorSetResponse) | GetLatestValidatorSet queries latest validator-set. | GET|/cosmos/base/reapchain/v1beta1/validatorsets/latest|
+| `GetValidatorSetByHeight` | [GetValidatorSetByHeightRequest](#cosmos.base.tendermint.v1beta1.GetValidatorSetByHeightRequest) | [GetValidatorSetByHeightResponse](#cosmos.base.tendermint.v1beta1.GetValidatorSetByHeightResponse) | GetValidatorSetByHeight queries validator-set at a given height. | GET|/cosmos/base/reapchain/v1beta1/validatorsets/{height}|
 
  <!-- end services -->
 
@@ -6578,7 +6578,7 @@ recent HistoricalInfo
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| `header` | [tendermint.types.Header](#tendermint.types.Header) |  |  |
+| `header` | [reapchain.types.Header](#reapchain.types.Header) |  |  |
 | `valset` | [Validator](#cosmos.staking.v1beta1.Validator) | repeated |  |
 
 
@@ -7401,6 +7401,7 @@ MsgCreateValidator defines a SDK message for creating a new validator.
 | `validator_address` | [string](#string) |  |  |
 | `pubkey` | [google.protobuf.Any](#google.protobuf.Any) |  |  |
 | `value` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  |  |
+| `validator_type` | [string](#string) |  |  |
 
 
 
