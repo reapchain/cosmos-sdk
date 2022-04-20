@@ -117,7 +117,7 @@ func flagSetDescriptionCreate() *flag.FlagSet {
 func FlagSetValidatorTypeCreate() *flag.FlagSet {
 	fs := flag.NewFlagSet("", flag.ContinueOnError)
 
-	fs.String(FlagType, "", "The validator's type (standing | steering) (default standing)")
+	fs.String(FlagType, "", "The validator's type (standing | steering) (default steering)")
 
 	return fs
 }
