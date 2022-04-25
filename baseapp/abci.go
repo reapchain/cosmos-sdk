@@ -60,25 +60,25 @@ func (app *BaseApp) InitChain(req abci.RequestInitChain) (res abci.ResponseInitC
 	res = app.initChainer(app.deliverState.ctx, req)
 
 	// sanity check
-	//if len(req.Validators) > 0 {
-	//	if len(req.Validators) != len(res.Validators) {
-	//		panic(
-	//			fmt.Errorf(
-	//				"len(RequestInitChain.Validators) != len(GenesisValidators) (%d != %d)",
-	//				len(req.Validators), len(res.Validators),
-	//			),
-	//		)
-	//	}
-	//
-	//	sort.Sort(abci.ValidatorUpdates(req.Validators))
-	//	sort.Sort(abci.ValidatorUpdates(res.Validators))
-	//
-	//	for i := range res.Validators {
-	//		if !proto.Equal(&res.Validators[i], &req.Validators[i]) {
-	//			panic(fmt.Errorf("genesisValidators[%d] != req.Validators[%d] ", i, i))
-	//		}
-	//	}
-	//}
+	if len(req.Validators) > 0 {
+		if len(req.Validators) != len(res.Validators) {
+			panic(
+				fmt.Errorf(
+					"len(RequestInitChain.Validators) != len(GenesisValidators) (%d != %d)",
+					len(req.Validators), len(res.Validators),
+				),
+			)
+		}
+	
+		sort.Sort(abci.ValidatorUpdates(req.Validators))
+		sort.Sort(abci.ValidatorUpdates(res.Validators))
+	
+// 		for i := range res.Validators {
+// 			if !proto.Equal(&res.Validators[i], &req.Validators[i]) {
+// 				panic(fmt.Errorf("genesisValidators[%d] != req.Validators[%d] ", i, i))
+// 			}
+// 		}
+	}
 
 	// In the case of a new chain, AppHash will be the hash of an empty string.
 	// During an upgrade, it'll be the hash of the last committed block.
