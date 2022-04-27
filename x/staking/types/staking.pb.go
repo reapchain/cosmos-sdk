@@ -334,6 +334,7 @@ type Validator struct {
 	Commission Commission `protobuf:"bytes,10,opt,name=commission,proto3" json:"commission"`
 	// min_self_delegation is the validator's self declared minimum self delegation.
 	MinSelfDelegation github_com_reapchain_cosmos_sdk_types.Int `protobuf:"bytes,11,opt,name=min_self_delegation,json=minSelfDelegation,proto3,customtype=github.com/reapchain/cosmos-sdk/types.Int" json:"min_self_delegation" yaml:"min_self_delegation"`
+	Type              string                                    `protobuf:"bytes,12,opt,name=type,proto3" json:"type,omitempty"`
 }
 
 func (m *Validator) Reset()      { *m = Validator{} }
@@ -2359,6 +2360,13 @@ func (m *Validator) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if len(m.Type) > 0 {
+		i -= len(m.Type)
+		copy(dAtA[i:], m.Type)
+		i = encodeVarintStaking(dAtA, i, uint64(len(m.Type)))
+		i--
+		dAtA[i] = 0x62
+	}
 	{
 		size := m.MinSelfDelegation.Size()
 		i -= size
@@ -3263,6 +3271,10 @@ func (m *Validator) Size() (n int) {
 	n += 1 + l + sovStaking(uint64(l))
 	l = m.MinSelfDelegation.Size()
 	n += 1 + l + sovStaking(uint64(l))
+	l = len(m.Type)
+	if l > 0 {
+		n += 1 + l + sovStaking(uint64(l))
+	}
 	return n
 }
 
@@ -4508,6 +4520,38 @@ func (m *Validator) Unmarshal(dAtA []byte) error {
 			if err := m.MinSelfDelegation.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
+			iNdEx = postIndex
+		case 12:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Type", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowStaking
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthStaking
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthStaking
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Type = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
