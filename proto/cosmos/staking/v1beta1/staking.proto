@@ -117,6 +117,7 @@ message Validator {
     (gogoproto.customtype) = "github.com/reapchain/cosmos-sdk/types.Int",
     (gogoproto.nullable)   = false
   ];
+  string type = 12;
 }
 
 // BondStatus is the status of a validator.
