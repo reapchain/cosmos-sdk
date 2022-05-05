@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	abci "github.com/reapchain/reapchain-core/abci/types"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 
 	"github.com/reapchain/cosmos-sdk/simapp"
 	sdk "github.com/reapchain/cosmos-sdk/types"

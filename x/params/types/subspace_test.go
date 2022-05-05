@@ -5,9 +5,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/suite"
 	"github.com/reapchain/reapchain-core/libs/log"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
+	"github.com/stretchr/testify/suite"
 	dbm "github.com/tendermint/tm-db"
 
 	"github.com/reapchain/cosmos-sdk/codec"

@@ -3,9 +3,9 @@ package gov_test
 import (
 	"testing"
 
-	"github.com/stretchr/testify/require"
 	abcitypes "github.com/reapchain/reapchain-core/abci/types"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
+	"github.com/stretchr/testify/require"
 
 	"github.com/reapchain/cosmos-sdk/simapp"
 	authtypes "github.com/reapchain/cosmos-sdk/x/auth/types"

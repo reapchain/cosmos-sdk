@@ -3,10 +3,10 @@ package mock
 import (
 	"testing"
 
-	"github.com/stretchr/testify/require"
 	abci "github.com/reapchain/reapchain-core/abci/types"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 	"github.com/reapchain/reapchain-core/types"
+	"github.com/stretchr/testify/require"
 )
 
 // TestInitApp makes sure we can initialize this thing without an error

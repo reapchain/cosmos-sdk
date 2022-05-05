@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	abci "github.com/reapchain/reapchain-core/abci/types"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 
 	sdk "github.com/reapchain/cosmos-sdk/types"
 )

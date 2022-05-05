@@ -4,10 +4,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/reapchain/reapchain-core/libs/log"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/reapchain/reapchain-core/libs/log"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
 
 	codectypes "github.com/reapchain/cosmos-sdk/codec/types"
 	sdk "github.com/reapchain/cosmos-sdk/types"

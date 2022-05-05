@@ -3,7 +3,7 @@ package staking_test
 import (
 	"math/big"
 
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 
 	"github.com/reapchain/cosmos-sdk/codec"
 	"github.com/reapchain/cosmos-sdk/crypto/keys/ed25519"

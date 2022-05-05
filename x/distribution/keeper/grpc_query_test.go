@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"testing"
 
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 	"github.com/stretchr/testify/suite"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
 
 	"github.com/reapchain/cosmos-sdk/baseapp"
 	"github.com/reapchain/cosmos-sdk/simapp"

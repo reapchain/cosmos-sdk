@@ -3,8 +3,8 @@ package signing_test
 import (
 	"testing"
 
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 	"github.com/stretchr/testify/require"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
 
 	"github.com/reapchain/cosmos-sdk/codec"
 	kmultisig "github.com/reapchain/cosmos-sdk/crypto/keys/multisig"

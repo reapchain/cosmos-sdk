@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/stretchr/testify/require"
 	abci "github.com/reapchain/reapchain-core/abci/types"
-	tmprototypes "github.com/reapchain/reapchain-core/proto/reapchain/types"
+	tmprototypes "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
+	"github.com/stretchr/testify/require"
 	dbm "github.com/tendermint/tm-db"
 
 	sdk "github.com/reapchain/cosmos-sdk/types"

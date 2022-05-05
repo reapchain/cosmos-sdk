@@ -8,7 +8,7 @@ import "google/protobuf/timestamp.proto";
 
 import "cosmos_proto/cosmos.proto";
 import "cosmos/base/v1beta1/coin.proto";
-import "reapchain/types/types.proto";
+import "reapchain-core/types/types.proto";
 
 option go_package = "github.com/reapchain/cosmos-sdk/x/staking/types";
 
@@ -18,7 +18,7 @@ option go_package = "github.com/reapchain/cosmos-sdk/x/staking/types";
 // (`n` is set by the staking module's `historical_entries` parameter).
 message HistoricalInfo {
   reapchain.types.Header header = 1 [(gogoproto.nullable) = false];
-  repeated Validator      valset = 2 [(gogoproto.nullable) = false];
+  repeated Validator     valset = 2 [(gogoproto.nullable) = false];
 }
 
 // CommissionRates defines the initial commission rates to be used for creating
@@ -95,7 +95,8 @@ message Validator {
   // status is the validator status (bonded/unbonding/unbonded).
   BondStatus status = 4;
   // tokens define the delegated tokens (incl. self-delegation).
-  string tokens = 5 [(gogoproto.customtype) = "github.com/reapchain/cosmos-sdk/types.Int", (gogoproto.nullable) = false];
+  string tokens = 5
+      [(gogoproto.customtype) = "github.com/reapchain/cosmos-sdk/types.Int", (gogoproto.nullable) = false];
   // delegator_shares defines total shares issued to a validator's delegators.
   string delegator_shares = 6 [
     (gogoproto.moretags)   = "yaml:\"delegator_shares\"",
@@ -191,7 +192,8 @@ message Delegation {
   // validator_address is the bech32-encoded address of the validator.
   string validator_address = 2 [(gogoproto.moretags) = "yaml:\"validator_address\""];
   // shares define the delegation shares received.
-  string shares = 3 [(gogoproto.customtype) = "github.com/reapchain/cosmos-sdk/types.Dec", (gogoproto.nullable) = false];
+  string shares = 3
+      [(gogoproto.customtype) = "github.com/reapchain/cosmos-sdk/types.Dec", (gogoproto.nullable) = false];
 }
 
 // UnbondingDelegation stores all of a single delegator's unbonding bonds
@@ -226,7 +228,8 @@ message UnbondingDelegationEntry {
     (gogoproto.moretags)   = "yaml:\"initial_balance\""
   ];
   // balance defines the tokens to receive at completion.
-  string balance = 4 [(gogoproto.customtype) = "github.com/reapchain/cosmos-sdk/types.Int", (gogoproto.nullable) = false];
+  string balance = 4
+      [(gogoproto.customtype) = "github.com/reapchain/cosmos-sdk/types.Int", (gogoproto.nullable) = false];
 }
 
 // RedelegationEntry defines a redelegation object with relevant metadata.
@@ -303,7 +306,8 @@ message RedelegationEntryResponse {
   option (gogoproto.equal) = true;
 
   RedelegationEntry redelegation_entry = 1 [(gogoproto.nullable) = false];
-  string balance = 4 [(gogoproto.customtype) = "github.com/reapchain/cosmos-sdk/types.Int", (gogoproto.nullable) = false];
+  string            balance            = 4
+      [(gogoproto.customtype) = "github.com/reapchain/cosmos-sdk/types.Int", (gogoproto.nullable) = false];
 }
 
 // RedelegationResponse is equivalent to a Redelegation except that its entries

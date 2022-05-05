@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"log"
 
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 
 	servertypes "github.com/reapchain/cosmos-sdk/server/types"
 	sdk "github.com/reapchain/cosmos-sdk/types"

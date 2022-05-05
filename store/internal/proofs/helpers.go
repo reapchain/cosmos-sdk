@@ -4,7 +4,7 @@ import (
 	"sort"
 
 	"github.com/reapchain/reapchain-core/libs/rand"
-	tmcrypto "github.com/reapchain/reapchain-core/proto/reapchain/crypto"
+	tmcrypto "github.com/reapchain/reapchain-core/proto/reapchain-core/crypto"
 
 	sdkmaps "github.com/reapchain/cosmos-sdk/store/internal/maps"
 )

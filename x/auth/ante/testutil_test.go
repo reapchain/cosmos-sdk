@@ -7,8 +7,8 @@ import (
 
 	minttypes "github.com/reapchain/cosmos-sdk/x/mint/types"
 
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 	"github.com/stretchr/testify/suite"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
 
 	"github.com/reapchain/cosmos-sdk/client"
 	"github.com/reapchain/cosmos-sdk/client/tx"

@@ -9,7 +9,7 @@ import (
 	ics23 "github.com/confio/ics23/go"
 	"github.com/reapchain/iavl"
 	abci "github.com/reapchain/reapchain-core/abci/types"
-	tmcrypto "github.com/reapchain/reapchain-core/proto/reapchain/crypto"
+	tmcrypto "github.com/reapchain/reapchain-core/proto/reapchain-core/crypto"
 	dbm "github.com/tendermint/tm-db"
 
 	"github.com/reapchain/cosmos-sdk/store/cachekv"

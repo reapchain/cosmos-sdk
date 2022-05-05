@@ -5,10 +5,10 @@ import (
 	"log"
 	"testing"
 
+	abci "github.com/reapchain/reapchain-core/abci/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	abci "github.com/reapchain/reapchain-core/abci/types"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
 
 	codectypes "github.com/reapchain/cosmos-sdk/codec/types"
 	"github.com/reapchain/cosmos-sdk/crypto/keys/ed25519"

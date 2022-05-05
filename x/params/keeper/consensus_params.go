@@ -2,7 +2,7 @@ package keeper
 
 import (
 	abci "github.com/reapchain/reapchain-core/abci/types"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 
 	"github.com/reapchain/cosmos-sdk/baseapp"
 	"github.com/reapchain/cosmos-sdk/x/params/types"

@@ -5,8 +5,8 @@ import (
 	"sort"
 	"testing"
 
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 	"github.com/stretchr/testify/require"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
 
 	sdk "github.com/reapchain/cosmos-sdk/types"
 	"github.com/reapchain/cosmos-sdk/x/staking/types"

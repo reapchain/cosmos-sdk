@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 
 	simtypes "github.com/reapchain/cosmos-sdk/types/simulation"
 	"github.com/reapchain/cosmos-sdk/x/simulation"

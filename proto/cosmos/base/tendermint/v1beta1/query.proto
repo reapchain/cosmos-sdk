@@ -4,9 +4,9 @@ package cosmos.base.tendermint.v1beta1;
 import "gogoproto/gogo.proto";
 import "google/protobuf/any.proto";
 import "google/api/annotations.proto";
-import "reapchain/p2p/types.proto";
-import "reapchain/types/block.proto";
-import "reapchain/types/types.proto";
+import "reapchain-core/p2p/types.proto";
+import "reapchain-core/types/block.proto";
+import "reapchain-core/types/types.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 
 option go_package = "github.com/reapchain/cosmos-sdk/client/grpc/tmservice";
@@ -111,20 +111,20 @@ message GetNodeInfoRequest {}
 // GetNodeInfoResponse is the request type for the Query/GetNodeInfo RPC method.
 message GetNodeInfoResponse {
   .reapchain.p2p.DefaultNodeInfo default_node_info   = 1;
-  VersionInfo                     application_version = 2;
+  VersionInfo                    application_version = 2;
 }
 
 // VersionInfo is the type for the GetNodeInfoResponse message.
 message VersionInfo {
-  string          name               = 1;
-  string          app_name           = 2;
-  string          version            = 3;
-  string          git_commit         = 4;
-  string          build_tags         = 5;
-  string          go_version         = 6;
-  repeated Module build_deps         = 7;
+  string          name       = 1;
+  string          app_name   = 2;
+  string          version    = 3;
+  string          git_commit = 4;
+  string          build_tags = 5;
+  string          go_version = 6;
+  repeated Module build_deps = 7;
   // Since: cosmos-sdk 0.43
-  string          cosmos_sdk_version = 8;
+  string cosmos_sdk_version = 8;
 }
 
 // Module is the type for VersionInfo

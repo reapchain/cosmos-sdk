@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/stretchr/testify/require"
 	"github.com/reapchain/reapchain-core/libs/log"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
+	"github.com/stretchr/testify/require"
 
 	"github.com/reapchain/cosmos-sdk/codec"
 	cryptocodec "github.com/reapchain/cosmos-sdk/crypto/codec"

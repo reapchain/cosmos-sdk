@@ -9,10 +9,10 @@ import (
 	"github.com/reapchain/cosmos-sdk/x/auth/vesting/exported"
 	minttypes "github.com/reapchain/cosmos-sdk/x/mint/types"
 
-	"github.com/stretchr/testify/suite"
 	abci "github.com/reapchain/reapchain-core/abci/types"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 	tmtime "github.com/reapchain/reapchain-core/types/time"
+	"github.com/stretchr/testify/suite"
 
 	"github.com/reapchain/cosmos-sdk/baseapp"
 	"github.com/reapchain/cosmos-sdk/simapp"

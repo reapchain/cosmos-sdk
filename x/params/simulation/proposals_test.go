@@ -4,8 +4,8 @@ import (
 	"math/rand"
 	"testing"
 
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 	"github.com/stretchr/testify/require"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
 
 	simappparams "github.com/reapchain/cosmos-sdk/simapp/params"
 	sdk "github.com/reapchain/cosmos-sdk/types"

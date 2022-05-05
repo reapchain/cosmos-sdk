@@ -4,9 +4,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/suite"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 	tmtime "github.com/reapchain/reapchain-core/types/time"
+	"github.com/stretchr/testify/suite"
 
 	"github.com/reapchain/cosmos-sdk/baseapp"
 	"github.com/reapchain/cosmos-sdk/simapp"

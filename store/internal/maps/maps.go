@@ -5,7 +5,7 @@ import (
 
 	"github.com/reapchain/reapchain-core/crypto/merkle"
 	"github.com/reapchain/reapchain-core/crypto/tmhash"
-	tmcrypto "github.com/reapchain/reapchain-core/proto/reapchain/crypto"
+	tmcrypto "github.com/reapchain/reapchain-core/proto/reapchain-core/crypto"
 
 	"github.com/reapchain/cosmos-sdk/types/kv"
 )

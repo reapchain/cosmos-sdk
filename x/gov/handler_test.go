@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 
 	"github.com/reapchain/cosmos-sdk/testutil/testdata"
 

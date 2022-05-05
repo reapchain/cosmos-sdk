@@ -15,9 +15,6 @@ import (
 	strings "strings"
 	time "time"
 
-	types1 "github.com/reapchain/cosmos-sdk/codec/types"
-	github_com_cosmos_cosmos_sdk_types "github.com/reapchain/cosmos-sdk/types"
-	types2 "github.com/reapchain/cosmos-sdk/types"
 	_ "github.com/gogo/protobuf/gogoproto"
 	github_com_gogo_protobuf_proto "github.com/gogo/protobuf/proto"
 	proto "github.com/gogo/protobuf/proto"
@@ -25,8 +22,11 @@ import (
 	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
 	_ "github.com/golang/protobuf/ptypes/duration"
 	_ "github.com/golang/protobuf/ptypes/timestamp"
+	types1 "github.com/reapchain/cosmos-sdk/codec/types"
+	github_com_cosmos_cosmos_sdk_types "github.com/reapchain/cosmos-sdk/types"
+	types2 "github.com/reapchain/cosmos-sdk/types"
+	types "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 	_ "github.com/regen-network/cosmos-proto"
-	types "github.com/reapchain/reapchain-core/proto/reapchain/types"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

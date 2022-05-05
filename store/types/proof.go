@@ -3,7 +3,7 @@ package types
 import (
 	ics23 "github.com/confio/ics23/go"
 	"github.com/reapchain/reapchain-core/crypto/merkle"
-	tmmerkle "github.com/reapchain/reapchain-core/proto/reapchain/crypto"
+	tmmerkle "github.com/reapchain/reapchain-core/proto/reapchain-core/crypto"
 
 	sdkerrors "github.com/reapchain/cosmos-sdk/types/errors"
 )

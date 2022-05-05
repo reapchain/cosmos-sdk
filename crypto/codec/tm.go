@@ -3,7 +3,7 @@ package codec
 import (
 	tmcrypto "github.com/reapchain/reapchain-core/crypto"
 	"github.com/reapchain/reapchain-core/crypto/encoding"
-	tmprotocrypto "github.com/reapchain/reapchain-core/proto/reapchain/crypto"
+	tmprotocrypto "github.com/reapchain/reapchain-core/proto/reapchain-core/crypto"
 
 	"github.com/reapchain/cosmos-sdk/crypto/keys/ed25519"
 	"github.com/reapchain/cosmos-sdk/crypto/keys/secp256k1"

@@ -7,10 +7,10 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/spf13/cobra"
 	tmjson "github.com/reapchain/reapchain-core/libs/json"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 	tmtypes "github.com/reapchain/reapchain-core/types"
+	"github.com/spf13/cobra"
 
 	"github.com/reapchain/cosmos-sdk/client/flags"
 	"github.com/reapchain/cosmos-sdk/server/types"

@@ -423,7 +423,7 @@ GOGO_PROTO_URL      = https://raw.githubusercontent.com/regen-network/protobuf/c
 COSMOS_PROTO_URL    = https://raw.githubusercontent.com/regen-network/cosmos-proto/master
 CONFIO_URL          = https://raw.githubusercontent.com/confio/ics23/v0.6.3
 
-TM_CRYPTO_TYPES     = third_party/proto/reapchain-core/crypto
+TM_CRYPTO_TYPES     = third_party/proto/tendermint/crypto
 TM_ABCI_TYPES       = third_party/proto/tendermint/abci
 TM_TYPES            = third_party/proto/tendermint/types
 TM_VERSION          = third_party/proto/tendermint/version
