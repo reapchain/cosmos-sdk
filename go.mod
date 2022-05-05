@@ -32,8 +32,8 @@ require (
 	github.com/prometheus/client_golang v1.12.1
 	github.com/prometheus/common v0.32.1
 	github.com/rakyll/statik v0.1.7
-	github.com/reapchain/iavl v1.17.3
-	github.com/reapchain/reapchain-core v0.1.3
+	github.com/reapchain/iavl v1.17.4
+	github.com/reapchain/reapchain-core v0.1.5
 	github.com/regen-network/cosmos-proto v0.3.1
 	github.com/rs/zerolog v1.23.0
 	github.com/spf13/cast v1.4.1
@@ -64,7 +64,3 @@ replace github.com/99designs/keyring => github.com/cosmos/keyring v1.1.7-0.20210
 // Fix upstream GHSA-h395-qcrw-5vmq vulnerability.
 // TODO Remove it: https://github.com/reapchain/cosmos-sdk/issues/10409
 replace github.com/gin-gonic/gin => github.com/gin-gonic/gin v1.7.0
-
-replace github.com/reapchain/reapchain-core v0.1.3 => ../reapchain-core
-
-replace github.com/reapchain/iavl v1.17.3 => ../iavl
