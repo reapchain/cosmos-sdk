@@ -5,9 +5,9 @@ import (
 	"sort"
 	"testing"
 
+	tmtypes "github.com/reapchain/reapchain-core/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	tmtypes "github.com/reapchain/reapchain-core/types"
 
 	"github.com/reapchain/cosmos-sdk/codec/legacy"
 	cryptocodec "github.com/reapchain/cosmos-sdk/crypto/codec"
@@ -316,7 +316,7 @@ func TestValidatorToTm(t *testing.T) {
 		vals[i] = val
 		tmPk, err := cryptocodec.ToTmPubKeyInterface(pk)
 		require.NoError(t, err)
-		expected[i] = tmtypes.NewValidator(tmPk, val.ConsensusPower(sdk.DefaultPowerReduction))
+		expected[i] = tmtypes.NewValidator(tmPk, val.ConsensusPower(sdk.DefaultPowerReduction), "standing")
 	}
 	vs, err := teststaking.ToTmValidators(vals, sdk.DefaultPowerReduction)
 	require.NoError(t, err)

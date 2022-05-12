@@ -26,6 +26,12 @@ const (
 	MaxWebsiteLength         = 140
 	MaxSecurityContactLength = 140
 	MaxDetailsLength         = 280
+
+	// Standing member Minimum staking quantity
+	MinStandingMemberStakingQuantity = 44000000 //2200000000 * 2%
+
+	// Steering member Minimum staking quantity
+	MinSteeringMemberStakingQuantity = 100000
 )
 
 var (
@@ -279,6 +285,7 @@ func (v Validator) ABCIValidatorUpdateZero() abci.ValidatorUpdate {
 	return abci.ValidatorUpdate{
 		PubKey: tmProtoPk,
 		Power:  0,
+		Type:   v.Type,
 	}
 }
 
