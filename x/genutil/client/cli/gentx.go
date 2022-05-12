@@ -27,6 +27,7 @@ import (
 	"github.com/reapchain/cosmos-sdk/x/genutil"
 	"github.com/reapchain/cosmos-sdk/x/genutil/types"
 	"github.com/reapchain/cosmos-sdk/x/staking/client/cli"
+	stakingtypes "github.com/reapchain/cosmos-sdk/x/staking/types"
 )
 
 // GenTxCmd builds the application's gentx command.
@@ -125,6 +126,11 @@ $ %s gentx my-key-name 1000000stake --home=/path/to/home/dir --keyring-backend=o
 				return errors.Wrap(err, "failed to parse coins")
 			}
 
+			// validate validator's conditions
+			if err := validateValidatorConditions(valType, coins); err != nil {
+				return errors.Wrap(err, "failed to validate validator's condition")
+			}
+
 			err = genutil.ValidateAccountInGenesis(genesisState, genBalIterator, key.GetAddress(), coins, cdc)
 			if err != nil {
 				return errors.Wrap(err, "failed to validate account in genesis")
@@ -210,6 +216,23 @@ $ %s gentx my-key-name 1000000stake --home=/path/to/home/dir --keyring-backend=o
 	flags.AddTxFlagsToCmd(cmd)
 
 	return cmd
+}
+
+// validate validator's init conditions
+//	amount: standing member >= 2%(MUST)
+//	        steering member >= 100,000(MUST)
+func validateValidatorConditions(valType string, amount sdk.Coins) error {
+	minStandingMemberStakingCoin, _ := sdk.ParseCoinsNormalized(stakingtypes.MinStandingMemberStakingQuantity)
+	if valType == "standing" && amount.IsAllLT(minStandingMemberStakingCoin) {
+		return errors.New(fmt.Sprintf("Standing members must have more than %s.", stakingtypes.MinStandingMemberStakingQuantity))
+	}
+
+	minSteeringMemberStakingCoin, _ := sdk.ParseCoinsNormalized(stakingtypes.MinSteeringMemberStakingQuantity)
+	if valType == "steering" && amount.IsAllLT(minSteeringMemberStakingCoin) {
+		return errors.New(fmt.Sprintf("Steering members must have more than %s.", stakingtypes.MinSteeringMemberStakingQuantity))
+	}
+
+	return nil
 }
 
 func makeOutputFilepath(rootDir, nodeID string) (string, error) {
