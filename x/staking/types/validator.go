@@ -28,10 +28,10 @@ const (
 	MaxDetailsLength         = 280
 
 	// Standing member Minimum staking quantity
-	MinStandingMemberStakingQuantity = 44000000 //2200000000 * 2%
+	MinStandingMemberStakingQuantity = "44000000reap" //2200000000 * 2%
 
 	// Steering member Minimum staking quantity
-	MinSteeringMemberStakingQuantity = 100000
+	MinSteeringMemberStakingQuantity = "100000reap"
 )
 
 var (
