@@ -147,6 +147,9 @@ var (
 	// ErrPanic is only set when we recover from a panic, so we know to
 	// redact potentially sensitive system info
 	ErrPanic = Register(UndefinedCodespace, 111222, "panic")
+
+	// ErrExcessStandingMember defines an error occurred if standing member excess maximum quantity.
+	ErrExcessStandingMember = Register(RootCodespace, 41, "standing validator excessed maximum quantity")
 )
 
 // Register returns an error instance that should be used as the base for
