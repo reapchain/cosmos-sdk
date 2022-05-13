@@ -36,7 +36,7 @@ func GenTxCmd(mbm module.BasicManager, txEncCfg client.TxEncodingConfig, genBalI
 	fsCreateValidator, defaultsDesc := cli.CreateValidatorMsgFlagSet(ipDefault)
 
 	cmd := &cobra.Command{
-		Use:   "gentx [key_name] [amount] [validator type]",
+		Use:   "gentx [key_name] [amount] [validator type - standing | steering]",
 		Short: "Generate a genesis tx carrying a self delegation",
 		Args:  cobra.ExactArgs(3),
 		Long: fmt.Sprintf(`Generate a genesis transaction that creates a validator with a self-delegation,
@@ -46,7 +46,7 @@ file. The following default parameters are included:
     %s
 
 Example:
-$ %s gentx my-key-name 1000000stake --home=/path/to/home/dir --keyring-backend=os --chain-id=test-chain-1 \
+$ %s gentx my-key-name 100000stake steering --home=/path/to/home/dir --keyring-backend=os --chain-id=test-chain-1 \
     --moniker="myvalidator" \
     --commission-max-change-rate=0.01 \
     --commission-max-rate=1.0 \

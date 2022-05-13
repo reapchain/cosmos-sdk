@@ -32,6 +32,8 @@ const (
 
 	// Steering member Minimum staking quantity
 	MinSteeringMemberStakingQuantity = "100000reap"
+
+	MaxStandingMember = 14
 )
 
 var (
