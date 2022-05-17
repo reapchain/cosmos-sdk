@@ -32,13 +32,12 @@ func (k Keeper) IterateValidators(ctx sdk.Context, fn func(index int64, validato
 // iterate through the bonded validator set and perform the provided function
 func (k Keeper) IterateBondedValidatorsByPower(ctx sdk.Context, fn func(index int64, validator types.ValidatorI) (stop bool)) {
 	store := ctx.KVStore(k.storeKey)
-	maxValidators := k.MaxValidators(ctx)
 
 	iterator := sdk.KVStoreReversePrefixIterator(store, types.ValidatorsByPowerIndexKey)
 	defer iterator.Close()
 
 	i := int64(0)
-	for ; iterator.Valid() && i < int64(maxValidators); iterator.Next() {
+	for ; iterator.Valid(); iterator.Next() {
 		address := iterator.Value()
 		validator := k.mustGetValidator(ctx, address)
 
