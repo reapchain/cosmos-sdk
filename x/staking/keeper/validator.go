@@ -214,24 +214,21 @@ func (k Keeper) GetValidators(ctx sdk.Context, maxRetrieve uint32) (validators [
 
 // get the current group of bonded validators sorted by power-rank
 func (k Keeper) GetBondedValidatorsByPower(ctx sdk.Context) []types.Validator {
-	maxValidators := k.MaxValidators(ctx)
-	validators := make([]types.Validator, maxValidators)
+	var validators []types.Validator
 
 	iterator := k.ValidatorsPowerStoreIterator(ctx)
 	defer iterator.Close()
 
-	i := 0
-	for ; iterator.Valid() && i < int(maxValidators); iterator.Next() {
+	for ; iterator.Valid(); iterator.Next() {
 		address := iterator.Value()
 		validator := k.mustGetValidator(ctx, address)
 
 		if validator.IsBonded() {
-			validators[i] = validator
-			i++
+			validators = append(validators, validator)
 		}
 	}
 
-	return validators[:i] // trim
+	return validators
 }
 
 // returns an iterator for the current validator power store
@@ -303,27 +300,21 @@ func (k Keeper) GetLastValidators(ctx sdk.Context) (validators []types.Validator
 	store := ctx.KVStore(k.storeKey)
 
 	// add the actual validator power sorted store
-	maxValidators := k.MaxValidators(ctx)
-	validators = make([]types.Validator, maxValidators)
 
 	iterator := sdk.KVStorePrefixIterator(store, types.LastValidatorPowerKey)
 	defer iterator.Close()
 
-	i := 0
 	for ; iterator.Valid(); iterator.Next() {
-		// sanity check
-		if i >= int(maxValidators) {
-			panic("more validators than maxValidators found")
-		}
 
 		address := types.AddressFromLastValidatorPowerKey(iterator.Key())
 		validator := k.mustGetValidator(ctx, address)
 
-		validators[i] = validator
-		i++
+		//validators[i] = validator
+		validators = append(validators, validator)
+
 	}
 
-	return validators[:i] // trim
+	return validators
 }
 
 // GetUnbondingValidators returns a slice of mature validator addresses that
