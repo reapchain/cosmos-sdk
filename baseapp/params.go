@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	abci "github.com/tendermint/tendermint/abci/types"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
+	abci "github.com/reapchain/reapchain-core/abci/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )

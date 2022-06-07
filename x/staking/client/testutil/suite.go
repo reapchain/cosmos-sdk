@@ -7,10 +7,10 @@ import (
 	"testing"
 
 	"github.com/gogo/protobuf/proto"
+	tmcli "github.com/reapchain/reapchain-core/libs/cli"
+	"github.com/reapchain/reapchain-core/proto/reapchain-core/crypto"
+	"github.com/reapchain/reapchain-core/rpc/client/http"
 	"github.com/stretchr/testify/suite"
-	tmcli "github.com/tendermint/tendermint/libs/cli"
-	"github.com/tendermint/tendermint/proto/tendermint/crypto"
-	"github.com/tendermint/tendermint/rpc/client/http"
 
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/crypto/hd"

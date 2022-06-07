@@ -138,7 +138,7 @@ The default implementation of `KVStore` and `CommitKVStore` used in `baseapp` is
 - Iteration efficiently returns the sorted elements within the range.
 - Each tree version is immutable and can be retrieved even after a commit (depending on the pruning settings).
 
-The documentation on the IAVL Tree is located [here](https://github.com/cosmos/iavl/blob/v0.15.0-rc5/docs/overview.md).
+The documentation on the IAVL Tree is located [here](https://github.com/reapchain/iavl/blob/v0.15.0-rc5/docs/overview.md).
 
 ### `DbAdapter` Store
 

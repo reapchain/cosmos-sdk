@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
+	tmcli "github.com/reapchain/reapchain-core/libs/cli"
 	"github.com/stretchr/testify/suite"
-	tmcli "github.com/tendermint/tendermint/libs/cli"
 
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	clitestutil "github.com/cosmos/cosmos-sdk/testutil/cli"

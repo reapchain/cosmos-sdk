@@ -12,7 +12,7 @@ import (
 
 	"github.com/gogo/protobuf/proto"
 	"github.com/pkg/errors"
-	rpcclient "github.com/tendermint/tendermint/rpc/client"
+	rpcclient "github.com/reapchain/reapchain-core/rpc/client"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"

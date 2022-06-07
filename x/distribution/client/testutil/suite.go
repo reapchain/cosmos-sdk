@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/gogo/protobuf/proto"
+	tmcli "github.com/reapchain/reapchain-core/libs/cli"
 	"github.com/stretchr/testify/suite"
-	tmcli "github.com/tendermint/tendermint/libs/cli"
 
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/testutil"

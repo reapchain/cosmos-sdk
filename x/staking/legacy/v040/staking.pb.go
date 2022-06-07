@@ -25,8 +25,8 @@ import (
 	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
 	_ "github.com/golang/protobuf/ptypes/duration"
 	_ "github.com/golang/protobuf/ptypes/timestamp"
+	types "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 	_ "github.com/regen-network/cosmos-proto"
-	types "github.com/tendermint/tendermint/proto/tendermint/types"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

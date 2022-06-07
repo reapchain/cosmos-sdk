@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 
 	"github.com/cosmos/cosmos-sdk/testutil/testdata"
 

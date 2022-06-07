@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	abci "github.com/tendermint/tendermint/abci/types"
-	tmprotocrypto "github.com/tendermint/tendermint/proto/tendermint/crypto"
+	abci "github.com/reapchain/reapchain-core/abci/types"
+	tmprotocrypto "github.com/reapchain/reapchain-core/proto/reapchain-core/crypto"
 	"gopkg.in/yaml.v2"
 
 	"github.com/cosmos/cosmos-sdk/codec"

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
+	ctypes "github.com/reapchain/reapchain-core/rpc/core/types"
 	"github.com/stretchr/testify/suite"
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
 
 	"github.com/cosmos/cosmos-sdk/client/rpc"
 	"github.com/cosmos/cosmos-sdk/codec/legacy"

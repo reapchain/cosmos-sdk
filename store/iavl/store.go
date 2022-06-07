@@ -7,9 +7,9 @@ import (
 	"time"
 
 	ics23 "github.com/confio/ics23/go"
-	"github.com/cosmos/iavl"
-	abci "github.com/tendermint/tendermint/abci/types"
-	tmcrypto "github.com/tendermint/tendermint/proto/tendermint/crypto"
+	"github.com/reapchain/iavl"
+	abci "github.com/reapchain/reapchain-core/abci/types"
+	tmcrypto "github.com/reapchain/reapchain-core/proto/reapchain-core/crypto"
 	dbm "github.com/tendermint/tm-db"
 
 	"github.com/cosmos/cosmos-sdk/store/cachekv"

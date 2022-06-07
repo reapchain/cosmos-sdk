@@ -5,10 +5,10 @@ package server
 import (
 	"fmt"
 
+	"github.com/reapchain/reapchain-core/p2p"
+	pvm "github.com/reapchain/reapchain-core/privval"
+	tversion "github.com/reapchain/reapchain-core/version"
 	"github.com/spf13/cobra"
-	"github.com/tendermint/tendermint/p2p"
-	pvm "github.com/tendermint/tendermint/privval"
-	tversion "github.com/tendermint/tendermint/version"
 	yaml "gopkg.in/yaml.v2"
 
 	"github.com/cosmos/cosmos-sdk/client"
