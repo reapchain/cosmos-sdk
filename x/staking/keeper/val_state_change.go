@@ -179,31 +179,35 @@ func (k Keeper) ApplyAndReturnValidatorSetUpdates(ctx sdk.Context) (updates []ab
 		// update the validator set if power has changed
 		if found {
 			if !bytes.Equal(oldPowerBytes, newPowerBytes) {
-				if validator.Type == "standing" && validator.Tokens.LT(minStandingMemberStakingCoin.AmountOf("areap")) {
-					k.Logger(ctx).Debug(fmt.Sprintf("Remove update for Standing member, validator: %s,Tokens: %x", validator.OperatorAddress, validator.Tokens))
+				if validator.Type == "standing" &&
+					oldPower.Value >= sdk.TokensToConsensusPower(minStandingMemberStakingCoin.AmountOf("areap"), powerReduction) &&
+					validator.Tokens.LT(minStandingMemberStakingCoin.AmountOf("areap")) {
+					k.Logger(ctx).Info(fmt.Sprintf("Remove update for Standing member, validator: %s,Tokens: %s", validator.OperatorAddress, validator.Tokens))
 					updates = append(updates, validator.ABCIValidatorUpdateZero())
-				} else if validator.Type == "steering" && validator.Tokens.LT(minSteeringMemberStakingCoin.AmountOf("areap")) {
-					k.Logger(ctx).Debug(fmt.Sprintf("Remove update for Steering member, validator: %s,Tokens: %x", validator.OperatorAddress, validator.Tokens))
+				} else if validator.Type == "steering" &&
+					oldPower.Value >= sdk.TokensToConsensusPower(minSteeringMemberStakingCoin.AmountOf("areap"), powerReduction) &&
+					validator.Tokens.LT(minSteeringMemberStakingCoin.AmountOf("areap")) {
+					k.Logger(ctx).Info(fmt.Sprintf("Remove update for Steering member, validator: %s,Tokens: %s", validator.OperatorAddress, validator.Tokens))
 					updates = append(updates, validator.ABCIValidatorUpdateZero())
 				} else if validator.Type == "standing" &&
 					oldPower.Value < sdk.TokensToConsensusPower(minStandingMemberStakingCoin.AmountOf("areap"), powerReduction) &&
 					validator.Tokens.GTE(minStandingMemberStakingCoin.AmountOf("areap")) {
-					k.Logger(ctx).Debug(fmt.Sprintf("Add update for Standing member, validator: %s,Tokens: %x", validator.OperatorAddress, validator.Tokens))
+					k.Logger(ctx).Info(fmt.Sprintf("Add update for Standing member, validator: %s,Tokens: %s", validator.OperatorAddress, validator.Tokens))
 					updates = append(updates, validator.ABCIValidatorUpdate(powerReduction))
 				} else if validator.Type == "steering" &&
 					oldPower.Value < sdk.TokensToConsensusPower(minSteeringMemberStakingCoin.AmountOf("areap"), powerReduction) &&
 					validator.Tokens.GTE(minSteeringMemberStakingCoin.AmountOf("areap")) {
-					k.Logger(ctx).Debug(fmt.Sprintf("Add update for Steering member, validator: %s,Tokens: %x", validator.OperatorAddress, validator.Tokens))
+					k.Logger(ctx).Info(fmt.Sprintf("Add update for Steering member, validator: %s,Tokens: %s", validator.OperatorAddress, validator.Tokens))
 					updates = append(updates, validator.ABCIValidatorUpdate(powerReduction))
 				}
 				k.SetLastValidatorPower(ctx, valAddr, newPower)
 			}
-		} else { // 기존에 존재하지 않았다면, 조건을 따져서 core로 update한다.
+		} else {
 			if validator.Type == "standing" && validator.Tokens.GTE(minStandingMemberStakingCoin.AmountOf("areap")) {
-				k.Logger(ctx).Debug(fmt.Sprintf("Add update for new Standing member, validator: %s,Tokens: %x", validator.OperatorAddress, validator.Tokens))
+				k.Logger(ctx).Info(fmt.Sprintf("Add update for new Standing member, validator: %s,Tokens: %s", validator.OperatorAddress, validator.Tokens))
 				updates = append(updates, validator.ABCIValidatorUpdate(powerReduction))
 			} else if validator.Type == "steering" && validator.Tokens.GTE(minSteeringMemberStakingCoin.AmountOf("areap")) {
-				k.Logger(ctx).Debug(fmt.Sprintf("Add update for new Steering member, validator: %s,Tokens: %x", validator.OperatorAddress, validator.Tokens))
+				k.Logger(ctx).Info(fmt.Sprintf("Add update for new Steering member, validator: %s,Tokens: %s", validator.OperatorAddress, validator.Tokens))
 				updates = append(updates, validator.ABCIValidatorUpdate(powerReduction))
 			}
 			k.SetLastValidatorPower(ctx, valAddr, newPower)
@@ -215,13 +219,11 @@ func (k Keeper) ApplyAndReturnValidatorSetUpdates(ctx sdk.Context) (updates []ab
 		totalPower = totalPower.Add(sdk.NewInt(newPower))
 	}
 
-	//위에서 처리하고 delete하지 않고 남아 있는 validator들. 즉, 지난 블록에 validator였으나, 지금 powerStore에 없는 애들.
 	noLongerBonded, err := sortNoLongerBonded(last)
 	if err != nil {
 		return nil, err
 	}
 
-	//제거에 대한 update를 위해 ABCIValidatorUpdateZero()로 파워를 0으로 해서 업데이트 한다.
 	for _, valAddrBytes := range noLongerBonded {
 		validator := k.mustGetValidator(ctx, sdk.ValAddress(valAddrBytes))
 		validator, err = k.bondedToUnbonding(ctx, validator)
