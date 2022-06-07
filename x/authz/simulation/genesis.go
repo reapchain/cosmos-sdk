@@ -3,13 +3,13 @@ package simulation
 import (
 	"math/rand"
 
-	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/module"
-	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
-	"github.com/cosmos/cosmos-sdk/x/authz"
-	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
+	codectypes "github.com/reapchain/cosmos-sdk/codec/types"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	"github.com/reapchain/cosmos-sdk/types/module"
+	simtypes "github.com/reapchain/cosmos-sdk/types/simulation"
+	"github.com/reapchain/cosmos-sdk/x/authz"
+	banktypes "github.com/reapchain/cosmos-sdk/x/bank/types"
+	govtypes "github.com/reapchain/cosmos-sdk/x/gov/types"
 )
 
 // genGrant returns a slice of authorization grants.

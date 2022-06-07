@@ -13,10 +13,10 @@ import (
 	abci "github.com/reapchain/reapchain-core/abci/types"
 	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 
-	"github.com/cosmos/cosmos-sdk/baseapp"
-	"github.com/cosmos/cosmos-sdk/codec"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/simulation"
+	"github.com/reapchain/cosmos-sdk/baseapp"
+	"github.com/reapchain/cosmos-sdk/codec"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	"github.com/reapchain/cosmos-sdk/types/simulation"
 )
 
 const AverageBlockTime = 6 * time.Second

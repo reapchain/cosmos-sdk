@@ -7,7 +7,7 @@ import (
 	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 	"github.com/stretchr/testify/require"
 
-	"github.com/cosmos/cosmos-sdk/baseapp"
+	"github.com/reapchain/cosmos-sdk/baseapp"
 )
 
 func TestValidateBlockParams(t *testing.T) {

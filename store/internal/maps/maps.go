@@ -7,7 +7,7 @@ import (
 	"github.com/reapchain/reapchain-core/crypto/tmhash"
 	tmcrypto "github.com/reapchain/reapchain-core/proto/reapchain-core/crypto"
 
-	"github.com/cosmos/cosmos-sdk/types/kv"
+	"github.com/reapchain/cosmos-sdk/types/kv"
 )
 
 // merkleMap defines a merkle-ized tree from a map. Leave values are treated as

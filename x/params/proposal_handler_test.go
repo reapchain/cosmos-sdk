@@ -7,12 +7,12 @@ import (
 
 	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 
-	"github.com/cosmos/cosmos-sdk/simapp"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
-	"github.com/cosmos/cosmos-sdk/x/params"
-	"github.com/cosmos/cosmos-sdk/x/params/types/proposal"
-	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+	"github.com/reapchain/cosmos-sdk/simapp"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	govtypes "github.com/reapchain/cosmos-sdk/x/gov/types"
+	"github.com/reapchain/cosmos-sdk/x/params"
+	"github.com/reapchain/cosmos-sdk/x/params/types/proposal"
+	stakingtypes "github.com/reapchain/cosmos-sdk/x/staking/types"
 )
 
 type HandlerTestSuite struct {

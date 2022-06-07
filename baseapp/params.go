@@ -7,7 +7,7 @@ import (
 	abci "github.com/reapchain/reapchain-core/abci/types"
 	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdk "github.com/reapchain/cosmos-sdk/types"
 )
 
 // Paramspace defines the parameter subspace to be used for the paramstore.

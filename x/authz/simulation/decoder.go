@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"fmt"
 
-	"github.com/cosmos/cosmos-sdk/codec"
-	"github.com/cosmos/cosmos-sdk/types/kv"
-	"github.com/cosmos/cosmos-sdk/x/authz"
-	"github.com/cosmos/cosmos-sdk/x/authz/keeper"
+	"github.com/reapchain/cosmos-sdk/codec"
+	"github.com/reapchain/cosmos-sdk/types/kv"
+	"github.com/reapchain/cosmos-sdk/x/authz"
+	"github.com/reapchain/cosmos-sdk/x/authz/keeper"
 )
 
 // NewDecodeStore returns a decoder function closure that umarshals the KVPair's

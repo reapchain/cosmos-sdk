@@ -7,9 +7,9 @@ import (
 	tmcli "github.com/reapchain/reapchain-core/libs/cli"
 	"github.com/stretchr/testify/suite"
 
-	clitestutil "github.com/cosmos/cosmos-sdk/testutil/cli"
-	"github.com/cosmos/cosmos-sdk/testutil/network"
-	"github.com/cosmos/cosmos-sdk/x/params/client/cli"
+	clitestutil "github.com/reapchain/cosmos-sdk/testutil/cli"
+	"github.com/reapchain/cosmos-sdk/testutil/network"
+	"github.com/reapchain/cosmos-sdk/x/params/client/cli"
 )
 
 type IntegrationTestSuite struct {

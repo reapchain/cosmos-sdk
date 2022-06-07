@@ -1,3 +1,4 @@
+//go:build norace
 // +build norace
 
 package testutil
@@ -7,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	"github.com/cosmos/cosmos-sdk/testutil/network"
+	"github.com/reapchain/cosmos-sdk/testutil/network"
 )
 
 func TestIntegrationTestSuite(t *testing.T) {

@@ -8,16 +8,16 @@ import (
 	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 	"github.com/stretchr/testify/require"
 
-	"github.com/cosmos/cosmos-sdk/codec"
-	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
-	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"
-	kmultisig "github.com/cosmos/cosmos-sdk/crypto/keys/multisig"
-	"github.com/cosmos/cosmos-sdk/crypto/types"
-	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
-	"github.com/cosmos/cosmos-sdk/testutil/testdata"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/cosmos/cosmos-sdk/types/tx/signing"
+	"github.com/reapchain/cosmos-sdk/codec"
+	cryptocodec "github.com/reapchain/cosmos-sdk/crypto/codec"
+	"github.com/reapchain/cosmos-sdk/crypto/keys/ed25519"
+	kmultisig "github.com/reapchain/cosmos-sdk/crypto/keys/multisig"
+	"github.com/reapchain/cosmos-sdk/crypto/types"
+	cryptotypes "github.com/reapchain/cosmos-sdk/crypto/types"
+	"github.com/reapchain/cosmos-sdk/testutil/testdata"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	sdkerrors "github.com/reapchain/cosmos-sdk/types/errors"
+	"github.com/reapchain/cosmos-sdk/types/tx/signing"
 )
 
 var (

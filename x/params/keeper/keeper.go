@@ -3,10 +3,10 @@ package keeper
 import (
 	"github.com/reapchain/reapchain-core/libs/log"
 
-	"github.com/cosmos/cosmos-sdk/codec"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/x/params/types"
-	"github.com/cosmos/cosmos-sdk/x/params/types/proposal"
+	"github.com/reapchain/cosmos-sdk/codec"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	"github.com/reapchain/cosmos-sdk/x/params/types"
+	"github.com/reapchain/cosmos-sdk/x/params/types/proposal"
 )
 
 // Keeper of the global paramstore

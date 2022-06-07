@@ -4,8 +4,8 @@ import (
 	"github.com/gogo/protobuf/proto"
 	tmcrypto "github.com/reapchain/reapchain-core/crypto"
 
-	ecdsa "github.com/cosmos/cosmos-sdk/crypto/keys/internal/ecdsa"
-	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
+	ecdsa "github.com/reapchain/cosmos-sdk/crypto/keys/internal/ecdsa"
+	cryptotypes "github.com/reapchain/cosmos-sdk/crypto/types"
 )
 
 // String implements proto.Message interface.

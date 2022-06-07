@@ -7,8 +7,8 @@ import (
 	abci "github.com/reapchain/reapchain-core/abci/types"
 	"github.com/stretchr/testify/require"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/x/evidence/types"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	"github.com/reapchain/cosmos-sdk/x/evidence/types"
 )
 
 func TestEquivocation_Valid(t *testing.T) {

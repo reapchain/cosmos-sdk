@@ -3,8 +3,8 @@ package transient
 import (
 	dbm "github.com/tendermint/tm-db"
 
-	"github.com/cosmos/cosmos-sdk/store/dbadapter"
-	"github.com/cosmos/cosmos-sdk/store/types"
+	"github.com/reapchain/cosmos-sdk/store/dbadapter"
+	"github.com/reapchain/cosmos-sdk/store/types"
 )
 
 var _ types.Committer = (*Store)(nil)

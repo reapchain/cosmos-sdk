@@ -8,11 +8,11 @@ import (
 	tmbytes "github.com/reapchain/reapchain-core/libs/bytes"
 	"github.com/stretchr/testify/require"
 
-	"github.com/cosmos/cosmos-sdk/codec"
-	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"
-	"github.com/cosmos/cosmos-sdk/x/evidence/exported"
-	"github.com/cosmos/cosmos-sdk/x/evidence/types"
+	"github.com/reapchain/cosmos-sdk/codec"
+	codectypes "github.com/reapchain/cosmos-sdk/codec/types"
+	"github.com/reapchain/cosmos-sdk/crypto/keys/ed25519"
+	"github.com/reapchain/cosmos-sdk/x/evidence/exported"
+	"github.com/reapchain/cosmos-sdk/x/evidence/types"
 )
 
 func TestDefaultGenesisState(t *testing.T) {

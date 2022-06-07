@@ -10,8 +10,8 @@ import (
 	"github.com/reapchain/reapchain-core/libs/log"
 	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 
-	"github.com/cosmos/cosmos-sdk/store/gaskv"
-	stypes "github.com/cosmos/cosmos-sdk/store/types"
+	"github.com/reapchain/cosmos-sdk/store/gaskv"
+	stypes "github.com/reapchain/cosmos-sdk/store/types"
 )
 
 /*

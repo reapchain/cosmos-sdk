@@ -15,14 +15,14 @@ import (
 	"github.com/reapchain/reapchain-core/libs/log"
 	tmrpcserver "github.com/reapchain/reapchain-core/rpc/jsonrpc/server"
 
-	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/server/config"
-	"github.com/cosmos/cosmos-sdk/telemetry"
-	grpctypes "github.com/cosmos/cosmos-sdk/types/grpc"
-	"github.com/cosmos/cosmos-sdk/types/rest"
+	"github.com/reapchain/cosmos-sdk/client"
+	"github.com/reapchain/cosmos-sdk/server/config"
+	"github.com/reapchain/cosmos-sdk/telemetry"
+	grpctypes "github.com/reapchain/cosmos-sdk/types/grpc"
+	"github.com/reapchain/cosmos-sdk/types/rest"
 
 	// unnamed import of statik for swagger UI support
-	_ "github.com/cosmos/cosmos-sdk/client/docs/statik"
+	_ "github.com/reapchain/cosmos-sdk/client/docs/statik"
 )
 
 // Server defines the server's API interface.

@@ -8,8 +8,8 @@ import (
 	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 	"github.com/stretchr/testify/require"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	simtypes "github.com/reapchain/cosmos-sdk/types/simulation"
 )
 
 func TestParamChange(t *testing.T) {

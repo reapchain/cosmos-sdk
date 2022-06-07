@@ -4,8 +4,8 @@ import (
 	abci "github.com/reapchain/reapchain-core/abci/types"
 	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 
-	"github.com/cosmos/cosmos-sdk/baseapp"
-	"github.com/cosmos/cosmos-sdk/x/params/types"
+	"github.com/reapchain/cosmos-sdk/baseapp"
+	"github.com/reapchain/cosmos-sdk/x/params/types"
 )
 
 // ConsensusParamsKeyTable returns an x/params module keyTable to be used in

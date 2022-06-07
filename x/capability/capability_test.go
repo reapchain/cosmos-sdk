@@ -7,14 +7,14 @@ import (
 	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/cosmos/cosmos-sdk/codec"
-	"github.com/cosmos/cosmos-sdk/simapp"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/module"
-	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	"github.com/cosmos/cosmos-sdk/x/capability"
-	"github.com/cosmos/cosmos-sdk/x/capability/keeper"
-	"github.com/cosmos/cosmos-sdk/x/capability/types"
+	"github.com/reapchain/cosmos-sdk/codec"
+	"github.com/reapchain/cosmos-sdk/simapp"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	"github.com/reapchain/cosmos-sdk/types/module"
+	banktypes "github.com/reapchain/cosmos-sdk/x/bank/types"
+	"github.com/reapchain/cosmos-sdk/x/capability"
+	"github.com/reapchain/cosmos-sdk/x/capability/keeper"
+	"github.com/reapchain/cosmos-sdk/x/capability/types"
 )
 
 type CapabilityTestSuite struct {
@@ -42,7 +42,7 @@ func (suite *CapabilityTestSuite) SetupTest() {
 	suite.module = capability.NewAppModule(cdc, *keeper)
 }
 
-// The following test case mocks a specific bug discovered in https://github.com/cosmos/cosmos-sdk/issues/9800
+// The following test case mocks a specific bug discovered in https://github.com/reapchain/cosmos-sdk/issues/9800
 // and ensures that the current code successfully fixes the issue.
 func (suite *CapabilityTestSuite) TestInitializeMemStore() {
 	sk1 := suite.keeper.ScopeToModule(banktypes.ModuleName)

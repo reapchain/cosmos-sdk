@@ -1,3 +1,4 @@
+//go:build norace
 // +build norace
 
 package rest_test
@@ -5,8 +6,8 @@ package rest_test
 import (
 	"fmt"
 
-	"github.com/cosmos/cosmos-sdk/types/rest"
-	"github.com/cosmos/cosmos-sdk/x/staking/types"
+	"github.com/reapchain/cosmos-sdk/types/rest"
+	"github.com/reapchain/cosmos-sdk/x/staking/types"
 )
 
 func (s *IntegrationTestSuite) TestLegacyGetValidators() {

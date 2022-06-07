@@ -8,8 +8,8 @@ import (
 	tmstrings "github.com/reapchain/reapchain-core/libs/strings"
 	dbm "github.com/tendermint/tm-db"
 
-	snapshottypes "github.com/cosmos/cosmos-sdk/snapshots/types"
-	"github.com/cosmos/cosmos-sdk/types/kv"
+	snapshottypes "github.com/reapchain/cosmos-sdk/snapshots/types"
+	"github.com/reapchain/cosmos-sdk/types/kv"
 )
 
 type Store interface {

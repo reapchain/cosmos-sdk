@@ -8,9 +8,9 @@ import (
 	abci "github.com/reapchain/reapchain-core/abci/types"
 	"github.com/stretchr/testify/suite"
 
-	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-	testdata "github.com/cosmos/cosmos-sdk/testutil/testdata"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	codectypes "github.com/reapchain/cosmos-sdk/codec/types"
+	testdata "github.com/reapchain/cosmos-sdk/testutil/testdata"
+	sdk "github.com/reapchain/cosmos-sdk/types"
 )
 
 type eventsTestSuite struct {

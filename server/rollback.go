@@ -3,8 +3,8 @@ package server
 import (
 	"fmt"
 
-	"github.com/cosmos/cosmos-sdk/client/flags"
-	"github.com/cosmos/cosmos-sdk/store/rootmulti"
+	"github.com/reapchain/cosmos-sdk/client/flags"
+	"github.com/reapchain/cosmos-sdk/store/rootmulti"
 	tmcmd "github.com/reapchain/reapchain-core/cmd/reapchain/commands"
 	"github.com/spf13/cobra"
 )

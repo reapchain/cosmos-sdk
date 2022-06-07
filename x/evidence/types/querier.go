@@ -3,7 +3,7 @@ package types
 import (
 	tmbytes "github.com/reapchain/reapchain-core/libs/bytes"
 
-	query "github.com/cosmos/cosmos-sdk/types/query"
+	query "github.com/reapchain/cosmos-sdk/types/query"
 )
 
 // Querier routes for the evidence module

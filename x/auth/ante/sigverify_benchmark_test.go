@@ -6,8 +6,8 @@ import (
 	tmcrypto "github.com/reapchain/reapchain-core/crypto"
 	"github.com/stretchr/testify/require"
 
-	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
-	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256r1"
+	"github.com/reapchain/cosmos-sdk/crypto/keys/secp256k1"
+	"github.com/reapchain/cosmos-sdk/crypto/keys/secp256r1"
 )
 
 // This benchmark is used to asses the ante.Secp256k1ToR1GasFactor value

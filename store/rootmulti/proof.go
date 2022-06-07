@@ -3,7 +3,7 @@ package rootmulti
 import (
 	"github.com/reapchain/reapchain-core/crypto/merkle"
 
-	storetypes "github.com/cosmos/cosmos-sdk/store/types"
+	storetypes "github.com/reapchain/cosmos-sdk/store/types"
 )
 
 // RequireProof returns whether proof is required for the subpath.

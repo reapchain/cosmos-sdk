@@ -7,7 +7,7 @@ import (
 	tmcli "github.com/reapchain/reapchain-core/libs/cli"
 	"github.com/spf13/cobra"
 
-	"github.com/cosmos/cosmos-sdk/crypto/keyring"
+	"github.com/reapchain/cosmos-sdk/crypto/keyring"
 )
 
 const (

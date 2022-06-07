@@ -1,3 +1,4 @@
+//go:build linux
 // +build linux
 
 package cosmovisor_test
@@ -14,7 +15,7 @@ import (
 	"github.com/otiai10/copy"
 	"github.com/stretchr/testify/require"
 
-	"github.com/cosmos/cosmos-sdk/cosmovisor"
+	"github.com/reapchain/cosmos-sdk/cosmovisor"
 )
 
 type upgradeTestSuite struct {
@@ -144,7 +145,7 @@ func (s *upgradeTestSuite) TestGetDownloadURL() {
 		},
 		"follow reference": {
 			info: ref,
-			url:  "https://github.com/cosmos/cosmos-sdk/raw/aa5d6140ad4011bb33d472dca8246a0dcbe223ee/cosmovisor/testdata/repo/zip_directory/autod.zip?checksum=sha256:3784e4574cad69b67e34d4ea4425eff140063a3870270a301d6bb24a098a27ae",
+			url:  "https://github.com/reapchain/cosmos-sdk/raw/aa5d6140ad4011bb33d472dca8246a0dcbe223ee/cosmovisor/testdata/repo/zip_directory/autod.zip?checksum=sha256:3784e4574cad69b67e34d4ea4425eff140063a3870270a301d6bb24a098a27ae",
 		},
 		"malformated reference target": {
 			info:  badref,

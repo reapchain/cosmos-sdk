@@ -6,10 +6,10 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/types/bech32/legacybech32" //nolint:staticcheck
-	"github.com/cosmos/cosmos-sdk/types/rest"
-	"github.com/cosmos/cosmos-sdk/x/slashing/types"
+	"github.com/reapchain/cosmos-sdk/client"
+	"github.com/reapchain/cosmos-sdk/types/bech32/legacybech32" //nolint:staticcheck
+	"github.com/reapchain/cosmos-sdk/types/rest"
+	"github.com/reapchain/cosmos-sdk/x/slashing/types"
 )
 
 func registerQueryRoutes(clientCtx client.Context, r *mux.Router) {

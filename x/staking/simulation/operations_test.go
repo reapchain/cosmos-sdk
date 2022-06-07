@@ -9,15 +9,15 @@ import (
 	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 	"github.com/stretchr/testify/require"
 
-	"github.com/cosmos/cosmos-sdk/simapp"
-	simappparams "github.com/cosmos/cosmos-sdk/simapp/params"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
-	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
-	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
-	"github.com/cosmos/cosmos-sdk/x/staking/simulation"
-	"github.com/cosmos/cosmos-sdk/x/staking/teststaking"
-	"github.com/cosmos/cosmos-sdk/x/staking/types"
+	"github.com/reapchain/cosmos-sdk/simapp"
+	simappparams "github.com/reapchain/cosmos-sdk/simapp/params"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	simtypes "github.com/reapchain/cosmos-sdk/types/simulation"
+	distrtypes "github.com/reapchain/cosmos-sdk/x/distribution/types"
+	minttypes "github.com/reapchain/cosmos-sdk/x/mint/types"
+	"github.com/reapchain/cosmos-sdk/x/staking/simulation"
+	"github.com/reapchain/cosmos-sdk/x/staking/teststaking"
+	"github.com/reapchain/cosmos-sdk/x/staking/types"
 )
 
 // TestWeightedOperations tests the weights of the operations.

@@ -8,14 +8,14 @@ import (
 	tmos "github.com/reapchain/reapchain-core/libs/os"
 	tmtypes "github.com/reapchain/reapchain-core/types"
 
-	"github.com/cosmos/cosmos-sdk/codec"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+	"github.com/reapchain/cosmos-sdk/codec"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	stakingtypes "github.com/reapchain/cosmos-sdk/x/staking/types"
 )
 
 // NewGenesisState creates a new GenesisState object
 func NewGenesisState(genTxs []json.RawMessage) *GenesisState {
-	// Ensure genTxs is never nil, https://github.com/cosmos/cosmos-sdk/issues/5086
+	// Ensure genTxs is never nil, https://github.com/reapchain/cosmos-sdk/issues/5086
 	if len(genTxs) == 0 {
 		genTxs = make([]json.RawMessage, 0)
 	}
