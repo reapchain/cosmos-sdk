@@ -6,7 +6,7 @@ package types
 import (
 	context "context"
 	fmt "fmt"
-	github_com_cosmos_cosmos_sdk_types "github.com/reapchain/cosmos-sdk/types"
+	github_com_reapchain_cosmos_sdk_types "github.com/reapchain/cosmos-sdk/types"
 	types "github.com/reapchain/cosmos-sdk/types"
 	query "github.com/reapchain/cosmos-sdk/types/query"
 	_ "github.com/gogo/protobuf/gogoproto"
@@ -262,7 +262,7 @@ var xxx_messageInfo_QuerySpendableBalancesRequest proto.InternalMessageInfo
 // an account's spendable balances.
 type QuerySpendableBalancesResponse struct {
 	// balances is the spendable balances of all the coins.
-	Balances github_com_cosmos_cosmos_sdk_types.Coins `protobuf:"bytes,1,rep,name=balances,proto3,castrepeated=github.com/reapchain/cosmos-sdk/types.Coins" json:"balances"`
+	Balances github_com_reapchain_cosmos_sdk_types.Coins `protobuf:"bytes,1,rep,name=balances,proto3,castrepeated=github.com/reapchain/cosmos-sdk/types.Coins" json:"balances"`
 	// pagination defines the pagination in the response.
 	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
@@ -300,7 +300,7 @@ func (m *QuerySpendableBalancesResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_QuerySpendableBalancesResponse proto.InternalMessageInfo
 
-func (m *QuerySpendableBalancesResponse) GetBalances() github_com_cosmos_cosmos_sdk_types.Coins {
+func (m *QuerySpendableBalancesResponse) GetBalances() github_com_reapchain_cosmos_sdk_types.Coins {
 	if m != nil {
 		return m.Balances
 	}
@@ -360,7 +360,7 @@ var xxx_messageInfo_QueryTotalSupplyRequest proto.InternalMessageInfo
 // method
 type QueryTotalSupplyResponse struct {
 	// supply is the supply of the coins
-	Supply github_com_cosmos_cosmos_sdk_types.Coins `protobuf:"bytes,1,rep,name=supply,proto3,castrepeated=github.com/reapchain/cosmos-sdk/types.Coins" json:"supply"`
+	Supply github_com_reapchain_cosmos_sdk_types.Coins `protobuf:"bytes,1,rep,name=supply,proto3,castrepeated=github.com/reapchain/cosmos-sdk/types.Coins" json:"supply"`
 	// pagination defines the pagination in the response.
 	//
 	// Since: cosmos-sdk 0.43
