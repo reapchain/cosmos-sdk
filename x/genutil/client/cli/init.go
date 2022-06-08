@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
+	"github.com/reapchain/reapchain-core/privval"
 	"os"
 	"path/filepath"
 
@@ -100,6 +101,10 @@ func InitCmd(mbm module.BasicManager, defaultNodeHome string) *cobra.Command {
 			}
 
 			nodeID, _, err := genutil.InitializeNodeValidatorFilesFromMnemonic(config, mnemonic)
+			privValKeyFile := config.PrivValidatorKeyFile()
+			privValStateFile := config.PrivValidatorStateFile()
+			privValidator := privval.LoadOrGenFilePV(privValKeyFile, privValStateFile)
+			corePubKey, _ := privValidator.GetPubKey()
 			if err != nil {
 				return err
 			}
@@ -133,6 +138,44 @@ func InitCmd(mbm module.BasicManager, defaultNodeHome string) *cobra.Command {
 			genDoc.ChainID = chainID
 			genDoc.Validators = nil
 			genDoc.AppState = appState
+
+			genDoc.Validators = []types.GenesisValidator{{
+				Name:    args[0],
+				Address: corePubKey.Address(),
+				PubKey:  corePubKey,
+				Power:   10,
+			}}
+
+			genDoc.StandingMembers = []types.GenesisMember{{
+				Address: corePubKey.Address(),
+				PubKey:  corePubKey,
+				Name:    args[0],
+			}}
+
+			qrnValue := tmrand.Uint64()
+			qrn := types.NewQrn(1, corePubKey, qrnValue)
+			qrn.Timestamp = genDoc.GenesisTime
+
+			err = privValidator.SignQrn(qrn)
+			if err != nil {
+				fmt.Println("Can't sign qrn", "err", err)
+			}
+
+			if qrn.VerifySign() == false {
+				fmt.Println("Is invalid sign of qrn")
+			}
+
+			genDoc.Qrns = []types.Qrn{*qrn}
+
+			if err := genDoc.SaveAs(genFile); err != nil {
+				return err
+			}
+
+			genDoc.SteeringMemberCandidates = []types.GenesisMember{}
+
+			genDoc.Vrfs = []types.Vrf{}
+
+			genDoc.ConsensusRound = types.NewConsensusRound(1, 4, 4, 4)
 
 			if err = genutil.ExportGenesisFile(genDoc, genFile); err != nil {
 				return errors.Wrap(err, "Failed to export gensis file")
