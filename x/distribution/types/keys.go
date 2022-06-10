@@ -2,6 +2,7 @@ package types
 
 import (
 	"encoding/binary"
+	"fmt"
 
 	sdk "github.com/reapchain/cosmos-sdk/types"
 	"github.com/reapchain/cosmos-sdk/types/address"
@@ -212,4 +213,8 @@ func GetValidatorSlashEventKey(v sdk.ValAddress, height, period uint64) []byte {
 	prefix := GetValidatorSlashEventKeyPrefix(v, height)
 
 	return append(prefix, periodBz...)
+}
+
+func GetValidatorsKey(height int64) []byte {
+	return []byte(fmt.Sprintf("validatorsKey:%v", height))
 }
