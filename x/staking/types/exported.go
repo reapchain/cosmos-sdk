@@ -37,4 +37,5 @@ type ValidatorI interface {
 	TokensFromSharesRoundUp(sdk.Dec) sdk.Dec                // token worth of provided delegator shares, rounded up
 	SharesFromTokens(amt sdk.Int) (sdk.Dec, error)          // shares worth of delegator's bond
 	SharesFromTokensTruncated(amt sdk.Int) (sdk.Dec, error) // truncated shares worth of delegator's bond
+	GetType() string
 }
