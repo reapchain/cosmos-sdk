@@ -798,8 +798,8 @@ func createValidators(t *testing.T, ctx sdk.Context, app *simapp.SimApp, powers 
 		app.GetSubspace(types.ModuleName),
 	)
 
-	val1 := teststaking.NewValidator(t, valAddrs[0], pks[0])
-	val2 := teststaking.NewValidator(t, valAddrs[1], pks[1])
+	val1 := teststaking.NewValidator(t, valAddrs[0], pks[0], types.ValidatorTypeStanding)
+	val2 := teststaking.NewValidator(t, valAddrs[1], pks[1], types.ValidatorTypeStanding)
 	vals := []types.Validator{val1, val2}
 
 	app.StakingKeeper.SetValidator(ctx, val1)

@@ -29,7 +29,7 @@ func bootstrapGenesisTest(numAddrs int) (*simapp.SimApp, sdk.Context, []sdk.AccA
 func TestInitGenesis(t *testing.T) {
 	app, ctx, addrs := bootstrapGenesisTest(10)
 
-	valTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, 1)
+	valTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, 44000000)
 
 	params := app.StakingKeeper.GetParams(ctx)
 	validators := app.StakingKeeper.GetAllValidators(ctx)
@@ -49,6 +49,7 @@ func TestInitGenesis(t *testing.T) {
 		Tokens:          valTokens,
 		DelegatorShares: valTokens.ToDec(),
 		Description:     types.NewDescription("hoop", "", "", "", ""),
+		Type:            types.ValidatorTypeStanding,
 	}
 	bondedVal2 := types.Validator{
 		OperatorAddress: sdk.ValAddress(addrs[1]).String(),
@@ -57,6 +58,7 @@ func TestInitGenesis(t *testing.T) {
 		Tokens:          valTokens,
 		DelegatorShares: valTokens.ToDec(),
 		Description:     types.NewDescription("bloop", "", "", "", ""),
+		Type:            types.ValidatorTypeStanding,
 	}
 
 	// append new bonded validators to the list
@@ -126,7 +128,7 @@ func TestInitGenesis_PoolsBalanceMismatch(t *testing.T) {
 		UnbondingTime: 10000,
 		MaxValidators: 1,
 		MaxEntries:    10,
-		BondDenom:     "stake",
+		BondDenom:     "areap",
 	}
 
 	// test
@@ -203,7 +205,7 @@ func TestInitGenesisLargeValidatorSet(t *testing.T) {
 func TestValidateGenesis(t *testing.T) {
 	genValidators1 := make([]types.Validator, 1, 5)
 	pk := ed25519.GenPrivKey().PubKey()
-	genValidators1[0] = teststaking.NewValidator(t, sdk.ValAddress(pk.Address()), pk)
+	genValidators1[0] = teststaking.NewValidator(t, sdk.ValAddress(pk.Address()), pk, types.ValidatorTypeStanding)
 	genValidators1[0].Tokens = sdk.OneInt()
 	genValidators1[0].DelegatorShares = sdk.OneDec()
 
