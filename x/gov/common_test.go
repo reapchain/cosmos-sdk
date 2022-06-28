@@ -84,6 +84,7 @@ func createValidators(t *testing.T, stakingHandler sdk.Handler, ctx sdk.Context,
 		valCreateMsg, err := stakingtypes.NewMsgCreateValidator(
 			addrs[i], pubkeys[i], sdk.NewCoin(sdk.DefaultBondDenom, valTokens),
 			TestDescription, TestCommissionRates, sdk.OneInt(),
+			stakingtypes.ValidatorTypeStanding,
 		)
 		require.NoError(t, err)
 		handleAndCheck(t, stakingHandler, ctx, valCreateMsg)
