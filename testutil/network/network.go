@@ -15,13 +15,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/require"
 	tmcfg "github.com/reapchain/reapchain-core/config"
 	tmflags "github.com/reapchain/reapchain-core/libs/cli/flags"
 	"github.com/reapchain/reapchain-core/libs/log"
 	tmrand "github.com/reapchain/reapchain-core/libs/rand"
 	"github.com/reapchain/reapchain-core/node"
 	tmclient "github.com/reapchain/reapchain-core/rpc/client"
+	"github.com/stretchr/testify/require"
 	dbm "github.com/tendermint/tm-db"
 	"google.golang.org/grpc"
 
@@ -318,6 +318,7 @@ func New(t *testing.T, cfg Config) *Network {
 			stakingtypes.NewDescription(nodeDirName, "", "", "", ""),
 			stakingtypes.NewCommissionRates(commission, sdk.OneDec(), sdk.OneDec()),
 			sdk.OneInt(),
+			"standing",
 		)
 		require.NoError(t, err)
 
