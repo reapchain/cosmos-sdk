@@ -118,6 +118,9 @@ func (k Keeper) ApplyAndReturnValidatorSetUpdates(ctx sdk.Context) (updates []ab
 		return nil, err
 	}
 
+	minStandingMemberStakingCoin, _ := sdk.ParseCoinsNormalized(types.MinStandingMemberStakingQuantity)
+	minSteeringMemberStakingCoin, _ := sdk.ParseCoinsNormalized(types.MinSteeringMemberStakingQuantity)
+
 	// Iterate over validators, highest power to lowest.
 	iterator := k.ValidatorsPowerStoreIterator(ctx)
 	defer iterator.Close()
@@ -170,8 +173,6 @@ func (k Keeper) ApplyAndReturnValidatorSetUpdates(ctx sdk.Context) (updates []ab
 		newPower := validator.ConsensusPower(powerReduction)
 		newPowerBytes := k.cdc.MustMarshal(&gogotypes.Int64Value{Value: newPower})
 
-		minStandingMemberStakingCoin, _ := sdk.ParseCoinsNormalized(types.MinStandingMemberStakingQuantity)
-		minSteeringMemberStakingCoin, _ := sdk.ParseCoinsNormalized(types.MinSteeringMemberStakingQuantity)
 		// update the validator set if power has changed
 		if found {
 			if !bytes.Equal(oldPowerBytes, newPowerBytes) {
