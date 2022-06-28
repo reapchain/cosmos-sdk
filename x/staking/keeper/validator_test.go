@@ -969,13 +969,13 @@ func TestApplyAndReturnValidatorSetUpdatesNewValidator(t *testing.T) {
 }
 
 func TestApplyAndReturnValidatorSetUpdatesBondTransition(t *testing.T) {
-	app, ctx, _, _ := bootstrapValidatorTest(t, 1000, 20)
+	app, ctx, _, _ := bootstrapValidatorTest(t, 500000000, 20)
 	params := app.StakingKeeper.GetParams(ctx)
 	params.MaxValidators = uint32(2)
 
 	app.StakingKeeper.SetParams(ctx, params)
 
-	powers := []int64{100, 200, 300}
+	powers := []int64{44000000, 44000000, 40000000}
 	var validators [3]types.Validator
 
 	// initialize some validators into the state
@@ -986,7 +986,16 @@ func TestApplyAndReturnValidatorSetUpdatesBondTransition(t *testing.T) {
 
 		validators[i] = newMonikerValidator(t, valAddr, valPubKey, moniker)
 		tokens := app.StakingKeeper.TokensFromConsensusPower(ctx, power)
+		fmt.Println("Tokens: ", tokens)
 		validators[i], _ = validators[i].AddTokensFromDel(tokens)
+
+		//###########################################################
+		//minStandingMemberStakingCoin, _ := sdk.ParseCoinsNormalized("44000000000000000000000000stake")
+		//fmt.Println("Min: ", minStandingMemberStakingCoin.AmountOf("stake"))
+		//fmt.Println("Condition: ", validators[i].Tokens.GTE(minStandingMemberStakingCoin.AmountOf("stake")))
+		//###########################################################
+
+		validators[i].Type = types.ValidatorTypeStanding
 		app.StakingKeeper.SetValidator(ctx, validators[i])
 		app.StakingKeeper.SetValidatorByPowerIndex(ctx, validators[i])
 	}
