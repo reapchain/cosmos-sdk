@@ -144,23 +144,25 @@ func (k Keeper) AllocateTokens(
 
 	//remaining = remaining.Sub(standingMemberReward).Sub(steeringMemberReward).Sub(allValidatorReward)
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	fmt.Println("############ Rewards ############")
-	fmt.Println("feesCollected: ", feesCollected)
+	/*
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		fmt.Println("############ Rewards ############")
+		fmt.Println("feesCollected: ", feesCollected)
 
-	fmt.Println("baseProposerReward: ", baseProposerReward)
-	fmt.Println("bonusProposerReward: ", bonusProposerReward)
-	fmt.Println("proposerMultiplier: ", proposerMultiplier)
-	fmt.Println("proposerReward: ", proposerReward)
+		fmt.Println("baseProposerReward: ", baseProposerReward)
+		fmt.Println("bonusProposerReward: ", bonusProposerReward)
+		fmt.Println("proposerMultiplier: ", proposerMultiplier)
+		fmt.Println("proposerReward: ", proposerReward)
 
-	fmt.Println("communityTax: ", communityTax)
-	fmt.Println("voteMultiplier: ", voteMultiplier)
+		fmt.Println("communityTax: ", communityTax)
+		fmt.Println("voteMultiplier: ", voteMultiplier)
 
-	fmt.Println("standingMemberReward: ", standingMemberReward)
-	fmt.Println("steeringMemberReward: ", steeringMemberReward)
-	fmt.Println("allValidatorReward: ", allValidatorReward)
-	//fmt.Println("remain: ", remaining)
-	//////////////////////////////////////////////////////////////////////////////////////////////////
+		fmt.Println("standingMemberReward: ", standingMemberReward)
+		fmt.Println("steeringMemberReward: ", steeringMemberReward)
+		fmt.Println("allValidatorReward: ", allValidatorReward)
+		//fmt.Println("remain: ", remaining)
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+	*/
 
 	// allocate tokens to Standing Members
 	totalStandingMember := sdk.NewInt(int64(len(standingMembers)))
@@ -232,6 +234,8 @@ func (k Keeper) AllocateTokensToValidator(ctx sdk.Context, val stakingtypes.Vali
 	commission := tokens.MulDec(val.GetCommission())
 	shared := tokens.Sub(commission)
 
+	fmt.Println("commission: ", commission)
+
 	// update current commission
 	ctx.EventManager().EmitEvent(
 		sdk.NewEvent(
@@ -261,12 +265,14 @@ func (k Keeper) AllocateTokensToValidator(ctx sdk.Context, val stakingtypes.Vali
 	outstanding.Rewards = outstanding.Rewards.Add(tokens...)
 	k.SetValidatorOutstandingRewards(ctx, val.GetOperator(), outstanding)
 
-	fmt.Println("######################## Allocate Validator ########################")
-	fmt.Println("tokens: ", tokens)
-	fmt.Println("commission: ", commission)
-	fmt.Println("shared: ", shared)
-	fmt.Println("currentRewards.Rewards: ", currentRewards.Rewards)
-	fmt.Println("outstanding.Rewards: ", outstanding.Rewards)
-	fmt.Println("######################## Allocate Validator ########################")
-
+	/*
+		fmt.Println("######################## Allocate Validator ########################")
+		fmt.Println("valAddress: ", val.GetOperator())
+		fmt.Println("tokens: ", tokens)
+		fmt.Println("commission: ", commission)
+		fmt.Println("shared: ", shared)
+		fmt.Println("currentRewards.Rewards: ", currentRewards.Rewards)
+		fmt.Println("outstanding.Rewards: ", outstanding.Rewards)
+		fmt.Println("####################################################################")
+	*/
 }
