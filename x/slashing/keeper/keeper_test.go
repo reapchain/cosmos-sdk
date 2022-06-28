@@ -31,7 +31,7 @@ func TestUnJailNotBonded(t *testing.T) {
 	// create max (5) validators all with the same power
 	for i := uint32(0); i < p.MaxValidators; i++ {
 		addr, val := valAddrs[i], pks[i]
-		tstaking.CreateValidatorWithValPower(addr, val, 100, true)
+		tstaking.CreateValidatorWithValPower(addr, val, 100, true, stakingtypes.ValidatorTypeStanding)
 	}
 
 	staking.EndBlocker(ctx, app.StakingKeeper)
@@ -40,7 +40,7 @@ func TestUnJailNotBonded(t *testing.T) {
 	// create a 6th validator with less power than the cliff validator (won't be bonded)
 	addr, val := valAddrs[5], pks[5]
 	amt := app.StakingKeeper.TokensFromConsensusPower(ctx, 50)
-	msg := tstaking.CreateValidatorMsg(addr, val, amt)
+	msg := tstaking.CreateValidatorMsg(addr, val, amt, stakingtypes.ValidatorTypeStanding)
 	msg.MinSelfDelegation = amt
 	tstaking.Handle(msg, true)
 
@@ -91,7 +91,7 @@ func TestHandleNewValidator(t *testing.T) {
 	ctx = ctx.WithBlockHeight(app.SlashingKeeper.SignedBlocksWindow(ctx) + 1)
 
 	// Validator created
-	amt := tstaking.CreateValidatorWithValPower(addr, val, 100, true)
+	amt := tstaking.CreateValidatorWithValPower(addr, val, 100, true, stakingtypes.ValidatorTypeStanding)
 
 	staking.EndBlocker(ctx, app.StakingKeeper)
 	require.Equal(
@@ -134,7 +134,7 @@ func TestHandleAlreadyJailed(t *testing.T) {
 	power := int64(100)
 	tstaking := teststaking.NewHelper(t, ctx, app.StakingKeeper)
 
-	amt := tstaking.CreateValidatorWithValPower(addr, val, power, true)
+	amt := tstaking.CreateValidatorWithValPower(addr, val, power, true, stakingtypes.ValidatorTypeStanding)
 
 	staking.EndBlocker(ctx, app.StakingKeeper)
 
@@ -195,7 +195,7 @@ func TestValidatorDippingInAndOut(t *testing.T) {
 	tstaking := teststaking.NewHelper(t, ctx, app.StakingKeeper)
 	valAddr := sdk.ValAddress(addr)
 
-	tstaking.CreateValidatorWithValPower(valAddr, val, power, true)
+	tstaking.CreateValidatorWithValPower(valAddr, val, power, true, stakingtypes.ValidatorTypeStanding)
 	staking.EndBlocker(ctx, app.StakingKeeper)
 
 	// 100 first blocks OK
@@ -206,7 +206,7 @@ func TestValidatorDippingInAndOut(t *testing.T) {
 	}
 
 	// kick first validator out of validator set
-	tstaking.CreateValidatorWithValPower(sdk.ValAddress(pks[1].Address()), pks[1], 101, true)
+	tstaking.CreateValidatorWithValPower(sdk.ValAddress(pks[1].Address()), pks[1], 101, true, stakingtypes.ValidatorTypeStanding)
 	validatorUpdates := staking.EndBlocker(ctx, app.StakingKeeper)
 	require.Equal(t, 2, len(validatorUpdates))
 	tstaking.CheckValidator(valAddr, stakingtypes.Unbonding, false)

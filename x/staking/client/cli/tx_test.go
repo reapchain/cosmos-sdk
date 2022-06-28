@@ -85,7 +85,7 @@ func TestPrepareConfigForTxCreateValidator(t *testing.T) {
 
 			tc.fsModify(fs)
 
-			cvCfg, err := PrepareConfigForTxCreateValidator(fs, moniker, nodeID, chainID, valPubKey)
+			cvCfg, err := PrepareConfigForTxCreateValidator(fs, moniker, nodeID, chainID, valPubKey, "standing")
 			require.NoError(t, err)
 
 			require.Equal(t, tc.expectedCfg, cvCfg)
