@@ -30,15 +30,19 @@ const (
 	// value by not adding the staking module to the application module manager's
 	// SetOrderBeginBlockers.
 	DefaultHistoricalEntries uint32 = 10000
+
+	// Default maximum number of bonded standing member validators
+	DefaultMaxStandingMembers uint32 = 14
 )
 
 var (
-	KeyUnbondingTime     = []byte("UnbondingTime")
-	KeyMaxValidators     = []byte("MaxValidators")
-	KeyMaxEntries        = []byte("MaxEntries")
-	KeyBondDenom         = []byte("BondDenom")
-	KeyHistoricalEntries = []byte("HistoricalEntries")
-	KeyPowerReduction    = []byte("PowerReduction")
+	KeyUnbondingTime      = []byte("UnbondingTime")
+	KeyMaxValidators      = []byte("MaxValidators")
+	KeyMaxEntries         = []byte("MaxEntries")
+	KeyBondDenom          = []byte("BondDenom")
+	KeyHistoricalEntries  = []byte("HistoricalEntries")
+	KeyPowerReduction     = []byte("PowerReduction")
+	KeyMaxStandingMembers = []byte("MaxStandingMembers")
 )
 
 var _ paramtypes.ParamSet = (*Params)(nil)

@@ -11,9 +11,9 @@ import (
 )
 
 // NewValidator is a testing helper method to create validators in tests
-func NewValidator(t testing.TB, operator sdk.ValAddress, pubKey cryptotypes.PubKey) types.Validator {
+func NewValidator(t testing.TB, operator sdk.ValAddress, pubKey cryptotypes.PubKey, valType string) types.Validator {
 	v, err := types.NewValidator(operator, pubKey, types.Description{})
-	v.Type = "steering"
+	v.Type = valType
 	require.NoError(t, err)
 	return v
 }
