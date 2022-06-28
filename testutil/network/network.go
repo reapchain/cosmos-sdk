@@ -318,6 +318,7 @@ func New(t *testing.T, cfg Config) *Network {
 			stakingtypes.NewDescription(nodeDirName, "", "", "", ""),
 			stakingtypes.NewCommissionRates(commission, sdk.OneDec(), sdk.OneDec()),
 			sdk.OneInt(),
+			"standing",
 		)
 		require.NoError(t, err)
 
