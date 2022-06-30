@@ -53,13 +53,14 @@ func ParamKeyTable() paramtypes.KeyTable {
 }
 
 // NewParams creates a new Params instance
-func NewParams(unbondingTime time.Duration, maxValidators, maxEntries, historicalEntries uint32, bondDenom string) Params {
+func NewParams(unbondingTime time.Duration, maxValidators, maxStandingMembers, maxEntries, historicalEntries uint32, bondDenom string) Params {
 	return Params{
-		UnbondingTime:     unbondingTime,
-		MaxValidators:     maxValidators,
-		MaxEntries:        maxEntries,
-		HistoricalEntries: historicalEntries,
-		BondDenom:         bondDenom,
+		UnbondingTime:      unbondingTime,
+		MaxValidators:      maxValidators,
+		MaxStandingMembers: maxStandingMembers,
+		MaxEntries:         maxEntries,
+		HistoricalEntries:  historicalEntries,
+		BondDenom:          bondDenom,
 	}
 }
 
@@ -68,6 +69,7 @@ func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
 	return paramtypes.ParamSetPairs{
 		paramtypes.NewParamSetPair(KeyUnbondingTime, &p.UnbondingTime, validateUnbondingTime),
 		paramtypes.NewParamSetPair(KeyMaxValidators, &p.MaxValidators, validateMaxValidators),
+		paramtypes.NewParamSetPair(KeyMaxStandingMembers, &p.MaxStandingMembers, validateMaxStandingMembers),
 		paramtypes.NewParamSetPair(KeyMaxEntries, &p.MaxEntries, validateMaxEntries),
 		paramtypes.NewParamSetPair(KeyHistoricalEntries, &p.HistoricalEntries, validateHistoricalEntries),
 		paramtypes.NewParamSetPair(KeyBondDenom, &p.BondDenom, validateBondDenom),
@@ -79,6 +81,7 @@ func DefaultParams() Params {
 	return NewParams(
 		DefaultUnbondingTime,
 		DefaultMaxValidators,
+		DefaultMaxStandingMembers,
 		DefaultMaxEntries,
 		DefaultHistoricalEntries,
 		sdk.DefaultBondDenom,
@@ -153,6 +156,19 @@ func validateMaxValidators(i interface{}) error {
 
 	if v == 0 {
 		return fmt.Errorf("max validators must be positive: %d", v)
+	}
+
+	return nil
+}
+
+func validateMaxStandingMembers(i interface{}) error {
+	v, ok := i.(uint32)
+	if !ok {
+		return fmt.Errorf("invalid parameter type: %T", i)
+	}
+
+	if v == 0 {
+		return fmt.Errorf("max standing members must be positive: %d", v)
 	}
 
 	return nil

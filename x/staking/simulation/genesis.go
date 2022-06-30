@@ -16,9 +16,10 @@ import (
 
 // Simulation parameter constants
 const (
-	unbondingTime     = "unbonding_time"
-	maxValidators     = "max_validators"
-	historicalEntries = "historical_entries"
+	unbondingTime      = "unbonding_time"
+	maxValidators      = "max_validators"
+	maxStandingMembers = "max_standing_member"
+	historicalEntries  = "historical_entries"
 )
 
 // genUnbondingTime returns randomized UnbondingTime
@@ -29,6 +30,11 @@ func genUnbondingTime(r *rand.Rand) (ubdTime time.Duration) {
 // genMaxValidators returns randomized MaxValidators
 func genMaxValidators(r *rand.Rand) (maxValidators uint32) {
 	return uint32(r.Intn(250) + 1)
+}
+
+// genMaxStandingMembers returns randomized max Standing Members
+func genMaxStandingMembers(r *rand.Rand) (maxStandingMembers uint32) {
+	return uint32(r.Intn(14) + 1)
 }
 
 // getHistEntries returns randomized HistoricalEntries between 0-100.
@@ -42,6 +48,7 @@ func RandomizedGenState(simState *module.SimulationState) {
 	var (
 		unbondTime  time.Duration
 		maxVals     uint32
+		maxStanding uint32
 		histEntries uint32
 	)
 
@@ -56,6 +63,11 @@ func RandomizedGenState(simState *module.SimulationState) {
 	)
 
 	simState.AppParams.GetOrGenerate(
+		simState.Cdc, maxStandingMembers, &maxStanding, simState.Rand,
+		func(r *rand.Rand) { maxStanding = genMaxStandingMembers(r) },
+	)
+
+	simState.AppParams.GetOrGenerate(
 		simState.Cdc, historicalEntries, &histEntries, simState.Rand,
 		func(r *rand.Rand) { histEntries = getHistEntries(r) },
 	)
@@ -63,7 +75,7 @@ func RandomizedGenState(simState *module.SimulationState) {
 	// NOTE: the slashing module need to be defined after the staking module on the
 	// NewSimulationManager constructor for this to work
 	simState.UnbondTime = unbondTime
-	params := types.NewParams(simState.UnbondTime, maxVals, 7, histEntries, sdk.DefaultBondDenom)
+	params := types.NewParams(simState.UnbondTime, maxVals, maxStanding, 7, histEntries, sdk.DefaultBondDenom)
 
 	// validators & delegations
 	var (

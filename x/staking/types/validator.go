@@ -35,8 +35,6 @@ const (
 
 	// Steering member Minimum staking quantity
 	MinSteeringMemberStakingQuantity = "100000000000000000000000" + sdk.DefaultBondDenom
-
-	MaxStandingMember = 14
 )
 
 var (

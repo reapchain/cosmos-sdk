@@ -19,6 +19,12 @@ func (k Keeper) MaxValidators(ctx sdk.Context) (res uint32) {
 	return
 }
 
+// MaxStandingMembers - Maximum number of standing members
+func (k Keeper) MaxStandingMembers(ctx sdk.Context) (res uint32) {
+	k.paramstore.Get(ctx, types.KeyMaxStandingMembers, &res)
+	return
+}
+
 // MaxEntries - Maximum number of simultaneous unbonding
 // delegations or redelegations (per pair/trio)
 func (k Keeper) MaxEntries(ctx sdk.Context) (res uint32) {
@@ -52,6 +58,7 @@ func (k Keeper) GetParams(ctx sdk.Context) types.Params {
 	return types.NewParams(
 		k.UnbondingTime(ctx),
 		k.MaxValidators(ctx),
+		k.MaxStandingMembers(ctx),
 		k.MaxEntries(ctx),
 		k.HistoricalEntries(ctx),
 		k.BondDenom(ctx),
