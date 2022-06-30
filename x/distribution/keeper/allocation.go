@@ -52,13 +52,15 @@ func (k Keeper) AllocateTokens(
 	// 4. allValidators is a list of validator in the Block of corresponding height.
 	allValidators := append(standingMembers, steeringMemberCandidatesLived...)
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	fmt.Println("######## validator info ########")
-	fmt.Println("steeringMemberCandidatesLived: ", len(steeringMemberCandidatesLived))
-	fmt.Println("standingMembers: ", len(standingMembers))
-	fmt.Println("steeringMembers: ", len(steeringMembers))
-	fmt.Println("allValidators: ", len(allValidators))
-	//////////////////////////////////////////////////////////////////////////////////////////////////
+	/*
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		fmt.Println("######## validator info ########")
+		fmt.Println("steeringMemberCandidatesLived: ", len(steeringMemberCandidatesLived))
+		fmt.Println("standingMembers: ", len(standingMembers))
+		fmt.Println("steeringMembers: ", len(steeringMembers))
+		fmt.Println("allValidators: ", len(allValidators))
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+	*/
 
 	// fetch and clear the collected fees for distribution, since this is
 	// called in BeginBlock, collected fees will be from the previous block
