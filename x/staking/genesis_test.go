@@ -169,10 +169,11 @@ func TestInitGenesisLargeValidatorSet(t *testing.T) {
 			PKs[i], types.NewDescription(fmt.Sprintf("#%d", i), "", "", "", ""))
 		require.NoError(t, err)
 		validators[i].Status = types.Bonded
+		validators[i].Type = types.ValidatorTypeStanding
 
-		tokens := app.StakingKeeper.TokensFromConsensusPower(ctx, 1)
+		tokens := app.StakingKeeper.TokensFromConsensusPower(ctx, 100)
 		if i < 100 {
-			tokens = app.StakingKeeper.TokensFromConsensusPower(ctx, 2)
+			tokens = app.StakingKeeper.TokensFromConsensusPower(ctx, 44000000)
 		}
 		validators[i].Tokens = tokens
 		validators[i].DelegatorShares = tokens.ToDec()
