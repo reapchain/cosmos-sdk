@@ -925,9 +925,7 @@ func TestApplyAndReturnValidatorSetUpdatesNewValidator(t *testing.T) {
 		app.StakingKeeper.DeleteValidatorByPowerIndex(ctx, validators[i])
 		tokens := app.StakingKeeper.TokensFromConsensusPower(ctx, 100)
 		//validators[i], _ = validators[i].AddTokensFromDel(tokens)
-		fmt.Println("==> ", validators[i].Tokens)
 		validators[i] = validators[i].RemoveTokens(tokens)
-		fmt.Println("==> ", validators[i].Tokens)
 
 		app.StakingKeeper.SetValidator(ctx, validators[i])
 		app.StakingKeeper.SetValidatorByPowerIndex(ctx, validators[i])
@@ -986,7 +984,6 @@ func TestApplyAndReturnValidatorSetUpdatesBondTransition(t *testing.T) {
 
 		validators[i] = newMonikerValidator(t, valAddr, valPubKey, moniker)
 		tokens := app.StakingKeeper.TokensFromConsensusPower(ctx, power)
-		fmt.Println("Tokens: ", tokens)
 		validators[i], _ = validators[i].AddTokensFromDel(tokens)
 
 		//###########################################################
