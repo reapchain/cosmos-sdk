@@ -53,13 +53,15 @@ func (k Keeper) AllocateTokens(
 	// 4. allValidators is a list of validator in the Block of corresponding height.
 	allValidators := append(standingMembers, steeringMemberCandidatesLived...)
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	fmt.Println("######## validator info ########")
-	fmt.Println("steeringMemberCandidatesLived: ", len(steeringMemberCandidatesLived))
-	fmt.Println("standingMembers: ", len(standingMembers))
-	fmt.Println("steeringMembers: ", len(steeringMembers))
-	fmt.Println("allValidators: ", len(allValidators))
-	//////////////////////////////////////////////////////////////////////////////////////////////////
+	/*
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		fmt.Println("######## validator info ########")
+		fmt.Println("steeringMemberCandidatesLived: ", len(steeringMemberCandidatesLived))
+		fmt.Println("standingMembers: ", len(standingMembers))
+		fmt.Println("steeringMembers: ", len(steeringMembers))
+		fmt.Println("allValidators: ", len(allValidators))
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+	*/
 
 	// fetch and clear the collected fees for distribution, since this is
 	// called in BeginBlock, collected fees will be from the previous block
@@ -170,45 +172,27 @@ func (k Keeper) AllocateTokens(
 	for _, val := range standingMembers {
 		reward := standingMemberReward.MulDecTruncate(sdk.OneDec().QuoTruncate(sdk.NewDecFromInt(totalStandingMember)))
 
-		// For debug
-		addr, _ := val.GetConsAddr()
-		fmt.Println("Standing 1: ", addr, reward)
-
 		k.AllocateTokensToValidator(ctx, val, reward)
 		remaining = remaining.Sub(reward)
 	}
-
-	fmt.Println("remain: ", remaining)
 
 	// allocate tokens to Steering Members
 	totalSteeringMember := sdk.NewInt(int64(len(steeringMembers)))
 	for _, val := range steeringMembers {
 		reward := steeringMemberReward.MulDecTruncate(sdk.OneDec().QuoTruncate(sdk.NewDecFromInt(totalSteeringMember)))
 
-		// For debug
-		addr, _ := val.GetConsAddr()
-		fmt.Println("Steering 1: ", addr, reward)
-
 		k.AllocateTokensToValidator(ctx, val, reward)
 		remaining = remaining.Sub(reward)
 	}
-
-	fmt.Println("remain: ", remaining)
 
 	// allocate tokens to validators who lived node
 	totalValidator := sdk.NewInt(int64(len(allValidators)))
 	for _, val := range allValidators {
 		reward := allValidatorReward.MulDecTruncate(sdk.OneDec().QuoTruncate(sdk.NewDecFromInt(totalValidator)))
 
-		// For debug
-		addr, _ := val.GetConsAddr()
-		fmt.Println("Validator 1: ", addr, reward)
-
 		k.AllocateTokensToValidator(ctx, val, reward)
 		remaining = remaining.Sub(reward)
 	}
-
-	fmt.Println("remain: ", remaining)
 
 	/*
 		// allocate tokens proportionally to voting power
@@ -234,8 +218,6 @@ func (k Keeper) AllocateTokensToValidator(ctx sdk.Context, val stakingtypes.Vali
 	// split tokens between validator and delegators according to commission
 	commission := tokens.MulDec(val.GetCommission())
 	shared := tokens.Sub(commission)
-
-	fmt.Println("commission: ", commission)
 
 	// update current commission
 	ctx.EventManager().EmitEvent(
