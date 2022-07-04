@@ -55,11 +55,11 @@ func initValidators(t testing.TB, power int64, numAddrs int, powers []int64) (*s
 }
 
 func TestSetValidator(t *testing.T) {
-	app, ctx, _, _ := bootstrapValidatorTest(t, 10, 100)
+	app, ctx, _, _ := bootstrapValidatorTest(t, 10000000, 100)
 
 	valPubKey := PKs[0]
 	valAddr := sdk.ValAddress(valPubKey.Address().Bytes())
-	valTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, 10)
+	valTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, 44000000)
 
 	// test how the validator is set from a purely unbonbed pool
 	validator := teststaking.NewValidator(t, valAddr, valPubKey, types.ValidatorTypeStanding)
@@ -146,6 +146,8 @@ func TestUpdateValidatorByPowerIndex(t *testing.T) {
 	require.True(t, keeper.ValidatorByPowerIndexExists(ctx, app.StakingKeeper, power))
 }
 
+// Reapchain does not use maxVals.
+/*
 func TestUpdateBondedValidatorsDecreaseCliff(t *testing.T) {
 	numVals := 10
 	maxVals := 5
@@ -206,6 +208,7 @@ func TestUpdateBondedValidatorsDecreaseCliff(t *testing.T) {
 		)
 	}
 }
+*/
 
 func TestSlashToZeroPowerRemoved(t *testing.T) {
 	// initialize setup
@@ -463,21 +466,23 @@ func TestGetValidatorSortingMixed(t *testing.T) {
 	val4, found := app.StakingKeeper.GetValidator(ctx, sdk.ValAddress(addrs[4]))
 	require.True(t, found)
 	require.Equal(t, types.Bonded, val0.Status)
-	require.Equal(t, types.Unbonding, val1.Status)
-	require.Equal(t, types.Unbonding, val2.Status)
+	require.Equal(t, types.Bonded, val1.Status)
+	require.Equal(t, types.Bonded, val2.Status)
 	require.Equal(t, types.Bonded, val3.Status)
 	require.Equal(t, types.Bonded, val4.Status)
 
 	// first make sure everything made it in to the gotValidator group
 	resValidators := app.StakingKeeper.GetBondedValidatorsByPower(ctx)
 	// The validators returned should match the max validators
-	assert.Equal(t, 2, len(resValidators))
+	assert.Equal(t, 5, len(resValidators))
 	assert.Equal(t, sdk.NewInt(400).Mul(app.StakingKeeper.PowerReduction(ctx)), resValidators[0].BondedTokens(), "%v", resValidators)
 	assert.Equal(t, sdk.NewInt(200).Mul(app.StakingKeeper.PowerReduction(ctx)), resValidators[1].BondedTokens(), "%v", resValidators)
 	assert.Equal(t, validators[3].OperatorAddress, resValidators[0].OperatorAddress, "%v", resValidators)
 	assert.Equal(t, validators[4].OperatorAddress, resValidators[1].OperatorAddress, "%v", resValidators)
 }
 
+// reapchain does not use maxVals
+/*
 // TODO separate out into multiple tests
 func TestGetValidatorsEdgeCases(t *testing.T) {
 	app, ctx, addrs, _ := bootstrapValidatorTest(t, 1000, 20)
@@ -591,6 +596,7 @@ func TestGetValidatorsEdgeCases(t *testing.T) {
 	require.True(t, exists)
 }
 
+
 func TestValidatorBondHeight(t *testing.T) {
 	app, ctx, addrs, _ := bootstrapValidatorTest(t, 1000, 20)
 
@@ -679,6 +685,7 @@ func TestFullValidatorSetPowerChange(t *testing.T) {
 	assert.True(ValEq(t, validators[0], resValidators[0]))
 	assert.True(ValEq(t, validators[2], resValidators[1]))
 }
+*/
 
 func TestApplyAndReturnValidatorSetUpdatesAllNone(t *testing.T) {
 	app, ctx, _, _ := bootstrapValidatorTest(t, 300000, 20)
