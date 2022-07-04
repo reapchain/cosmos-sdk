@@ -1,6 +1,7 @@
 package keeper_test
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
@@ -121,9 +122,11 @@ func TestSlashRedelegation(t *testing.T) {
 	fraction := sdk.NewDecWithPrec(5, 1)
 
 	// add bonded tokens to pool for (re)delegations
-	startCoins := sdk.NewCoins(sdk.NewInt64Coin(app.StakingKeeper.BondDenom(ctx), 15))
+	startCoins := sdk.NewCoins(sdk.NewInt64Coin(app.StakingKeeper.BondDenom(ctx), 44000000))
 	bondedPool := app.StakingKeeper.GetBondedPool(ctx)
 	balances := app.BankKeeper.GetAllBalances(ctx, bondedPool.GetAddress())
+
+	fmt.Println("bondedPool balances: ", balances)
 
 	require.NoError(t, simapp.FundModuleAccount(app.BankKeeper, ctx, bondedPool.GetName(), startCoins))
 	app.AccountKeeper.SetModuleAccount(ctx, bondedPool)
@@ -131,7 +134,7 @@ func TestSlashRedelegation(t *testing.T) {
 	// set a redelegation with an expiration timestamp beyond which the
 	// redelegation shouldn't be slashed
 	rd := types.NewRedelegation(addrDels[0], addrVals[0], addrVals[1], 0,
-		time.Unix(5, 0), sdk.NewInt(10), sdk.NewDec(10))
+		time.Unix(5, 0), sdk.NewInt(44000000), sdk.NewDec(10))
 
 	app.StakingKeeper.SetRedelegation(ctx, rd)
 
@@ -161,7 +164,7 @@ func TestSlashRedelegation(t *testing.T) {
 	validator, found = app.StakingKeeper.GetValidator(ctx, addrVals[1])
 	require.True(t, found)
 	slashAmount = app.StakingKeeper.SlashRedelegation(ctx, validator, rd, 0, fraction)
-	require.True(t, slashAmount.Equal(sdk.NewInt(5)))
+	require.True(t, slashAmount.Equal(sdk.NewInt(22000000)))
 	rd, found = app.StakingKeeper.GetRedelegation(ctx, addrDels[0], addrVals[0], addrVals[1])
 	require.True(t, found)
 	require.Len(t, rd.Entries, 1)
@@ -170,7 +173,7 @@ func TestSlashRedelegation(t *testing.T) {
 	applyValidatorSetUpdates(t, ctx, app.StakingKeeper, 1)
 
 	// initialbalance unchanged
-	require.Equal(t, sdk.NewInt(10), rd.Entries[0].InitialBalance)
+	require.Equal(t, sdk.NewInt(44000000), rd.Entries[0].InitialBalance)
 
 	// shares decreased
 	del, found = app.StakingKeeper.GetDelegation(ctx, addrDels[0], addrVals[1])
@@ -179,6 +182,10 @@ func TestSlashRedelegation(t *testing.T) {
 
 	// pool bonded tokens should decrease
 	burnedCoins := sdk.NewCoins(sdk.NewCoin(app.StakingKeeper.BondDenom(ctx), slashAmount))
+
+	fmt.Println("bondedPool sub: ", balances.Sub(burnedCoins))
+	fmt.Println("bondedPool : ", app.BankKeeper.GetAllBalances(ctx, bondedPool.GetAddress()))
+
 	require.Equal(t, balances.Sub(burnedCoins), app.BankKeeper.GetAllBalances(ctx, bondedPool.GetAddress()))
 }
 
