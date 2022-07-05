@@ -39,24 +39,23 @@ func TestWithdrawValidatorCommission(t *testing.T) {
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
 	valCommission := sdk.DecCoins{
-		sdk.NewDecCoinFromDec("mytoken", sdk.NewDec(5).Quo(sdk.NewDec(4))),
-		sdk.NewDecCoinFromDec("stake", sdk.NewDec(3).Quo(sdk.NewDec(2))),
+		sdk.NewDecCoinFromDec("areap", sdk.NewDec(10).Quo(sdk.NewDec(1))),
 	}
 
-	addr := simapp.AddTestAddrs(app, ctx, 1, sdk.NewInt(1000000000))
+	addr := simapp.AddTestAddrs(app, ctx, 1, sdk.NewInt(4400000000000))
 	valAddrs := simapp.ConvertAddrsToValAddrs(addr)
 
 	// set module account coins
 	distrAcc := app.DistrKeeper.GetDistributionAccount(ctx)
-	coins := sdk.NewCoins(sdk.NewCoin("mytoken", sdk.NewInt(2)), sdk.NewCoin("stake", sdk.NewInt(2)))
+	coins := sdk.NewCoins(sdk.NewCoin("areap", sdk.NewInt(1000000000)))
 	require.NoError(t, simapp.FundModuleAccount(app.BankKeeper, ctx, distrAcc.GetName(), coins))
 
 	app.AccountKeeper.SetModuleAccount(ctx, distrAcc)
 
 	// check initial balance
 	balance := app.BankKeeper.GetAllBalances(ctx, sdk.AccAddress(valAddrs[0]))
-	expTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, 1000)
-	expCoins := sdk.NewCoins(sdk.NewCoin("stake", expTokens))
+	expTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, 4400000)
+	expCoins := sdk.NewCoins(sdk.NewCoin("areap", expTokens))
 	require.Equal(t, expCoins, balance)
 
 	// set outstanding rewards
@@ -72,16 +71,12 @@ func TestWithdrawValidatorCommission(t *testing.T) {
 	// check balance increase
 	balance = app.BankKeeper.GetAllBalances(ctx, sdk.AccAddress(valAddrs[0]))
 	require.Equal(t, sdk.NewCoins(
-		sdk.NewCoin("mytoken", sdk.NewInt(1)),
-		sdk.NewCoin("stake", expTokens.AddRaw(1)),
+		sdk.NewCoin("areap", expTokens.AddRaw(10)),
 	), balance)
 
 	// check remainder
 	remainder := app.DistrKeeper.GetValidatorAccumulatedCommission(ctx, valAddrs[0]).Commission
-	require.Equal(t, sdk.DecCoins{
-		sdk.NewDecCoinFromDec("mytoken", sdk.NewDec(1).Quo(sdk.NewDec(4))),
-		sdk.NewDecCoinFromDec("stake", sdk.NewDec(1).Quo(sdk.NewDec(2))),
-	}, remainder)
+	require.Equal(t, sdk.DecCoins(sdk.DecCoins(nil)), remainder)
 
 	require.True(t, true)
 }
