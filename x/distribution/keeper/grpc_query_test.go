@@ -464,7 +464,7 @@ func (suite *KeeperTestSuite) TestGRPCDelegationRewards() {
 				}
 
 				expectedDelReward := types.NewDelegationDelegatorReward(valAddrs[0],
-					sdk.DecCoins{sdk.NewInt64DecCoin("stake", 5)})
+					sdk.DecCoins{sdk.NewInt64DecCoin("areap", 5)})
 
 				expTotalRewardsRes = &types.QueryDelegationTotalRewardsResponse{
 					Rewards: []types.DelegationDelegatorReward{expectedDelReward},
