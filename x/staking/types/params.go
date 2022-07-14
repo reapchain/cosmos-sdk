@@ -168,7 +168,7 @@ func validateMaxStandingMembers(i interface{}) error {
 	}
 
 	if v == 0 {
-		return fmt.Errorf("max standing members must be positive: %d", v)
+		return fmt.Errorf("max standing members must be positive: %d, set [max_standing_members] in genesis.json", v)
 	}
 
 	return nil
