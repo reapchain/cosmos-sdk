@@ -247,6 +247,8 @@ func (k Keeper) ApplyAndReturnValidatorSetUpdates(ctx sdk.Context) (updates []ab
 		}
 		amtFromBondedToNotBonded = amtFromBondedToNotBonded.Add(validator.GetTokens())
 		k.DeleteLastValidatorPower(ctx, validator.GetOperator())
+		k.Logger(ctx).Info(fmt.Sprintf("Remove update no longer bonded, validator: %s,Tokens: %s, Type: %s", validator.OperatorAddress, validator.Tokens, validator.Type))
+
 		updates = append(updates, validator.ABCIValidatorUpdateZero())
 	}
 
