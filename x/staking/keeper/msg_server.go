@@ -30,9 +30,9 @@ var _ types.MsgServer = msgServer{}
 func (k msgServer) CreateValidator(goCtx context.Context, msg *types.MsgCreateValidator) (*types.MsgCreateValidatorResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// check standing member quantity.
-	if msg.ValidatorType == "standing" && k.CountStandingMember(ctx) >= types.MaxStandingMember {
-		return nil, sdkerrors.Wrapf(sdkerrors.ErrExcessStandingMember, "Excess Standing Member.")
+	// check max standing members.
+	if msg.ValidatorType == types.ValidatorTypeStanding && k.CountStandingMember(ctx) >= k.MaxStandingMembers(ctx) {
+		return nil, sdkerrors.Wrapf(sdkerrors.ErrExcessStandingMember, "Excess Standing Member. Max Standing Members: %d", k.MaxStandingMembers(ctx))
 	}
 
 	valAddr, err := sdk.ValAddressFromBech32(msg.ValidatorAddress)

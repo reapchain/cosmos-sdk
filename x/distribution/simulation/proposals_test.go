@@ -42,8 +42,8 @@ func TestProposalContents(t *testing.T) {
 
 	content := w0.ContentSimulatorFn()(r, ctx, accounts)
 
-	require.Equal(t, "sTxPjfweXhSUkMhPjMaxKlMIJMOXcnQfyzeOcbWwNbeHVIkPZBSpYuLyYggwexjxusrBqDOTtGTOWeLrQKjLxzIivHSlcxgdXhhu", content.GetDescription())
-	require.Equal(t, "xKGLwQvuyN", content.GetTitle())
+	require.Equal(t, "hPjMaxKlMIJMOXcnQfyzeOcbWwNbeHVIkPZBSpYuLyYggwexjxusrBqDOTtGTOWeLrQKjLxzIivHSlcxgdXhhuTSkuxKGLwQvuyN", content.GetDescription())
+	require.Equal(t, "eAerqyNEUz", content.GetTitle())
 	require.Equal(t, "distribution", content.ProposalRoute())
 	require.Equal(t, "CommunityPoolSpend", content.ProposalType())
 }

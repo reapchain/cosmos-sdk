@@ -38,7 +38,7 @@ func bootstrapSlashTest(t *testing.T, power int64) (*simapp.SimApp, sdk.Context,
 	require.NoError(t, simapp.FundModuleAccount(app.BankKeeper, ctx, bondedPool.GetName(), bondedCoins))
 
 	for i := int64(0); i < numVals; i++ {
-		validator := teststaking.NewValidator(t, addrVals[i], PKs[i])
+		validator := teststaking.NewValidator(t, addrVals[i], PKs[i], types.ValidatorTypeStanding)
 		validator, _ = validator.AddTokensFromDel(amt)
 		validator = keeper.TestingUpdateValidator(app.StakingKeeper, ctx, validator, true)
 		app.StakingKeeper.SetValidatorByConsAddr(ctx, validator)
@@ -117,11 +117,12 @@ func TestSlashUnbondingDelegation(t *testing.T) {
 
 // tests slashRedelegation
 func TestSlashRedelegation(t *testing.T) {
-	app, ctx, addrDels, addrVals := bootstrapSlashTest(t, 10)
+	app, ctx, addrDels, addrVals := bootstrapSlashTest(t, 45000000)
 	fraction := sdk.NewDecWithPrec(5, 1)
 
 	// add bonded tokens to pool for (re)delegations
-	startCoins := sdk.NewCoins(sdk.NewInt64Coin(app.StakingKeeper.BondDenom(ctx), 15))
+	startCoins := sdk.NewCoins(sdk.NewCoin(app.StakingKeeper.BondDenom(ctx), app.StakingKeeper.TokensFromConsensusPower(ctx, int64(50000000))))
+
 	bondedPool := app.StakingKeeper.GetBondedPool(ctx)
 	balances := app.BankKeeper.GetAllBalances(ctx, bondedPool.GetAddress())
 
@@ -131,12 +132,12 @@ func TestSlashRedelegation(t *testing.T) {
 	// set a redelegation with an expiration timestamp beyond which the
 	// redelegation shouldn't be slashed
 	rd := types.NewRedelegation(addrDels[0], addrVals[0], addrVals[1], 0,
-		time.Unix(5, 0), sdk.NewInt(10), sdk.NewDec(10))
+		time.Unix(5, 0), sdk.NewInt(45000000), sdk.NewDec(45000000))
 
 	app.StakingKeeper.SetRedelegation(ctx, rd)
 
 	// set the associated delegation
-	del := types.NewDelegation(addrDels[0], addrVals[1], sdk.NewDec(10))
+	del := types.NewDelegation(addrDels[0], addrVals[1], sdk.NewDec(45000000))
 	app.StakingKeeper.SetDelegation(ctx, del)
 
 	// started redelegating prior to the current height, stake didn't contribute to infraction
@@ -161,24 +162,26 @@ func TestSlashRedelegation(t *testing.T) {
 	validator, found = app.StakingKeeper.GetValidator(ctx, addrVals[1])
 	require.True(t, found)
 	slashAmount = app.StakingKeeper.SlashRedelegation(ctx, validator, rd, 0, fraction)
-	require.True(t, slashAmount.Equal(sdk.NewInt(5)))
+	require.True(t, slashAmount.Equal(sdk.NewInt(22500000)))
+
 	rd, found = app.StakingKeeper.GetRedelegation(ctx, addrDels[0], addrVals[0], addrVals[1])
 	require.True(t, found)
 	require.Len(t, rd.Entries, 1)
 
 	// end block
-	applyValidatorSetUpdates(t, ctx, app.StakingKeeper, 1)
+	applyValidatorSetUpdates(t, ctx, app.StakingKeeper, 0)
 
 	// initialbalance unchanged
-	require.Equal(t, sdk.NewInt(10), rd.Entries[0].InitialBalance)
+	require.Equal(t, sdk.NewInt(45000000), rd.Entries[0].InitialBalance)
 
 	// shares decreased
 	del, found = app.StakingKeeper.GetDelegation(ctx, addrDels[0], addrVals[1])
 	require.True(t, found)
-	require.Equal(t, int64(5), del.Shares.RoundInt64())
+	require.Equal(t, int64(22500000), del.Shares.RoundInt64())
 
 	// pool bonded tokens should decrease
-	burnedCoins := sdk.NewCoins(sdk.NewCoin(app.StakingKeeper.BondDenom(ctx), slashAmount))
+	burnedCoins := sdk.NewCoins(sdk.NewCoin(app.StakingKeeper.BondDenom(ctx), app.StakingKeeper.TokensFromConsensusPower(ctx, slashAmount.Int64())))
+
 	require.Equal(t, balances.Sub(burnedCoins), app.BankKeeper.GetAllBalances(ctx, bondedPool.GetAddress()))
 }
 
@@ -194,7 +197,7 @@ func TestSlashAtFutureHeight(t *testing.T) {
 // test slash at a negative height
 // this just represents pre-genesis and should have the same effect as slashing at height 0
 func TestSlashAtNegativeHeight(t *testing.T) {
-	app, ctx, _, _ := bootstrapSlashTest(t, 10)
+	app, ctx, _, _ := bootstrapSlashTest(t, 44000000)
 	consAddr := sdk.ConsAddress(PKs[0].Address())
 	fraction := sdk.NewDecWithPrec(5, 1)
 
@@ -203,7 +206,7 @@ func TestSlashAtNegativeHeight(t *testing.T) {
 
 	validator, found := app.StakingKeeper.GetValidatorByConsAddr(ctx, consAddr)
 	require.True(t, found)
-	app.StakingKeeper.Slash(ctx, consAddr, -2, 10, fraction)
+	app.StakingKeeper.Slash(ctx, consAddr, -2, 44000000, fraction)
 
 	// read updated state
 	validator, found = app.StakingKeeper.GetValidatorByConsAddr(ctx, consAddr)
@@ -213,19 +216,21 @@ func TestSlashAtNegativeHeight(t *testing.T) {
 	applyValidatorSetUpdates(t, ctx, app.StakingKeeper, 1)
 
 	validator, found = app.StakingKeeper.GetValidator(ctx, validator.GetOperator())
+
 	require.True(t, found)
 	// power decreased
-	require.Equal(t, int64(5), validator.GetConsensusPower(app.StakingKeeper.PowerReduction(ctx)))
+	// power is zero because of validator's status is unbonding.
+	require.Equal(t, int64(0), validator.GetConsensusPower(app.StakingKeeper.PowerReduction(ctx)))
 
 	// pool bonded shares decreased
 	newBondedPoolBalances := app.BankKeeper.GetAllBalances(ctx, bondedPool.GetAddress())
 	diffTokens := oldBondedPoolBalances.Sub(newBondedPoolBalances).AmountOf(app.StakingKeeper.BondDenom(ctx))
-	require.Equal(t, app.StakingKeeper.TokensFromConsensusPower(ctx, 5).String(), diffTokens.String())
+	require.Equal(t, app.StakingKeeper.TokensFromConsensusPower(ctx, 44000000).String(), diffTokens.String())
 }
 
 // tests Slash at the current height
 func TestSlashValidatorAtCurrentHeight(t *testing.T) {
-	app, ctx, _, _ := bootstrapSlashTest(t, 10)
+	app, ctx, _, _ := bootstrapSlashTest(t, 44000000)
 	consAddr := sdk.ConsAddress(PKs[0].Address())
 	fraction := sdk.NewDecWithPrec(5, 1)
 
@@ -234,7 +239,7 @@ func TestSlashValidatorAtCurrentHeight(t *testing.T) {
 
 	validator, found := app.StakingKeeper.GetValidatorByConsAddr(ctx, consAddr)
 	require.True(t, found)
-	app.StakingKeeper.Slash(ctx, consAddr, ctx.BlockHeight(), 10, fraction)
+	app.StakingKeeper.Slash(ctx, consAddr, ctx.BlockHeight(), 44000000, fraction)
 
 	// read updated state
 	validator, found = app.StakingKeeper.GetValidatorByConsAddr(ctx, consAddr)
@@ -246,12 +251,12 @@ func TestSlashValidatorAtCurrentHeight(t *testing.T) {
 	validator, found = app.StakingKeeper.GetValidator(ctx, validator.GetOperator())
 	assert.True(t, found)
 	// power decreased
-	require.Equal(t, int64(5), validator.GetConsensusPower(app.StakingKeeper.PowerReduction(ctx)))
+	require.Equal(t, int64(0), validator.GetConsensusPower(app.StakingKeeper.PowerReduction(ctx)))
 
 	// pool bonded shares decreased
 	newBondedPoolBalances := app.BankKeeper.GetAllBalances(ctx, bondedPool.GetAddress())
 	diffTokens := oldBondedPoolBalances.Sub(newBondedPoolBalances).AmountOf(app.StakingKeeper.BondDenom(ctx))
-	require.Equal(t, app.StakingKeeper.TokensFromConsensusPower(ctx, 5).String(), diffTokens.String())
+	require.Equal(t, app.StakingKeeper.TokensFromConsensusPower(ctx, 44000000).String(), diffTokens.String())
 }
 
 // tests Slash at a previous height with an unbonding delegation
