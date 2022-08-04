@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	PKS = simapp.CreateTestPubKeys(5)
+	PKS = simapp.CreateTestPubKeys(29)
 
 	valConsPk1 = PKS[0]
 	valConsPk2 = PKS[1]
