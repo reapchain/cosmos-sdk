@@ -1,6 +1,7 @@
 package keeper_test
 
 import (
+	"github.com/reapchain/cosmos-sdk/x/staking"
 	"testing"
 
 	abci "github.com/reapchain/reapchain-core/abci/types"
@@ -14,6 +15,19 @@ import (
 	stakingtypes "github.com/reapchain/cosmos-sdk/x/staking/types"
 )
 
+const cntValidators, cntStandingMembers, cntSteeringMembers = 29, 14, 15
+
+var (
+	app      *simapp.SimApp
+	ctx      sdk.Context
+	addrs    []sdk.AccAddress
+	valAddrs []sdk.ValAddress
+)
+
+func init() {
+}
+
+/*
 func TestAllocateTokensToValidatorWithCommission(t *testing.T) {
 	app := simapp.Setup(false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
@@ -313,4 +327,327 @@ func TestAllocateTokensTruncation(t *testing.T) {
 	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(180, 1)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[1]).Rewards)
 	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(180, 1)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[2]).Rewards)
 
+}
+*/
+
+// 0. init test
+func InitTest(t *testing.T) {
+
+	app = simapp.Setup(false)
+	ctx = app.BaseApp.NewContext(false, tmproto.Header{})
+
+	addrs = simapp.AddTestAddrs(app, ctx, cntValidators, sdk.NewInt(100000000))
+	valAddrs = simapp.ConvertAddrsToValAddrs(addrs)
+
+	tstaking := teststaking.NewHelper(t, ctx, app.StakingKeeper)
+
+	for i := 0; i < cntValidators; i++ {
+		if i < cntStandingMembers {
+			// create standing validator with 10% commission
+			tstaking.Commission = stakingtypes.NewCommissionRates(sdk.NewDecWithPrec(1, 1), sdk.NewDecWithPrec(1, 1), sdk.NewDec(0))
+			tstaking.CreateValidator(valAddrs[i], PKS[i], sdk.NewInt(44000000), true, stakingtypes.ValidatorTypeStanding)
+		} else {
+			// create steering validator with 100% commission
+			tstaking.Commission = stakingtypes.NewCommissionRates(sdk.NewDec(0), sdk.NewDec(0), sdk.NewDec(0))
+			tstaking.CreateValidator(valAddrs[i], PKS[i], sdk.NewInt(100000), true, stakingtypes.ValidatorTypeSteering)
+		}
+
+	}
+
+	for i := 0; i < cntValidators; i++ {
+		// assert initial state: zero outstanding rewards, zero community pool, zero commission, zero current rewards
+		require.True(t, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards.IsZero())
+		require.True(t, app.DistrKeeper.GetValidatorAccumulatedCommission(ctx, valAddrs[i]).Commission.IsZero())
+		require.True(t, app.DistrKeeper.GetValidatorCurrentRewards(ctx, valAddrs[i]).Rewards.IsZero())
+	}
+
+	require.True(t, app.DistrKeeper.GetFeePool(ctx).CommunityPool.IsZero())
+}
+
+// unbond validator
+func unbondValidator(t *testing.T, no int, amt sdk.Int) {
+	tstaking := teststaking.NewHelper(t, ctx, app.StakingKeeper)
+
+	// unbond validator total self-delegations (which should jail the validator)
+	valAcc := sdk.AccAddress(valAddrs[no])
+	tstaking.Undelegate(valAcc, valAddrs[no], amt, true)
+
+	_, err := app.StakingKeeper.CompleteUnbonding(ctx, sdk.AccAddress(valAddrs[no]), valAddrs[no])
+	require.Nil(t, err, "expected complete unbonding validator to be ok, got: %v", err)
+
+}
+
+// 1. basic distribution test
+func TestBasicAllocateTokens(t *testing.T) {
+	InitTest(t)
+
+	fees := sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(10000)))
+
+	feeCollector := app.AccountKeeper.GetModuleAccount(ctx, types.FeeCollectorName)
+	require.NotNil(t, feeCollector)
+
+	require.NoError(t, simapp.FundModuleAccount(app.BankKeeper, ctx, feeCollector.GetName(), fees))
+
+	app.AccountKeeper.SetAccount(ctx, feeCollector)
+
+	var abciVal [cntValidators]abci.Validator
+	var votes []abci.VoteInfo
+	votes = make([]abci.VoteInfo, cntValidators)
+
+	for i := 0; i < cntValidators; i++ {
+		abciVal[i] = abci.Validator{
+			Address: PKS[i].Address(),
+			Power:   10,
+		}
+
+		votes[i] = abci.VoteInfo{
+			Validator:       abciVal[i],
+			SignedLastBlock: true,
+		}
+	}
+	var vrfList abci.VrfCheckList
+	vrfList.VrfCheckList = make([]*abci.VrfCheck, cntSteeringMembers)
+
+	for i := 0; i < cntSteeringMembers; i++ {
+		vrfList.VrfCheckList[i] = &abci.VrfCheck{
+			SteeringMemberCandidateAddress: sdk.ConsAddress(PKS[cntStandingMembers+i].Address()),
+			IsVrfTransmission:              true,
+		}
+	}
+
+	app.DistrKeeper.AllocateTokens(ctx, 30, 30, sdk.ConsAddress(PKS[0].Address()), votes, vrfList)
+
+	for i := 0; i < cntValidators; i++ {
+		require.True(t, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards.IsValid())
+	}
+
+	//standing + proposer(1%) + bonus(4%)
+	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(7955665024630541855, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[0]).Rewards)
+	//standing
+	for i := 1; i < cntStandingMembers; i++ {
+		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(2955665024630541855, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
+	}
+	//steering
+	for i := cntStandingMembers; i < cntValidators; i++ {
+		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3574712643678160895, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
+	}
+}
+
+// 2. unbond standing validator
+func TestAllocateTokensAfterUnbondStanding(t *testing.T) {
+	InitTest(t)
+	unbondValidator(t, 2, sdk.NewInt(44000000))
+
+	allVals := app.StakingKeeper.GetAllValidators(ctx)
+	require.Equal(t, 28, len(allVals))
+
+	fees := sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(10000)))
+
+	feeCollector := app.AccountKeeper.GetModuleAccount(ctx, types.FeeCollectorName)
+	require.NotNil(t, feeCollector)
+
+	require.NoError(t, simapp.FundModuleAccount(app.BankKeeper, ctx, feeCollector.GetName(), fees))
+
+	app.AccountKeeper.SetAccount(ctx, feeCollector)
+
+	var abciVal [cntValidators]abci.Validator
+	var votes []abci.VoteInfo
+	votes = make([]abci.VoteInfo, cntValidators-1)
+
+	j := 0
+	for i := 0; i < cntValidators; i++ {
+		abciVal[i] = abci.Validator{
+			Address: PKS[i].Address(),
+			Power:   10,
+		}
+
+		if i != 2 {
+			votes[j] = abci.VoteInfo{
+				Validator:       abciVal[i],
+				SignedLastBlock: true,
+			}
+			j++
+		}
+	}
+	var vrfList abci.VrfCheckList
+	vrfList.VrfCheckList = make([]*abci.VrfCheck, cntSteeringMembers)
+
+	for i := 0; i < cntSteeringMembers; i++ {
+		vrfList.VrfCheckList[i] = &abci.VrfCheck{
+			SteeringMemberCandidateAddress: sdk.ConsAddress(PKS[cntStandingMembers+i].Address()),
+			IsVrfTransmission:              true,
+		}
+	}
+
+	app.DistrKeeper.AllocateTokens(ctx, 30, 30, sdk.ConsAddress(PKS[0].Address()), votes, vrfList)
+
+	for i := 0; i < cntValidators; i++ {
+		require.True(t, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards.IsValid())
+	}
+
+	//standing + proposer(1%) + bonus(4%)
+	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(8090659340659340640, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[0]).Rewards)
+	//standing
+	for i := 1; i < cntStandingMembers && i != 2; i++ {
+		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3090659340659340640, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
+	}
+	//steering
+	for i := cntStandingMembers; i < cntValidators; i++ {
+		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3654761904761904730, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
+	}
+
+}
+
+// 3. unbond steering validator
+func TestAllocateTokensAfterUnbondSteering(t *testing.T) {
+	InitTest(t)
+	unbondValidator(t, 15, sdk.NewInt(100000))
+
+	allVals := app.StakingKeeper.GetAllValidators(ctx)
+	require.Equal(t, 28, len(allVals))
+
+	fees := sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(10000)))
+
+	feeCollector := app.AccountKeeper.GetModuleAccount(ctx, types.FeeCollectorName)
+	require.NotNil(t, feeCollector)
+
+	require.NoError(t, simapp.FundModuleAccount(app.BankKeeper, ctx, feeCollector.GetName(), fees))
+
+	app.AccountKeeper.SetAccount(ctx, feeCollector)
+
+	var abciVal [cntValidators]abci.Validator
+	var votes []abci.VoteInfo
+	votes = make([]abci.VoteInfo, cntValidators-1)
+
+	j := 0
+	for i := 0; i < cntValidators; i++ {
+		abciVal[i] = abci.Validator{
+			Address: PKS[i].Address(),
+			Power:   10,
+		}
+
+		if i != 15 {
+			votes[j] = abci.VoteInfo{
+				Validator:       abciVal[i],
+				SignedLastBlock: true,
+			}
+			j++
+		}
+	}
+	var vrfList abci.VrfCheckList
+	vrfList.VrfCheckList = make([]*abci.VrfCheck, cntSteeringMembers-1)
+
+	j = 0
+	for i := 0; i < cntSteeringMembers; i++ {
+		if i != 1 {
+			vrfList.VrfCheckList[j] = &abci.VrfCheck{
+				SteeringMemberCandidateAddress: sdk.ConsAddress(PKS[cntStandingMembers+i].Address()),
+				IsVrfTransmission:              true,
+			}
+			j++
+		}
+	}
+
+	app.DistrKeeper.AllocateTokens(ctx, 30, 30, sdk.ConsAddress(PKS[0].Address()), votes, vrfList)
+
+	for i := 0; i < cntValidators; i++ {
+		require.True(t, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards.IsValid())
+	}
+
+	//standing + proposer(1%) + bonus(4%)
+	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(8035714285714285690, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[0]).Rewards)
+	//standing
+	for i := 1; i < cntStandingMembers; i++ {
+		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3035714285714285690, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
+	}
+	//steering
+	for i := cntStandingMembers; i < cntValidators && i != 15; i++ {
+		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3749999999999999970, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
+	}
+
+}
+
+// 3. delegate rewards test
+func TestAllocateTokensDelegate(t *testing.T) {
+	InitTest(t)
+
+	// end block to bond validator and start new block
+	staking.EndBlocker(ctx, app.StakingKeeper)
+	ctx = ctx.WithBlockHeight(ctx.BlockHeight() + 1)
+
+	// delegate to standing #1
+	tstaking := teststaking.NewHelper(t, ctx, app.StakingKeeper)
+
+	valAcc := sdk.AccAddress(valAddrs[15])
+	tstaking.Delegate(valAcc, valAddrs[1], sdk.NewInt(4400000))
+	del := app.StakingKeeper.Delegation(ctx, valAcc, valAddrs[1])
+
+	require.Equal(t, sdk.NewDec(4400000), del.GetShares())
+
+	val := app.StakingKeeper.Validator(ctx, valAddrs[1])
+
+	fees := sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(10000)))
+
+	feeCollector := app.AccountKeeper.GetModuleAccount(ctx, types.FeeCollectorName)
+	require.NotNil(t, feeCollector)
+
+	require.NoError(t, simapp.FundModuleAccount(app.BankKeeper, ctx, feeCollector.GetName(), fees))
+
+	app.AccountKeeper.SetAccount(ctx, feeCollector)
+
+	var abciVal [cntValidators]abci.Validator
+	var votes []abci.VoteInfo
+	votes = make([]abci.VoteInfo, cntValidators)
+
+	for i := 0; i < cntValidators; i++ {
+		abciVal[i] = abci.Validator{
+			Address: PKS[i].Address(),
+			Power:   10,
+		}
+
+		votes[i] = abci.VoteInfo{
+			Validator:       abciVal[i],
+			SignedLastBlock: true,
+		}
+	}
+	var vrfList abci.VrfCheckList
+	vrfList.VrfCheckList = make([]*abci.VrfCheck, cntSteeringMembers)
+
+	for i := 0; i < cntSteeringMembers; i++ {
+		vrfList.VrfCheckList[i] = &abci.VrfCheck{
+			SteeringMemberCandidateAddress: sdk.ConsAddress(PKS[cntStandingMembers+i].Address()),
+			IsVrfTransmission:              true,
+		}
+	}
+
+	app.DistrKeeper.AllocateTokens(ctx, 30, 30, sdk.ConsAddress(PKS[0].Address()), votes, vrfList)
+
+	for i := 0; i < cntValidators; i++ {
+		require.True(t, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards.IsValid())
+	}
+
+	//standing + proposer(1%) + bonus(4%)
+	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(7955665024630541855, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[0]).Rewards)
+	//standing
+	for i := 1; i < cntStandingMembers; i++ {
+		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(2955665024630541855, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
+	}
+	//steering
+	for i := cntStandingMembers; i < cntValidators; i++ {
+		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3574712643678160895, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
+	}
+
+	// end block to bond validator and start new block
+	//staking.EndBlocker(ctx, app.StakingKeeper)
+	ctx = ctx.WithBlockHeight(ctx.BlockHeight() + 1)
+
+	//fmt.Println("total Rewards=> ", app.DistrKeeper.GetValidatorCurrentRewards(ctx, valAddrs[1]).Rewards)
+
+	// end period
+	endingPeriod := app.DistrKeeper.IncrementValidatorPeriod(ctx, val)
+
+	// calculate delegation rewards ==> 9.091%
+	rewards := app.DistrKeeper.CalculateDelegationRewards(ctx, val, del, endingPeriod)
+	//fmt.Println("Rewards => ", rewards)
+	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(241827138378848000, 16)}}, rewards)
 }
