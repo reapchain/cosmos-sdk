@@ -422,14 +422,14 @@ func TestBasicAllocateTokens(t *testing.T) {
 	}
 
 	//standing + proposer(1%) + bonus(4%)
-	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(7955665024630541855, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[0]).Rewards)
+	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3128078817733990130, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[0]).Rewards)
 	//standing
 	for i := 1; i < cntStandingMembers; i++ {
-		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(2955665024630541855, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
+		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3128078817733990130, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
 	}
 	//steering
 	for i := cntStandingMembers; i < cntValidators; i++ {
-		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3574712643678160895, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
+		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3747126436781609170, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
 	}
 }
 
@@ -485,15 +485,15 @@ func TestAllocateTokensAfterUnbondStanding(t *testing.T) {
 		require.True(t, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards.IsValid())
 	}
 
-	//standing + proposer(1%) + bonus(4%)
-	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(8090659340659340640, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[0]).Rewards)
+	//standing
+	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3269230769230769210, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[0]).Rewards)
 	//standing
 	for i := 1; i < cntStandingMembers && i != 2; i++ {
-		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3090659340659340640, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
+		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3269230769230769210, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
 	}
 	//steering
 	for i := cntStandingMembers; i < cntValidators; i++ {
-		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3654761904761904730, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
+		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3833333333333333300, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
 	}
 
 }
@@ -554,15 +554,15 @@ func TestAllocateTokensAfterUnbondSteering(t *testing.T) {
 		require.True(t, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards.IsValid())
 	}
 
-	//standing + proposer(1%) + bonus(4%)
-	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(8035714285714285690, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[0]).Rewards)
+	//standing
+	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3214285714285714260, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[0]).Rewards)
 	//standing
 	for i := 1; i < cntStandingMembers; i++ {
-		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3035714285714285690, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
+		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3214285714285714260, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
 	}
 	//steering
 	for i := cntStandingMembers; i < cntValidators && i != 15; i++ {
-		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3749999999999999970, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
+		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3928571428571428540, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
 	}
 
 }
@@ -626,15 +626,15 @@ func TestAllocateTokensDelegate(t *testing.T) {
 		require.True(t, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards.IsValid())
 	}
 
-	//standing + proposer(1%) + bonus(4%)
-	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(7955665024630541855, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[0]).Rewards)
+	//standing
+	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3128078817733990130, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[0]).Rewards)
 	//standing
 	for i := 1; i < cntStandingMembers; i++ {
-		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(2955665024630541855, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
+		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3128078817733990130, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
 	}
 	//steering
 	for i := cntStandingMembers; i < cntValidators; i++ {
-		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3574712643678160895, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
+		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3747126436781609170, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
 	}
 
 	// end block to bond validator and start new block
@@ -649,5 +649,5 @@ func TestAllocateTokensDelegate(t *testing.T) {
 	// calculate delegation rewards ==> 9.091%
 	rewards := app.DistrKeeper.CalculateDelegationRewards(ctx, val, del, endingPeriod)
 	//fmt.Println("Rewards => ", rewards)
-	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(241827138378848000, 16)}}, rewards)
+	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(255933721450924000, 16)}}, rewards)
 }

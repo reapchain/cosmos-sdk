@@ -53,16 +53,6 @@ func (k Keeper) AllocateTokens(
 	// 4. allValidators is a list of validator in the Block of corresponding height.
 	allValidators := append(standingMembers, steeringMemberCandidatesLived...)
 
-	/*
-		//////////////////////////////////////////////////////////////////////////////////////////////////
-		fmt.Println("######## validator info ########")
-		fmt.Println("steeringMemberCandidatesLived: ", len(steeringMemberCandidatesLived))
-		fmt.Println("standingMembers: ", len(standingMembers))
-		fmt.Println("steeringMembers: ", len(steeringMembers))
-		fmt.Println("allValidators: ", len(allValidators))
-		//////////////////////////////////////////////////////////////////////////////////////////////////
-	*/
-
 	// fetch and clear the collected fees for distribution, since this is
 	// called in BeginBlock, collected fees will be from the previous block
 	// (and distributed to the previous proposer)
@@ -90,21 +80,26 @@ func (k Keeper) AllocateTokens(
 		k.SetFeePool(ctx, feePool)
 		return
 	}
+	/*
+		No rewards for proposer(2022.08.04)
 
-	// calculate fraction votes
-	previousFractionVotes := sdk.NewDec(sumPreviousPrecommitPower).Quo(sdk.NewDec(totalPreviousPower))
 
-	// calculate previous proposer reward
-	baseProposerReward := k.GetBaseProposerReward(ctx)
-	bonusProposerReward := k.GetBonusProposerReward(ctx)
-	proposerMultiplier := baseProposerReward.Add(bonusProposerReward.MulTruncate(previousFractionVotes))
-	proposerReward := feesCollected.MulDecTruncate(proposerMultiplier)
+		// calculate fraction votes
+		previousFractionVotes := sdk.NewDec(sumPreviousPrecommitPower).Quo(sdk.NewDec(totalPreviousPower))
 
+		// calculate previous proposer reward
+		baseProposerReward := k.GetBaseProposerReward(ctx)
+		bonusProposerReward := k.GetBonusProposerReward(ctx)
+		proposerMultiplier := baseProposerReward.Add(bonusProposerReward.MulTruncate(previousFractionVotes))
+		proposerReward := feesCollected.MulDecTruncate(proposerMultiplier)
+	*/
 	// pay previous proposer
 	remaining := feesCollected
 	proposerValidator := k.stakingKeeper.ValidatorByConsAddr(ctx, previousProposer)
 
 	if proposerValidator != nil {
+		/* No rewards for proposer(2022.08.04)
+
 		ctx.EventManager().EmitEvent(
 			sdk.NewEvent(
 				types.EventTypeProposerReward,
@@ -115,6 +110,7 @@ func (k Keeper) AllocateTokens(
 
 		k.AllocateTokensToValidator(ctx, proposerValidator, proposerReward)
 		remaining = remaining.Sub(proposerReward)
+		*/
 	} else {
 		// previous proposer can be unknown if say, the unbonding period is 1 block, so
 		// e.g. a validator undelegates at block X, it's removed entirely by
@@ -142,30 +138,10 @@ func (k Keeper) AllocateTokens(
 	communityTax := k.GetCommunityTax(ctx)
 
 	// calculate all validator(alive) rewards
-	voteMultiplier := sdk.OneDec().Sub(proposerMultiplier).Sub(standingMemberRewardPercent).Sub(steeringMemberRewardPercent).Sub(communityTax)
+	// No rewards for proposer(2022.08.04)
+	//voteMultiplier := sdk.OneDec().Sub(proposerMultiplier).Sub(standingMemberRewardPercent).Sub(steeringMemberRewardPercent).Sub(communityTax)
+	voteMultiplier := sdk.OneDec().Sub(standingMemberRewardPercent).Sub(steeringMemberRewardPercent).Sub(communityTax)
 	allValidatorReward := feesCollected.MulDecTruncate(voteMultiplier)
-
-	//remaining = remaining.Sub(standingMemberReward).Sub(steeringMemberReward).Sub(allValidatorReward)
-
-	/*
-		//////////////////////////////////////////////////////////////////////////////////////////////////
-		fmt.Println("############ Rewards ############")
-		fmt.Println("feesCollected: ", feesCollected)
-
-		fmt.Println("baseProposerReward: ", baseProposerReward)
-		fmt.Println("bonusProposerReward: ", bonusProposerReward)
-		fmt.Println("proposerMultiplier: ", proposerMultiplier)
-		fmt.Println("proposerReward: ", proposerReward)
-
-		fmt.Println("communityTax: ", communityTax)
-		fmt.Println("voteMultiplier: ", voteMultiplier)
-
-		fmt.Println("standingMemberReward: ", standingMemberReward)
-		fmt.Println("steeringMemberReward: ", steeringMemberReward)
-		fmt.Println("allValidatorReward: ", allValidatorReward)
-		//fmt.Println("remain: ", remaining)
-		//////////////////////////////////////////////////////////////////////////////////////////////////
-	*/
 
 	// allocate tokens to Standing Members
 	totalStandingMember := sdk.NewInt(int64(len(standingMembers)))
