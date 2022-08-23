@@ -336,7 +336,7 @@ func InitTest(t *testing.T) {
 	app = simapp.Setup(false)
 	ctx = app.BaseApp.NewContext(false, tmproto.Header{})
 
-	addrs = simapp.AddTestAddrs(app, ctx, cntValidators, sdk.NewInt(100000000))
+	addrs = simapp.AddTestAddrs(app, ctx, cntValidators, sdk.NewInt(100000000000).Mul(sdk.NewInt(1000000000000000000)))
 	valAddrs = simapp.ConvertAddrsToValAddrs(addrs)
 
 	tstaking := teststaking.NewHelper(t, ctx, app.StakingKeeper)
@@ -345,11 +345,11 @@ func InitTest(t *testing.T) {
 		if i < cntStandingMembers {
 			// create standing validator with 10% commission
 			tstaking.Commission = stakingtypes.NewCommissionRates(sdk.NewDecWithPrec(1, 1), sdk.NewDecWithPrec(1, 1), sdk.NewDec(0))
-			tstaking.CreateValidator(valAddrs[i], PKS[i], sdk.NewInt(44000000), true, stakingtypes.ValidatorTypeStanding)
+			tstaking.CreateValidator(valAddrs[i], PKS[i], sdk.NewInt(44000000).Mul(sdk.NewInt(1000000000000000000)), true, stakingtypes.ValidatorTypeStanding)
 		} else {
 			// create steering validator with 100% commission
 			tstaking.Commission = stakingtypes.NewCommissionRates(sdk.NewDec(0), sdk.NewDec(0), sdk.NewDec(0))
-			tstaking.CreateValidator(valAddrs[i], PKS[i], sdk.NewInt(100000), true, stakingtypes.ValidatorTypeSteering)
+			tstaking.CreateValidator(valAddrs[i], PKS[i], sdk.NewInt(100000).Mul(sdk.NewInt(1000000000000000000)), true, stakingtypes.ValidatorTypeSteering)
 		}
 
 	}
@@ -501,12 +501,12 @@ func TestAllocateTokensAfterUnbondStanding(t *testing.T) {
 // 3. unbond steering validator
 func TestAllocateTokensAfterUnbondSteering(t *testing.T) {
 	InitTest(t)
-	unbondValidator(t, 15, sdk.NewInt(100000))
+	unbondValidator(t, 15, sdk.NewInt(100000).Mul(sdk.NewInt(1000000000000000000)))
 
 	allVals := app.StakingKeeper.GetAllValidators(ctx)
 	require.Equal(t, 28, len(allVals))
 
-	fees := sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(10000)))
+	fees := sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(10000).Mul(sdk.NewInt(1000000000000000000))))
 
 	feeCollector := app.AccountKeeper.GetModuleAccount(ctx, types.FeeCollectorName)
 	require.NotNil(t, feeCollector)
@@ -554,7 +554,7 @@ func TestAllocateTokensAfterUnbondSteering(t *testing.T) {
 		require.True(t, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards.IsValid())
 	}
 
-	//standing
+	//standing proposer
 	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3214285714285714260, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[0]).Rewards)
 	//standing
 	for i := 1; i < cntStandingMembers; i++ {
@@ -579,14 +579,13 @@ func TestAllocateTokensDelegate(t *testing.T) {
 	tstaking := teststaking.NewHelper(t, ctx, app.StakingKeeper)
 
 	valAcc := sdk.AccAddress(valAddrs[15])
-	tstaking.Delegate(valAcc, valAddrs[1], sdk.NewInt(4400000))
+	amtDelegate := sdk.NewInt(4400000).Mul(sdk.NewInt(1000000000000000000))
+	tstaking.Delegate(valAcc, valAddrs[1], amtDelegate)
 	del := app.StakingKeeper.Delegation(ctx, valAcc, valAddrs[1])
 
-	require.Equal(t, sdk.NewDec(4400000), del.GetShares())
+	require.Equal(t, sdk.NewDecFromInt(amtDelegate), del.GetShares())
 
-	val := app.StakingKeeper.Validator(ctx, valAddrs[1])
-
-	fees := sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(10000)))
+	fees := sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(10).Mul(sdk.NewInt(1000000000000000000))))
 
 	feeCollector := app.AccountKeeper.GetModuleAccount(ctx, types.FeeCollectorName)
 	require.NotNil(t, feeCollector)
@@ -627,21 +626,24 @@ func TestAllocateTokensDelegate(t *testing.T) {
 	}
 
 	//standing
-	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3128078817733990130, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[0]).Rewards)
+	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDec(312807881773399013)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[0]).Rewards)
 	//standing
 	for i := 1; i < cntStandingMembers; i++ {
-		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3128078817733990130, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
+		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDec(312807881773399013)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
 	}
 	//steering
 	for i := cntStandingMembers; i < cntValidators; i++ {
-		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(3747126436781609170, 16)}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
+		expAmount, _ := sdk.NewDecFromStr("374712643678160916.919540229885057460")
+		require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: expAmount}}, app.DistrKeeper.GetValidatorOutstandingRewards(ctx, valAddrs[i]).Rewards)
 	}
 
 	// end block to bond validator and start new block
-	//staking.EndBlocker(ctx, app.StakingKeeper)
+	staking.EndBlocker(ctx, app.StakingKeeper)
 	ctx = ctx.WithBlockHeight(ctx.BlockHeight() + 1)
 
-	//fmt.Println("total Rewards=> ", app.DistrKeeper.GetValidatorCurrentRewards(ctx, valAddrs[1]).Rewards)
+	//fmt.Println("total Rewards => ", app.DistrKeeper.GetValidatorCurrentRewards(ctx, valAddrs[1]).Rewards)
+
+	val := app.StakingKeeper.Validator(ctx, valAddrs[1])
 
 	// end period
 	endingPeriod := app.DistrKeeper.IncrementValidatorPeriod(ctx, val)
@@ -649,5 +651,5 @@ func TestAllocateTokensDelegate(t *testing.T) {
 	// calculate delegation rewards ==> 9.091%
 	rewards := app.DistrKeeper.CalculateDelegationRewards(ctx, val, del, endingPeriod)
 	//fmt.Println("Rewards => ", rewards)
-	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecWithPrec(255933721450924000, 16)}}, rewards)
+	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDec(25593372142800000)}}, rewards)
 }
