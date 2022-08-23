@@ -178,16 +178,18 @@ func (k Keeper) AllocateTokens(
 		totalPowerSteeringMemberCandidatesLived += val.GetConsensusPower(sdk.DefaultPowerReduction)
 	}
 
-	for _, val := range steeringMemberCandidatesLived {
-		valPower := sdk.NewDecFromBigInt(big.NewInt(val.GetConsensusPower(sdk.DefaultPowerReduction)))
-		totalPower := sdk.NewDecFromBigInt(big.NewInt(totalPowerSteeringMemberCandidatesLived))
-		rewardRate := valPower.QuoTruncate(totalPower)
+	if totalPowerSteeringMemberCandidatesLived > 0 {
+		for _, val := range steeringMemberCandidatesLived {
+			valPower := sdk.NewDecFromBigInt(big.NewInt(val.GetConsensusPower(sdk.DefaultPowerReduction)))
+			totalPower := sdk.NewDecFromBigInt(big.NewInt(totalPowerSteeringMemberCandidatesLived))
+			rewardRate := valPower.QuoTruncate(totalPower)
 
-		rateRewardsPercent, _ := sdk.NewDecFromStr(fmt.Sprintf("%v", rewardRate))
-		reward := remainAllValidatorsReward.MulDecTruncate(rateRewardsPercent)
+			rateRewardsPercent, _ := sdk.NewDecFromStr(fmt.Sprintf("%v", rewardRate))
+			reward := remainAllValidatorsReward.MulDecTruncate(rateRewardsPercent)
 
-		k.AllocateTokensToValidator(ctx, val, reward)
-		remaining = remaining.Sub(reward)
+			k.AllocateTokensToValidator(ctx, val, reward)
+			remaining = remaining.Sub(reward)
+		}
 	}
 
 	/*
