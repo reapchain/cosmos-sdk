@@ -26,7 +26,7 @@ var (
 	defaultCommissionMaxRate       = "0.2"
 	defaultCommissionMaxChangeRate = "0.01"
 	defaultMinSelfDelegation       = "1"
-	defaultValidatorType           = "steering"
+	defaultValidatorType           = types.ValidatorTypeSteering
 )
 
 // NewTxCmd returns a root CLI command handler for all x/staking transaction commands.

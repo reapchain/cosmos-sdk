@@ -212,7 +212,7 @@ func (k msgServer) Delegate(goCtx context.Context, msg *types.MsgDelegate) (*typ
 	}
 
 	// if validator is steering member, valAddr and delegatorAddress must be the same.
-	if validator.Type == "steering" && !valAddr.Equals(delegatorAddress) {
+	if validator.Type == types.ValidatorTypeSteering && !valAddr.Equals(delegatorAddress) {
 		return nil, sdkerrors.Wrapf(
 			sdkerrors.ErrInvalidRequest, "validator and delegator must be the same.",
 		)
