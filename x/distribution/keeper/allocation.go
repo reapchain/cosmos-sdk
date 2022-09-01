@@ -43,9 +43,9 @@ func (k Keeper) AllocateTokens(
 
 	for _, voteInfo := range bondedVotes {
 		validator := k.stakingKeeper.ValidatorByConsAddr(ctx, voteInfo.Validator.GetAddress())
-		if validator.GetType() == "standing" {
+		if validator.GetType() == stakingtypes.ValidatorTypeStanding {
 			standingMembers = append(standingMembers, validator)
-		} else if validator.GetType() == "steering" {
+		} else if validator.GetType() == stakingtypes.ValidatorTypeSteering {
 			steeringMembers = append(steeringMembers, validator)
 		}
 	}
