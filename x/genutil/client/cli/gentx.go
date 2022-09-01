@@ -232,7 +232,7 @@ func validateValidatorConditions(valType string, amount sdk.Coins) error {
 	}
 
 	minSteeringMemberStakingCoin, _ := sdk.ParseCoinsNormalized(stakingtypes.MinSteeringMemberStakingQuantity)
-	if valType == "steering" && amount.IsAllLT(minSteeringMemberStakingCoin) {
+	if valType == stakingtypes.ValidatorTypeSteering && amount.IsAllLT(minSteeringMemberStakingCoin) {
 		return errors.New(fmt.Sprintf("Steering members must have more than %s.", stakingtypes.MinSteeringMemberStakingQuantity))
 	}
 

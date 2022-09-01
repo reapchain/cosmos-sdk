@@ -697,7 +697,7 @@ func TestApplyAndReturnValidatorSetUpdatesAllNone(t *testing.T) {
 		valAddr := sdk.ValAddress(valPubKey.Address().Bytes())
 
 		validators[i] = teststaking.NewValidator(t, valAddr, valPubKey, types.ValidatorTypeStanding)
-		validators[i].Type = "steering"
+		validators[i].Type = types.ValidatorTypeSteering
 		tokens := app.StakingKeeper.TokensFromConsensusPower(ctx, power)
 		validators[i], _ = validators[i].AddTokensFromDel(tokens)
 	}
@@ -914,7 +914,7 @@ func TestApplyAndReturnValidatorSetUpdatesNewValidator(t *testing.T) {
 		valAddr := sdk.ValAddress(valPubKey.Address().Bytes())
 
 		validators[i] = teststaking.NewValidator(t, valAddr, valPubKey, types.ValidatorTypeStanding)
-		validators[i].Type = "steering"
+		validators[i].Type = types.ValidatorTypeSteering
 		tokens := app.StakingKeeper.TokensFromConsensusPower(ctx, power)
 		validators[i], _ = validators[i].AddTokensFromDel(tokens)
 
