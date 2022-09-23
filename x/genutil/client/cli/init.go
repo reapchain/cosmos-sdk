@@ -144,12 +144,14 @@ func InitCmd(mbm module.BasicManager, defaultNodeHome string) *cobra.Command {
 				Address: corePubKey.Address(),
 				PubKey:  corePubKey,
 				Power:   10,
+				Type: "standing",
 			}}
 
 			genDoc.StandingMembers = []types.GenesisMember{{
 				Address: corePubKey.Address(),
 				PubKey:  corePubKey,
 				Name:    args[0],
+				Power: 100,
 			}}
 
 			qrnValue := tmrand.Uint64()
