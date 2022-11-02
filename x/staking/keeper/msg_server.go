@@ -266,6 +266,10 @@ func (k msgServer) BeginRedelegate(goCtx context.Context, msg *types.MsgBeginRed
 	if err != nil {
 		return nil, err
 	}
+	valDstAddr, err := sdk.ValAddressFromBech32(msg.ValidatorDstAddress)
+	if err != nil {
+		return nil, err
+	}
 	delegatorAddress, err := sdk.AccAddressFromBech32(msg.DelegatorAddress)
 	if err != nil {
 		return nil, err
@@ -277,16 +281,23 @@ func (k msgServer) BeginRedelegate(goCtx context.Context, msg *types.MsgBeginRed
 		return nil, err
 	}
 
+	validatorDst, found := k.GetValidator(ctx, valDstAddr)
+	if !found {
+		return nil, types.ErrNoValidatorFound
+	}
+
+	// if destination validator is steering member, it can't redelegate.
+	if validatorDst.Type == types.ValidatorTypeSteering {
+		return nil, sdkerrors.Wrapf(
+			sdkerrors.ErrInvalidRequest, "if destination validator is steering, it can't redelegate",
+		)
+	}
+
 	bondDenom := k.BondDenom(ctx)
 	if msg.Amount.Denom != bondDenom {
 		return nil, sdkerrors.Wrapf(
 			sdkerrors.ErrInvalidRequest, "invalid coin denomination: got %s, expected %s", msg.Amount.Denom, bondDenom,
 		)
-	}
-
-	valDstAddr, err := sdk.ValAddressFromBech32(msg.ValidatorDstAddress)
-	if err != nil {
-		return nil, err
 	}
 
 	completionTime, err := k.BeginRedelegation(
