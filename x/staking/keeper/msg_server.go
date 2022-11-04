@@ -287,7 +287,7 @@ func (k msgServer) BeginRedelegate(goCtx context.Context, msg *types.MsgBeginRed
 	}
 
 	// if destination validator is steering member, it can't redelegate.
-	if validatorDst.Type == types.ValidatorTypeSteering {
+	if !delegatorAddress.Equals(valDstAddr) && validatorDst.Type == types.ValidatorTypeSteering {
 		return nil, sdkerrors.Wrapf(
 			sdkerrors.ErrInvalidRequest, "if destination validator is steering, it can't redelegate",
 		)
