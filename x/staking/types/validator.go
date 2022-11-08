@@ -27,6 +27,9 @@ const (
 	MaxSecurityContactLength = 140
 	MaxDetailsLength         = 280
 
+	// TODO: Currently 'standing' and 'steering' are case-sensitive. 
+	// Creating a validator with the validator-type tage as 'STANDING' or 'STEERING' executes properly without error messages but does not create a validator.
+	// Need to allow for case-insensitivity.
 	ValidatorTypeStanding = "standing"
 	ValidatorTypeSteering = "steering"
 
