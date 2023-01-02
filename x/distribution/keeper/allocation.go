@@ -126,6 +126,7 @@ func (k Keeper) AllocateTokens(
 	}
 
 	// reward rate.
+	// TODO: need to set genesis params
 	standingMemberRewardPercent, _ := sdk.NewDecFromStr("0.1") // 10%
 	steeringMemberRewardPercent, _ := sdk.NewDecFromStr("0.2") // 20%
 
@@ -179,9 +180,20 @@ func (k Keeper) AllocateTokens(
 	totalSteeringMember := sdk.NewInt(int64(len(steeringMembers)))
 	for _, val := range steeringMembers {
 		reward := steeringMemberReward.MulDecTruncate(sdk.OneDec().QuoTruncate(sdk.NewDecFromInt(totalSteeringMember)))
-		reward2 := steeringMemberReward2.MulDecTruncate(sdk.OneDec().QuoTruncate(sdk.NewDecFromInt(totalSteeringMember)))
 
-		rewardsTotalCoin := reward.AmountOf(sdk.DefaultBondDenom).Add(reward2.AmountOf(sdk.DefaultBondDenom))
+		rewardsTotalCoin := reward.AmountOf(sdk.DefaultBondDenom)
+		rewards := sdk.NewDecCoins(sdk.NewDecCoinFromDec(sdk.DefaultBondDenom, rewardsTotalCoin))
+
+		k.AllocateTokensToValidator(ctx, val, rewards)
+		remaining = remaining.Sub(rewards)
+	}
+
+	// allocate tokens to Steering Members candidates lived
+	totalSteeringMemberCandidatesLived := sdk.NewInt(int64(len(steeringMemberCandidatesLived)))
+	for _, val := range steeringMemberCandidatesLived {
+		reward2 := steeringMemberReward2.MulDecTruncate(sdk.OneDec().QuoTruncate(sdk.NewDecFromInt(totalSteeringMemberCandidatesLived)))
+
+		rewardsTotalCoin := reward2.AmountOf(sdk.DefaultBondDenom)
 		rewards := sdk.NewDecCoins(sdk.NewDecCoinFromDec(sdk.DefaultBondDenom, rewardsTotalCoin))
 
 		k.AllocateTokensToValidator(ctx, val, rewards)
