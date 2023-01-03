@@ -21,43 +21,15 @@ func (k Keeper) AllocateTokens(
 ) {
 	logger := k.Logger(ctx)
 
-	// make reward targets
-
-	// 1. steeringMemberCandidatesLived is a list of steering member candidate that was operating in the previous round.
-	steeringMemberCandidatesLived := make([]stakingtypes.ValidatorI, len(vrfList.VrfCheckList))
-	i := 0
-	for _, smc := range vrfList.VrfCheckList {
-		if smc.IsVrfTransmission {
-			val := k.stakingKeeper.ValidatorByConsAddr(ctx, smc.GetSteeringMemberCandidateAddress())
-			steeringMemberCandidatesLived[i] = val
-			i++
-		}
-	}
-	steeringMemberCandidatesLived = steeringMemberCandidatesLived[:i]
-
-	// 2. standingMembers is a list of validator(standing member) in the Block of corresponding height.
-	var standingMembers []stakingtypes.ValidatorI
-
-	// 3. steeringMembers is a list of validator(steering member) in the Block of corresponding height.
-	var steeringMembers []stakingtypes.ValidatorI
-
-	for _, voteInfo := range bondedVotes {
-		validator := k.stakingKeeper.ValidatorByConsAddr(ctx, voteInfo.Validator.GetAddress())
-		if validator.GetType() == stakingtypes.ValidatorTypeStanding {
-			standingMembers = append(standingMembers, validator)
-		} else if validator.GetType() == stakingtypes.ValidatorTypeSteering {
-			steeringMembers = append(steeringMembers, validator)
-		}
-	}
-
-	// 4. allValidators is a list of validator in the Block of corresponding height.
-	allValidators := append(standingMembers, steeringMemberCandidatesLived...)
-
 	// fetch and clear the collected fees for distribution, since this is
 	// called in BeginBlock, collected fees will be from the previous block
 	// (and distributed to the previous proposer)
 	feeCollector := k.authKeeper.GetModuleAccount(ctx, k.feeCollectorName)
 	feesCollectedInt := k.bankKeeper.GetAllBalances(ctx, feeCollector.GetAddress())
+
+	if feesCollectedInt.IsZero() {
+		return
+	}
 
 	// For distribution test
 	//if feesCollectedInt.IsAllGT(sdk.NewCoins(sdk.NewInt64Coin("areap", 1000000))) {
@@ -93,8 +65,41 @@ func (k Keeper) AllocateTokens(
 		proposerMultiplier := baseProposerReward.Add(bonusProposerReward.MulTruncate(previousFractionVotes))
 		proposerReward := feesCollected.MulDecTruncate(proposerMultiplier)
 	*/
-	// pay previous proposer
 	remaining := feesCollected
+
+	// make reward targets
+
+	// 1. steeringMemberCandidatesLived is a list of steering member candidate that was operating in the previous round.
+	steeringMemberCandidatesLived := make([]stakingtypes.ValidatorI, len(vrfList.VrfCheckList))
+	i := 0
+	for _, smc := range vrfList.VrfCheckList {
+		if smc.IsVrfTransmission {
+			val := k.stakingKeeper.ValidatorByConsAddr(ctx, smc.GetSteeringMemberCandidateAddress())
+			steeringMemberCandidatesLived[i] = val
+			i++
+		}
+	}
+	steeringMemberCandidatesLived = steeringMemberCandidatesLived[:i]
+
+	// 2. standingMembers is a list of validator(standing member) in the Block of corresponding height.
+	var standingMembers []stakingtypes.ValidatorI
+
+	// 3. steeringMembers is a list of validator(steering member) in the Block of corresponding height.
+	var steeringMembers []stakingtypes.ValidatorI
+
+	for _, voteInfo := range bondedVotes {
+		validator := k.stakingKeeper.ValidatorByConsAddr(ctx, voteInfo.Validator.GetAddress())
+		if validator.GetType() == stakingtypes.ValidatorTypeStanding {
+			standingMembers = append(standingMembers, validator)
+		} else if validator.GetType() == stakingtypes.ValidatorTypeSteering {
+			steeringMembers = append(steeringMembers, validator)
+		}
+	}
+
+	// 4. allValidators is a list of validator in the Block of corresponding height.
+	allValidators := append(standingMembers, steeringMemberCandidatesLived...)
+
+	// pay previous proposer
 	proposerValidator := k.stakingKeeper.ValidatorByConsAddr(ctx, previousProposer)
 
 	if proposerValidator != nil {
