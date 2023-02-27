@@ -83,7 +83,7 @@ func CanWithdrawInvariant(k Keeper) sdk.Invariant {
 			delegationAddrs, ok := valDelegationAddrs[val.GetOperator().String()]
 			if ok {
 				for _, delAddr := range delegationAddrs {
-					if _, err := k.WithdrawDelegationRewards(ctx, delAddr, val.GetOperator()); err != nil {
+					if _, err := k.WithdrawDelegationRewardsCheckInvariants(ctx, delAddr, val.GetOperator()); err != nil {
 						panic(err)
 					}
 				}

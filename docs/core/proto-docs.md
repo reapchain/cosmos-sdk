@@ -3745,6 +3745,7 @@ Params defines the set of params for the distribution module.
 | `base_proposer_reward` | [string](#string) |  |  |
 | `bonus_proposer_reward` | [string](#string) |  |  |
 | `withdraw_addr_enabled` | [bool](#bool) |  |  |
+| `withdraw_reward_enabled` | [bool](#bool) |  |  |
 
 
 

@@ -15,6 +15,8 @@ var (
 	ParamStoreKeyBaseProposerReward  = []byte("baseproposerreward")
 	ParamStoreKeyBonusProposerReward = []byte("bonusproposerreward")
 	ParamStoreKeyWithdrawAddrEnabled = []byte("withdrawaddrenabled")
+
+	ParamStoreKeyWithdrawRewardEnabled = []byte("WithdrawRewardEnabled")
 )
 
 // ParamKeyTable returns the parameter key table.
@@ -25,10 +27,11 @@ func ParamKeyTable() paramtypes.KeyTable {
 // DefaultParams returns default distribution parameters
 func DefaultParams() Params {
 	return Params{
-		CommunityTax:        sdk.NewDecWithPrec(0, 2), // 0%
-		BaseProposerReward:  sdk.NewDecWithPrec(1, 2), // 1%
-		BonusProposerReward: sdk.NewDecWithPrec(4, 2), // 4%
-		WithdrawAddrEnabled: true,
+		CommunityTax:          sdk.NewDecWithPrec(0, 2), // 0%
+		BaseProposerReward:    sdk.NewDecWithPrec(1, 2), // 1%
+		BonusProposerReward:   sdk.NewDecWithPrec(4, 2), // 4%
+		WithdrawAddrEnabled:   true,
+		WithdrawRewardEnabled: true,
 	}
 }
 
@@ -44,6 +47,7 @@ func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
 		paramtypes.NewParamSetPair(ParamStoreKeyBaseProposerReward, &p.BaseProposerReward, validateBaseProposerReward),
 		paramtypes.NewParamSetPair(ParamStoreKeyBonusProposerReward, &p.BonusProposerReward, validateBonusProposerReward),
 		paramtypes.NewParamSetPair(ParamStoreKeyWithdrawAddrEnabled, &p.WithdrawAddrEnabled, validateWithdrawAddrEnabled),
+		paramtypes.NewParamSetPair(ParamStoreKeyWithdrawRewardEnabled, &p.WithdrawRewardEnabled, validateWithdrawRewardEnabled),
 	}
 }
 
@@ -131,6 +135,24 @@ func validateBonusProposerReward(i interface{}) error {
 }
 
 func validateWithdrawAddrEnabled(i interface{}) error {
+	_, ok := i.(bool)
+	if !ok {
+		return fmt.Errorf("invalid parameter type: %T", i)
+	}
+
+	return nil
+}
+
+func validateWithdrawRewardEnabled(i interface{}) error {
+	_, ok := i.(bool)
+	if !ok {
+		return fmt.Errorf("invalid parameter type: %T", i)
+	}
+
+	return nil
+}
+
+func validateWithdrawCommissionEnabled(i interface{}) error {
 	_, ok := i.(bool)
 	if !ok {
 		return fmt.Errorf("invalid parameter type: %T", i)

@@ -81,8 +81,21 @@ func (k Keeper) SetWithdrawAddr(ctx sdk.Context, delegatorAddr sdk.AccAddress, w
 	return nil
 }
 
+// for check invariants
+func (k Keeper) WithdrawDelegationRewardsCheckInvariants(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) (sdk.Coins, error) {
+	return k.WithdrawDelegationRewardsProc(ctx, delAddr, valAddr)
+}
+
 // withdraw rewards from a delegation
 func (k Keeper) WithdrawDelegationRewards(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) (sdk.Coins, error) {
+	if !k.GetWithdrawRewardEnabled(ctx) {
+		return nil, types.ErrWithdrawRewardDisabled
+	}
+
+	return k.WithdrawDelegationRewardsProc(ctx, delAddr, valAddr)
+}
+
+func (k Keeper) WithdrawDelegationRewardsProc(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) (sdk.Coins, error) {
 	val := k.stakingKeeper.Validator(ctx, valAddr)
 	if val == nil {
 		return nil, types.ErrNoValidatorDistInfo

@@ -41,3 +41,9 @@ func (k Keeper) GetWithdrawAddrEnabled(ctx sdk.Context) (enabled bool) {
 	k.paramSpace.Get(ctx, types.ParamStoreKeyWithdrawAddrEnabled, &enabled)
 	return enabled
 }
+
+// GetWithdrawRewardEnabled returns the current distribution withdraw reward enabled parameter.
+func (k Keeper) GetWithdrawRewardEnabled(ctx sdk.Context) (enabled bool) {
+	k.paramSpace.Get(ctx, types.ParamStoreKeyWithdrawRewardEnabled, &enabled)
+	return enabled
+}
