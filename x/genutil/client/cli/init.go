@@ -4,9 +4,10 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
-	"github.com/reapchain/reapchain-core/privval"
 	"os"
 	"path/filepath"
+
+	"github.com/reapchain/reapchain-core/privval"
 
 	"github.com/cosmos/go-bip39"
 	"github.com/pkg/errors"
@@ -158,12 +159,12 @@ func InitCmd(mbm module.BasicManager, defaultNodeHome string) *cobra.Command {
 			qrn := types.NewQrn(1, corePubKey, qrnValue)
 			qrn.Timestamp = genDoc.GenesisTime
 
-			err = privValidator.SignQrn(qrn)
+			err = privValidator.SignQrn(genDoc.ChainID, qrn)
 			if err != nil {
 				fmt.Println("Can't sign qrn", "err", err)
 			}
 
-			if qrn.VerifySign() == false {
+			if qrn.VerifySign(genDoc.ChainID) == false {
 				fmt.Println("Is invalid sign of qrn")
 			}
 
