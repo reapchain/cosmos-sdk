@@ -8,7 +8,7 @@ import (
 	compress_gzip "compress/gzip"
 	fmt "fmt"
 	types1 "github.com/reapchain/cosmos-sdk/codec/types"
-	github_com_cosmos_cosmos_sdk_types "github.com/reapchain/cosmos-sdk/types"
+	github_com_reapchain_cosmos_sdk_types "github.com/reapchain/cosmos-sdk/types"
 	types2 "github.com/reapchain/cosmos-sdk/types"
 	_ "github.com/gogo/protobuf/gogoproto"
 	github_com_gogo_protobuf_proto "github.com/gogo/protobuf/proto"
