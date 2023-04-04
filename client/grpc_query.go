@@ -7,16 +7,16 @@ import (
 	"strconv"
 
 	gogogrpc "github.com/gogo/protobuf/grpc"
-	abci "github.com/tendermint/tendermint/abci/types"
+	abci "github.com/reapchain/reapchain-core/abci/types"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/encoding"
 	"google.golang.org/grpc/encoding/proto"
 	"google.golang.org/grpc/metadata"
 
-	"github.com/cosmos/cosmos-sdk/codec/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	grpctypes "github.com/cosmos/cosmos-sdk/types/grpc"
-	"github.com/cosmos/cosmos-sdk/types/tx"
+	"github.com/reapchain/cosmos-sdk/codec/types"
+	sdkerrors "github.com/reapchain/cosmos-sdk/types/errors"
+	grpctypes "github.com/reapchain/cosmos-sdk/types/grpc"
+	"github.com/reapchain/cosmos-sdk/types/tx"
 )
 
 var _ gogogrpc.ClientConn = Context{}

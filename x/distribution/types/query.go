@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdk "github.com/reapchain/cosmos-sdk/types"
 )
 
 // QueryDelegatorTotalRewardsResponse defines the properties of
@@ -34,6 +34,7 @@ func (res QueryDelegatorTotalRewardsResponse) String() string {
 }
 
 // NewDelegationDelegatorReward constructs a DelegationDelegatorReward.
+//
 //nolint:interfacer
 func NewDelegationDelegatorReward(valAddr sdk.ValAddress,
 	reward sdk.DecCoins,

@@ -1,8 +1,8 @@
 package keeper
 
 import (
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	v043 "github.com/cosmos/cosmos-sdk/x/bank/legacy/v043"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	v043 "github.com/reapchain/cosmos-sdk/x/bank/legacy/v043"
 )
 
 // Migrator is a struct for handling in-place store migrations.

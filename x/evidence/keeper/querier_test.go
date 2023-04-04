@@ -3,12 +3,12 @@ package keeper_test
 import (
 	"strings"
 
-	"github.com/cosmos/cosmos-sdk/simapp"
+	"github.com/reapchain/cosmos-sdk/simapp"
 
-	"github.com/cosmos/cosmos-sdk/x/evidence/exported"
-	"github.com/cosmos/cosmos-sdk/x/evidence/types"
+	"github.com/reapchain/cosmos-sdk/x/evidence/exported"
+	"github.com/reapchain/cosmos-sdk/x/evidence/types"
 
-	abci "github.com/tendermint/tendermint/abci/types"
+	abci "github.com/reapchain/reapchain-core/abci/types"
 )
 
 const (

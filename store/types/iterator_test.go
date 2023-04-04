@@ -3,12 +3,12 @@ package types_test
 import (
 	"testing"
 
+	"github.com/reapchain/reapchain-core/libs/log"
 	"github.com/stretchr/testify/require"
-	"github.com/tendermint/tendermint/libs/log"
 	dbm "github.com/tendermint/tm-db"
 
-	"github.com/cosmos/cosmos-sdk/store/iavl"
-	"github.com/cosmos/cosmos-sdk/store/types"
+	"github.com/reapchain/cosmos-sdk/store/iavl"
+	"github.com/reapchain/cosmos-sdk/store/types"
 )
 
 func newMemTestKVStore(t *testing.T) types.KVStore {

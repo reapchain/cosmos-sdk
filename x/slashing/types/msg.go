@@ -1,7 +1,7 @@
 package types
 
 import (
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdk "github.com/reapchain/cosmos-sdk/types"
 )
 
 // slashing message types
@@ -13,6 +13,7 @@ const (
 var _ sdk.Msg = &MsgUnjail{}
 
 // NewMsgUnjail creates a new MsgUnjail instance
+//
 //nolint:interfacer
 func NewMsgUnjail(validatorAddr sdk.ValAddress) *MsgUnjail {
 	return &MsgUnjail{

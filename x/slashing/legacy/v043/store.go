@@ -1,9 +1,9 @@
 package v043
 
 import (
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	v043distribution "github.com/cosmos/cosmos-sdk/x/distribution/legacy/v043"
-	v040slashing "github.com/cosmos/cosmos-sdk/x/slashing/legacy/v040"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	v043distribution "github.com/reapchain/cosmos-sdk/x/distribution/legacy/v043"
+	v040slashing "github.com/reapchain/cosmos-sdk/x/slashing/legacy/v040"
 )
 
 // MigrateStore performs in-place store migrations from v0.40 to v0.43. The

@@ -5,18 +5,18 @@ import (
 	"testing"
 	"time"
 
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 	"github.com/stretchr/testify/require"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	"github.com/cosmos/cosmos-sdk/simapp"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	authkeeper "github.com/cosmos/cosmos-sdk/x/auth/keeper"
-	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	"github.com/cosmos/cosmos-sdk/x/auth/vesting/exported"
-	"github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
-	"github.com/cosmos/cosmos-sdk/x/staking"
-	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
-	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+	"github.com/reapchain/cosmos-sdk/simapp"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	authkeeper "github.com/reapchain/cosmos-sdk/x/auth/keeper"
+	authtypes "github.com/reapchain/cosmos-sdk/x/auth/types"
+	"github.com/reapchain/cosmos-sdk/x/auth/vesting/exported"
+	"github.com/reapchain/cosmos-sdk/x/auth/vesting/types"
+	"github.com/reapchain/cosmos-sdk/x/staking"
+	stakingkeeper "github.com/reapchain/cosmos-sdk/x/staking/keeper"
+	stakingtypes "github.com/reapchain/cosmos-sdk/x/staking/types"
 )
 
 func TestMigrateVestingAccounts(t *testing.T) {

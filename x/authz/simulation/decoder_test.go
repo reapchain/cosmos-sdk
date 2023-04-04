@@ -7,13 +7,13 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/cosmos/cosmos-sdk/simapp"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/kv"
-	"github.com/cosmos/cosmos-sdk/x/authz"
-	"github.com/cosmos/cosmos-sdk/x/authz/keeper"
-	"github.com/cosmos/cosmos-sdk/x/authz/simulation"
-	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	"github.com/reapchain/cosmos-sdk/simapp"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	"github.com/reapchain/cosmos-sdk/types/kv"
+	"github.com/reapchain/cosmos-sdk/x/authz"
+	"github.com/reapchain/cosmos-sdk/x/authz/keeper"
+	"github.com/reapchain/cosmos-sdk/x/authz/simulation"
+	banktypes "github.com/reapchain/cosmos-sdk/x/bank/types"
 )
 
 func TestDecodeStore(t *testing.T) {

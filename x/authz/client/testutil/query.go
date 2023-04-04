@@ -5,13 +5,13 @@ import (
 	"strings"
 	"time"
 
-	tmcli "github.com/tendermint/tendermint/libs/cli"
+	tmcli "github.com/reapchain/reapchain-core/libs/cli"
 
-	"github.com/cosmos/cosmos-sdk/client/flags"
-	clitestutil "github.com/cosmos/cosmos-sdk/testutil/cli"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/x/authz"
-	"github.com/cosmos/cosmos-sdk/x/authz/client/cli"
+	"github.com/reapchain/cosmos-sdk/client/flags"
+	clitestutil "github.com/reapchain/cosmos-sdk/testutil/cli"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	"github.com/reapchain/cosmos-sdk/x/authz"
+	"github.com/reapchain/cosmos-sdk/x/authz/client/cli"
 )
 
 func (s *IntegrationTestSuite) TestQueryAuthorizations() {

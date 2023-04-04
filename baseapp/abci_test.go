@@ -3,13 +3,13 @@ package baseapp
 import (
 	"testing"
 
+	abci "github.com/reapchain/reapchain-core/abci/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
+	tmprototypes "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
 	"github.com/stretchr/testify/require"
-	abci "github.com/tendermint/tendermint/abci/types"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
-	tmprototypes "github.com/tendermint/tendermint/proto/tendermint/types"
 	dbm "github.com/tendermint/tm-db"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdk "github.com/reapchain/cosmos-sdk/types"
 )
 
 func TestGetBlockRentionHeight(t *testing.T) {
@@ -120,8 +120,8 @@ func TestGetBlockRentionHeight(t *testing.T) {
 
 // Test and ensure that invalid block heights always cause errors.
 // See issues:
-// - https://github.com/cosmos/cosmos-sdk/issues/11220
-// - https://github.com/cosmos/cosmos-sdk/issues/7662
+// - https://github.com/reapchain/cosmos-sdk/issues/11220
+// - https://github.com/reapchain/cosmos-sdk/issues/7662
 func TestBaseAppCreateQueryContext(t *testing.T) {
 	t.Parallel()
 

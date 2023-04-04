@@ -3,8 +3,8 @@ package keeper
 import (
 	"fmt"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	types "github.com/cosmos/cosmos-sdk/x/staking/types"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	types "github.com/reapchain/cosmos-sdk/x/staking/types"
 )
 
 // Slash a validator for an infraction committed at a known height
@@ -12,15 +12,22 @@ import (
 // of it, updating unbonding delegations & redelegations appropriately
 //
 // CONTRACT:
-//    slashFactor is non-negative
+//
+//	slashFactor is non-negative
+//
 // CONTRACT:
-//    Infraction was committed equal to or less than an unbonding period in the past,
-//    so all unbonding delegations and redelegations from that height are stored
+//
+//	Infraction was committed equal to or less than an unbonding period in the past,
+//	so all unbonding delegations and redelegations from that height are stored
+//
 // CONTRACT:
-//    Slash will not slash unbonded validators (for the above reason)
+//
+//	Slash will not slash unbonded validators (for the above reason)
+//
 // CONTRACT:
-//    Infraction was committed at the current height or at a past height,
-//    not at a height in the future
+//
+//	Infraction was committed at the current height or at a past height,
+//	not at a height in the future
 func (k Keeper) Slash(ctx sdk.Context, consAddr sdk.ConsAddress, infractionHeight int64, power int64, slashFactor sdk.Dec) {
 	logger := k.Logger(ctx)
 
@@ -33,7 +40,7 @@ func (k Keeper) Slash(ctx sdk.Context, consAddr sdk.ConsAddress, infractionHeigh
 	slashAmountDec := amount.ToDec().Mul(slashFactor)
 	slashAmount := slashAmountDec.TruncateInt()
 
-	// ref https://github.com/cosmos/cosmos-sdk/issues/1348
+	// ref https://github.com/reapchain/cosmos-sdk/issues/1348
 
 	validator, found := k.GetValidatorByConsAddr(ctx, consAddr)
 	if !found {

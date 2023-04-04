@@ -5,16 +5,16 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/client/flags"
-	"github.com/cosmos/cosmos-sdk/server"
-	"github.com/cosmos/cosmos-sdk/simapp"
-	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	genutiltest "github.com/cosmos/cosmos-sdk/x/genutil/client/testutil"
-	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
+	"github.com/reapchain/cosmos-sdk/client"
+	"github.com/reapchain/cosmos-sdk/client/flags"
+	"github.com/reapchain/cosmos-sdk/server"
+	"github.com/reapchain/cosmos-sdk/simapp"
+	banktypes "github.com/reapchain/cosmos-sdk/x/bank/types"
+	genutiltest "github.com/reapchain/cosmos-sdk/x/genutil/client/testutil"
+	genutiltypes "github.com/reapchain/cosmos-sdk/x/genutil/types"
+	"github.com/reapchain/reapchain-core/libs/log"
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/require"
-	"github.com/tendermint/tendermint/libs/log"
 )
 
 func Test_TestnetCmd(t *testing.T) {

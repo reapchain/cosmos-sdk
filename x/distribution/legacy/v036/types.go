@@ -8,11 +8,11 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/cosmos/cosmos-sdk/codec"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	v034distr "github.com/cosmos/cosmos-sdk/x/distribution/legacy/v034"
-	"github.com/cosmos/cosmos-sdk/x/distribution/types"
-	v036gov "github.com/cosmos/cosmos-sdk/x/gov/legacy/v036"
+	"github.com/reapchain/cosmos-sdk/codec"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	v034distr "github.com/reapchain/cosmos-sdk/x/distribution/legacy/v034"
+	"github.com/reapchain/cosmos-sdk/x/distribution/types"
+	v036gov "github.com/reapchain/cosmos-sdk/x/gov/legacy/v036"
 )
 
 // ----------------------------------------------------------------------------

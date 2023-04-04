@@ -1,5 +1,5 @@
 // Package v040 is taken from:
-// https://github.com/cosmos/cosmos-sdk/blob/v0.40.1/x/staking/types/genesis.pb.go
+// https://github.com/reapchain/cosmos-sdk/blob/v0.40.1/x/staking/types/genesis.pb.go
 // by copy-pasted only the relevants parts for Genesis.
 // nolint
 package v040
@@ -10,9 +10,9 @@ import (
 	math "math"
 	math_bits "math/bits"
 
-	github_com_cosmos_cosmos_sdk_types "github.com/cosmos/cosmos-sdk/types"
 	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
+	github_com_cosmos_cosmos_sdk_types "github.com/reapchain/cosmos-sdk/types"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -35,7 +35,7 @@ type GenesisState struct {
 	Params Params `protobuf:"bytes,1,opt,name=params,proto3" json:"params"`
 	// last_total_power tracks the total amounts of bonded tokens recorded during
 	// the previous end block.
-	LastTotalPower github_com_cosmos_cosmos_sdk_types.Int `protobuf:"bytes,2,opt,name=last_total_power,json=lastTotalPower,proto3,customtype=github.com/cosmos/cosmos-sdk/types.Int" json:"last_total_power" yaml:"last_total_power"`
+	LastTotalPower github_com_cosmos_cosmos_sdk_types.Int `protobuf:"bytes,2,opt,name=last_total_power,json=lastTotalPower,proto3,customtype=github.com/reapchain/cosmos-sdk/types.Int" json:"last_total_power" yaml:"last_total_power"`
 	// last_validator_powers is a special index that provides a historical list
 	// of the last-block's bonded validators.
 	LastValidatorPowers []LastValidatorPower `protobuf:"bytes,3,rep,name=last_validator_powers,json=lastValidatorPowers,proto3" json:"last_validator_powers" yaml:"last_validator_powers"`

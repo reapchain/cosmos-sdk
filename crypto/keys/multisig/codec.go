@@ -1,12 +1,12 @@
 package multisig
 
 import (
-	"github.com/tendermint/tendermint/crypto/sr25519"
+	"github.com/reapchain/reapchain-core/crypto/sr25519"
 
-	"github.com/cosmos/cosmos-sdk/codec"
-	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"
-	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
-	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
+	"github.com/reapchain/cosmos-sdk/codec"
+	"github.com/reapchain/cosmos-sdk/crypto/keys/ed25519"
+	"github.com/reapchain/cosmos-sdk/crypto/keys/secp256k1"
+	cryptotypes "github.com/reapchain/cosmos-sdk/crypto/types"
 )
 
 // TODO: Figure out API for others to either add their own pubkey types, or
@@ -15,7 +15,7 @@ const (
 	PubKeyAminoRoute = "tendermint/PubKeyMultisigThreshold"
 )
 
-//nolint
+// nolint
 // Deprecated: Amino is being deprecated in the SDK. But even if you need to
 // use Amino for some reason, please use `codec/legacy.Cdc` instead.
 var AminoCdc = codec.NewLegacyAmino()

@@ -5,10 +5,11 @@ import (
 
 	yaml "gopkg.in/yaml.v2"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdk "github.com/reapchain/cosmos-sdk/types"
 )
 
 // NewDeposit creates a new Deposit instance
+//
 //nolint:interfacer
 func NewDeposit(proposalID uint64, depositor sdk.AccAddress, amount sdk.Coins) Deposit {
 	return Deposit{proposalID, depositor.String(), amount}

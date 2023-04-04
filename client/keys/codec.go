@@ -1,11 +1,11 @@
 package keys
 
 import (
-	"github.com/cosmos/cosmos-sdk/codec"
-	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
+	"github.com/reapchain/cosmos-sdk/codec"
+	cryptocodec "github.com/reapchain/cosmos-sdk/crypto/codec"
 )
 
-// TODO: remove this file https://github.com/cosmos/cosmos-sdk/issues/8047
+// TODO: remove this file https://github.com/reapchain/cosmos-sdk/issues/8047
 
 // KeysCdc defines codec to be used with key operations
 var KeysCdc *codec.LegacyAmino

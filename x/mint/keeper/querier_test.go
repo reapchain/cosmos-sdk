@@ -3,15 +3,15 @@ package keeper_test
 import (
 	"testing"
 
-	"github.com/cosmos/cosmos-sdk/codec"
+	"github.com/reapchain/cosmos-sdk/codec"
 
 	"github.com/stretchr/testify/require"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	keep "github.com/cosmos/cosmos-sdk/x/mint/keeper"
-	"github.com/cosmos/cosmos-sdk/x/mint/types"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	keep "github.com/reapchain/cosmos-sdk/x/mint/keeper"
+	"github.com/reapchain/cosmos-sdk/x/mint/types"
 
-	abci "github.com/tendermint/tendermint/abci/types"
+	abci "github.com/reapchain/reapchain-core/abci/types"
 )
 
 func TestNewQuerier(t *testing.T) {

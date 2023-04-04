@@ -16,10 +16,10 @@ import (
 	"github.com/stretchr/testify/require"
 	db "github.com/tendermint/tm-db"
 
-	"github.com/cosmos/cosmos-sdk/snapshots"
-	"github.com/cosmos/cosmos-sdk/snapshots/types"
-	snapshottypes "github.com/cosmos/cosmos-sdk/snapshots/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/reapchain/cosmos-sdk/snapshots"
+	"github.com/reapchain/cosmos-sdk/snapshots/types"
+	snapshottypes "github.com/reapchain/cosmos-sdk/snapshots/types"
+	sdkerrors "github.com/reapchain/cosmos-sdk/types/errors"
 )
 
 func checksums(slice [][]byte) [][]byte {
@@ -148,7 +148,7 @@ func (m *mockSnapshotter) SupportedFormats() []uint32 {
 // The snapshot will complete when the returned closer is called.
 func setupBusyManager(t *testing.T) *snapshots.Manager {
 	// ioutil.TempDir() is used instead of testing.T.TempDir()
-	// see https://github.com/cosmos/cosmos-sdk/pull/8475 for
+	// see https://github.com/reapchain/cosmos-sdk/pull/8475 for
 	// this change's rationale.
 	tempdir, err := ioutil.TempDir("", "")
 	require.NoError(t, err)

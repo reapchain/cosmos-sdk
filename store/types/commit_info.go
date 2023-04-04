@@ -4,10 +4,10 @@ import (
 	fmt "fmt"
 
 	ics23 "github.com/confio/ics23/go"
-	tmcrypto "github.com/tendermint/tendermint/proto/tendermint/crypto"
+	tmcrypto "github.com/reapchain/reapchain-core/proto/reapchain-core/crypto"
 
-	sdkmaps "github.com/cosmos/cosmos-sdk/store/internal/maps"
-	sdkproofs "github.com/cosmos/cosmos-sdk/store/internal/proofs"
+	sdkmaps "github.com/reapchain/cosmos-sdk/store/internal/maps"
+	sdkproofs "github.com/reapchain/cosmos-sdk/store/internal/proofs"
 )
 
 // GetHash returns the GetHash from the CommitID.

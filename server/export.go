@@ -7,14 +7,14 @@ import (
 	"io/ioutil"
 	"os"
 
+	tmjson "github.com/reapchain/reapchain-core/libs/json"
+	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
+	tmtypes "github.com/reapchain/reapchain-core/types"
 	"github.com/spf13/cobra"
-	tmjson "github.com/tendermint/tendermint/libs/json"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
-	tmtypes "github.com/tendermint/tendermint/types"
 
-	"github.com/cosmos/cosmos-sdk/client/flags"
-	"github.com/cosmos/cosmos-sdk/server/types"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/reapchain/cosmos-sdk/client/flags"
+	"github.com/reapchain/cosmos-sdk/server/types"
+	sdk "github.com/reapchain/cosmos-sdk/types"
 )
 
 const (

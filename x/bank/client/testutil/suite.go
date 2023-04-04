@@ -4,17 +4,17 @@ import (
 	"fmt"
 
 	"github.com/gogo/protobuf/proto"
+	tmcli "github.com/reapchain/reapchain-core/libs/cli"
 	"github.com/stretchr/testify/suite"
-	tmcli "github.com/tendermint/tendermint/libs/cli"
 
-	"github.com/cosmos/cosmos-sdk/client/flags"
-	clitestutil "github.com/cosmos/cosmos-sdk/testutil/cli"
-	"github.com/cosmos/cosmos-sdk/testutil/network"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/cosmos/cosmos-sdk/types/query"
-	"github.com/cosmos/cosmos-sdk/x/bank/client/cli"
-	"github.com/cosmos/cosmos-sdk/x/bank/types"
+	"github.com/reapchain/cosmos-sdk/client/flags"
+	clitestutil "github.com/reapchain/cosmos-sdk/testutil/cli"
+	"github.com/reapchain/cosmos-sdk/testutil/network"
+	sdk "github.com/reapchain/cosmos-sdk/types"
+	sdkerrors "github.com/reapchain/cosmos-sdk/types/errors"
+	"github.com/reapchain/cosmos-sdk/types/query"
+	"github.com/reapchain/cosmos-sdk/x/bank/client/cli"
+	"github.com/reapchain/cosmos-sdk/x/bank/types"
 )
 
 type IntegrationTestSuite struct {
