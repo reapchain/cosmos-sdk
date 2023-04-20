@@ -8,7 +8,7 @@ import (
 	"time"
 
 	abci "github.com/reapchain/reapchain-core/abci/types"
-	tmprotocrypto "github.com/reapchain/reapchain-core/proto/reapchain-core/crypto"
+	tmprotocrypto "github.com/reapchain/reapchain-core/proto/podc/crypto"
 	"gopkg.in/yaml.v2"
 
 	"github.com/reapchain/cosmos-sdk/codec"

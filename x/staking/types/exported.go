@@ -1,7 +1,7 @@
 package types
 
 import (
-	tmprotocrypto "github.com/reapchain/reapchain-core/proto/reapchain-core/crypto"
+	tmprotocrypto "github.com/reapchain/reapchain-core/proto/podc/crypto"
 
 	cryptotypes "github.com/reapchain/cosmos-sdk/crypto/types"
 	sdk "github.com/reapchain/cosmos-sdk/types"

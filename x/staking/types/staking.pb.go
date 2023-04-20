@@ -15,7 +15,7 @@ import (
 	types1 "github.com/reapchain/cosmos-sdk/codec/types"
 	github_com_reapchain_cosmos_sdk_types "github.com/reapchain/cosmos-sdk/types"
 	types2 "github.com/reapchain/cosmos-sdk/types"
-	types "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
+	types "github.com/reapchain/reapchain-core/proto/podc/types"
 	_ "github.com/regen-network/cosmos-proto"
 	_ "google.golang.org/protobuf/types/known/durationpb"
 	_ "google.golang.org/protobuf/types/known/timestamppb"

@@ -8,7 +8,7 @@ import (
 
 	"github.com/gogo/protobuf/proto"
 	tmcli "github.com/reapchain/reapchain-core/libs/cli"
-	"github.com/reapchain/reapchain-core/proto/reapchain-core/crypto"
+	"github.com/reapchain/reapchain-core/proto/podc/crypto"
 	"github.com/reapchain/reapchain-core/rpc/client/http"
 	"github.com/stretchr/testify/suite"
 

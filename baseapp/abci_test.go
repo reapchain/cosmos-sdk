@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	abci "github.com/reapchain/reapchain-core/abci/types"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
-	tmprototypes "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/podc/types"
+	tmprototypes "github.com/reapchain/reapchain-core/proto/podc/types"
 	"github.com/stretchr/testify/require"
 	dbm "github.com/tendermint/tm-db"
 

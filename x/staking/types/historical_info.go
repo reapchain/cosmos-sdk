@@ -4,7 +4,7 @@ import (
 	"sort"
 
 	"github.com/gogo/protobuf/proto"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/podc/types"
 
 	"github.com/reapchain/cosmos-sdk/codec"
 	codectypes "github.com/reapchain/cosmos-sdk/codec/types"

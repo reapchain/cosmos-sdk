@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/podc/types"
 	tmtime "github.com/reapchain/reapchain-core/types/time"
 	"github.com/stretchr/testify/suite"
 
