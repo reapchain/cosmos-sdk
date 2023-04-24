@@ -14,7 +14,7 @@ import (
 	"syscall"
 	"time"
 
-	tmcmd "github.com/reapchain/reapchain-core/cmd/reapchain/commands"
+	tmcmd "github.com/reapchain/reapchain-core/cmd/podc/commands"
 	tmcfg "github.com/reapchain/reapchain-core/config"
 	tmlog "github.com/reapchain/reapchain-core/libs/log"
 	"github.com/rs/zerolog"

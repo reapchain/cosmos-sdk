@@ -10,7 +10,7 @@ import (
 	abci "github.com/reapchain/reapchain-core/abci/types"
 	"github.com/reapchain/reapchain-core/crypto/tmhash"
 	"github.com/reapchain/reapchain-core/libs/log"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/podc/types"
 	dbm "github.com/tendermint/tm-db"
 
 	"github.com/reapchain/cosmos-sdk/codec/types"

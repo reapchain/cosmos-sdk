@@ -1,7 +1,7 @@
 syntax = "proto3";
 package tendermint.version;
 
-option go_package = "github.com/reapchain/reapchain-core/proto/reapchain-core/version";
+option go_package = "github.com/reapchain/reapchain-core/proto/podc/version";
 
 import "gogoproto/gogo.proto";
 

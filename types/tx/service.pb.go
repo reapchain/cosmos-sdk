@@ -12,7 +12,7 @@ import (
 	golang_proto "github.com/golang/protobuf/proto"
 	types "github.com/reapchain/cosmos-sdk/types"
 	query "github.com/reapchain/cosmos-sdk/types/query"
-	types1 "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
+	types1 "github.com/reapchain/reapchain-core/proto/podc/types"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"

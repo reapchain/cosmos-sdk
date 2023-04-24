@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/reapchain/reapchain-core/abci/server"
-	tcmd "github.com/reapchain/reapchain-core/cmd/reapchain/commands"
+	tcmd "github.com/reapchain/reapchain-core/cmd/podc/commands"
 	tmos "github.com/reapchain/reapchain-core/libs/os"
 	"github.com/reapchain/reapchain-core/node"
 	"github.com/reapchain/reapchain-core/p2p"

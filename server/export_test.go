@@ -16,7 +16,7 @@ import (
 	abci "github.com/reapchain/reapchain-core/abci/types"
 	tmjson "github.com/reapchain/reapchain-core/libs/json"
 	"github.com/reapchain/reapchain-core/libs/log"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/podc/types"
 	tmtypes "github.com/reapchain/reapchain-core/types"
 	dbm "github.com/tendermint/tm-db"
 

@@ -8,7 +8,7 @@ import (
 	abci "github.com/reapchain/reapchain-core/abci/types"
 	tmbytes "github.com/reapchain/reapchain-core/libs/bytes"
 	"github.com/reapchain/reapchain-core/libs/log"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/podc/types"
 
 	"github.com/reapchain/cosmos-sdk/store/gaskv"
 	stypes "github.com/reapchain/cosmos-sdk/store/types"

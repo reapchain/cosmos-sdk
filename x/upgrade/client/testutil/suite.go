@@ -9,7 +9,7 @@ import (
 	sdk "github.com/reapchain/cosmos-sdk/types"
 	"github.com/reapchain/cosmos-sdk/x/upgrade/client/cli"
 	"github.com/reapchain/cosmos-sdk/x/upgrade/types"
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/podc/types"
 	"github.com/stretchr/testify/suite"
 )
 

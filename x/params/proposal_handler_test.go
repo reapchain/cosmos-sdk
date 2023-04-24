@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	tmproto "github.com/reapchain/reapchain-core/proto/reapchain-core/types"
+	tmproto "github.com/reapchain/reapchain-core/proto/podc/types"
 
 	"github.com/reapchain/cosmos-sdk/simapp"
 	sdk "github.com/reapchain/cosmos-sdk/types"

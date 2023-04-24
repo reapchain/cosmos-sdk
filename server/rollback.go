@@ -5,7 +5,7 @@ import (
 
 	"github.com/reapchain/cosmos-sdk/client/flags"
 	"github.com/reapchain/cosmos-sdk/store/rootmulti"
-	tmcmd "github.com/reapchain/reapchain-core/cmd/reapchain/commands"
+	tmcmd "github.com/reapchain/reapchain-core/cmd/podc/commands"
 	"github.com/spf13/cobra"
 )
 
