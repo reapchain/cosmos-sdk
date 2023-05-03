@@ -27,7 +27,7 @@ const (
 	MaxSecurityContactLength = 140
 	MaxDetailsLength         = 280
 
-	// TODO: Currently 'standing' and 'steering' are case-sensitive. 
+	// TODO: Currently 'standing' and 'steering' are case-sensitive.
 	// Creating a validator with the validator-type tage as 'STANDING' or 'STEERING' executes properly without error messages but does not create a validator.
 	// Need to allow for case-insensitivity.
 	ValidatorTypeStanding = "standing"
@@ -52,6 +52,7 @@ var (
 var _ ValidatorI = Validator{}
 
 // NewValidator constructs a new Validator
+//
 //nolint:interfacer
 func NewValidator(operator sdk.ValAddress, pubKey cryptotypes.PubKey, description Description) (Validator, error) {
 	pkAny, err := codectypes.NewAnyWithValue(pubKey)
@@ -422,7 +423,8 @@ func (v Validator) RemoveTokens(tokens sdk.Int) Validator {
 
 // RemoveDelShares removes delegator shares from a validator.
 // NOTE: because token fractions are left in the valiadator,
-//       the exchange rate of future shares of this validator can increase.
+//
+//	the exchange rate of future shares of this validator can increase.
 func (v Validator) RemoveDelShares(delShares sdk.Dec) (Validator, sdk.Int) {
 	remainingShares := v.DelegatorShares.Sub(delShares)
 
