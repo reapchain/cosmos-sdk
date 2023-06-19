@@ -132,8 +132,10 @@ func (k BaseSendKeeper) InputOutputCoins(ctx sdk.Context, inputs []types.Input, 
 // An error is returned upon failure.
 func (k BaseSendKeeper) SendCoins(ctx sdk.Context, fromAddr sdk.AccAddress, toAddr sdk.AccAddress, amt sdk.Coins) error {
 
+	// Added code to check if current spendable balance is more the amount needed to be sent
+	// Current check in place to counter the locked -> unlcoked bug
+	// TODO - remove this once the premature unlocked bug is fixed.
 	currentlyVestingAmount := sdk.NewCoins()
-
 	acc := k.ak.GetAccount(ctx, fromAddr)
 	if acc != nil {
 		vacc, ok := acc.(vestexported.VestingAccount)
@@ -141,17 +143,10 @@ func (k BaseSendKeeper) SendCoins(ctx sdk.Context, fromAddr sdk.AccAddress, toAd
 			currentlyVestingAmount = vacc.GetVestingCoins(ctx.BlockTime())
 		}
 	}
-
-	// Added code to check if current spendable balance is more the amount needed to be sent
-	// Current check in place to counter the locked -> unlcoked bug
-	// TODO - remove this once the premature unlocked bug is fixed.
-
 	currentBalance := k.GetBalance(ctx, fromAddr, sdk.DefaultBondDenom)
-
-	spenableAmount := currentBalance.SubAmount(currentlyVestingAmount.AmountOf(sdk.DefaultBondDenom))
-
-	if spenableAmount.Amount.LT(amt.AmountOf(sdk.DefaultBondDenom)) {
-		return sdkerrors.ErrInvalidCoins
+	spendableAmount := currentBalance.SubAmount(currentlyVestingAmount.AmountOf(sdk.DefaultBondDenom))
+	if spendableAmount.Amount.LT(amt.AmountOf(sdk.DefaultBondDenom)) {
+		return sdkerrors.ErrInsufficientFunds
 	}
 
 	err := k.subUnlockedCoins(ctx, fromAddr, amt)

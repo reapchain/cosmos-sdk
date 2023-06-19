@@ -150,14 +150,12 @@ func (k BaseKeeper) DelegateCoins(ctx sdk.Context, delegatorAddr, moduleAccAddr 
 
 	balances := sdk.NewCoins()
 
-	fmt.Printf("\n\n")
-
-	fmt.Println("MARTIN - LOG OUTPUT - COSMOS SDK", time.Now().Format(time.RFC822))
-	fmt.Println("ADDRESS", delegatorAddr)
-	fmt.Printf("\n")
+	//TODO: Remove Logs once Premature-Unlock Bug is fully fixed
+	fmt.Println("\n==================================================")
+	fmt.Println("COSMOS SDK - DelegateCoins", time.Now().Format(time.RFC822))
+	fmt.Println("delegatorAddr: ", delegatorAddr)
 	for _, coin := range amt {
 		balance := k.GetBalance(ctx, delegatorAddr, coin.GetDenom())
-		fmt.Println("BALANCE DENOM: ", coin.GetDenom())
 		fmt.Println("BALANCE: ", balance)
 
 		if balance.IsLT(coin) {
@@ -173,19 +171,14 @@ func (k BaseKeeper) DelegateCoins(ctx sdk.Context, delegatorAddr, moduleAccAddr 
 		}
 	}
 
-	fmt.Printf("\n")
-
 	useableBalances := k.SpendableCoins(ctx, delegatorAddr)
 
 	for _, coin := range useableBalances {
 		balance := k.GetBalance(ctx, delegatorAddr, coin.GetDenom())
-		fmt.Println("SPENDABLE DENOM: ", coin.GetDenom())
 		fmt.Println("SPENDABLE COINS: ", balance)
 
 	}
-
-	fmt.Printf("\n\n")
-
+	fmt.Println("\n==================================================")
 	if err := k.trackDelegation(ctx, delegatorAddr, balances, amt); err != nil {
 		return sdkerrors.Wrap(err, "failed to track delegation")
 	}
