@@ -2,7 +2,6 @@ package keeper
 
 import (
 	"fmt"
-
 	"github.com/reapchain/cosmos-sdk/codec"
 	"github.com/reapchain/cosmos-sdk/store/prefix"
 	sdk "github.com/reapchain/cosmos-sdk/types"
@@ -12,6 +11,7 @@ import (
 	vestexported "github.com/reapchain/cosmos-sdk/x/auth/vesting/exported"
 	"github.com/reapchain/cosmos-sdk/x/bank/types"
 	paramtypes "github.com/reapchain/cosmos-sdk/x/params/types"
+	"time"
 )
 
 var _ Keeper = (*BaseKeeper)(nil)
@@ -150,8 +150,14 @@ func (k BaseKeeper) DelegateCoins(ctx sdk.Context, delegatorAddr, moduleAccAddr 
 
 	balances := sdk.NewCoins()
 
+	//TODO: Remove Logs once Premature-Unlock Bug is fully fixed
+	fmt.Println("\n==================================================")
+	fmt.Println("COSMOS SDK - DelegateCoins", time.Now().Format(time.RFC822))
+	fmt.Println("delegatorAddr: ", delegatorAddr)
 	for _, coin := range amt {
 		balance := k.GetBalance(ctx, delegatorAddr, coin.GetDenom())
+		fmt.Println("BALANCE: ", balance)
+
 		if balance.IsLT(coin) {
 			return sdkerrors.Wrapf(
 				sdkerrors.ErrInsufficientFunds, "failed to delegate; %s is smaller than %s", balance, amt,
@@ -165,6 +171,14 @@ func (k BaseKeeper) DelegateCoins(ctx sdk.Context, delegatorAddr, moduleAccAddr 
 		}
 	}
 
+	useableBalances := k.SpendableCoins(ctx, delegatorAddr)
+
+	for _, coin := range useableBalances {
+		balance := k.GetBalance(ctx, delegatorAddr, coin.GetDenom())
+		fmt.Println("SPENDABLE COINS: ", balance)
+
+	}
+	fmt.Println("\n==================================================")
 	if err := k.trackDelegation(ctx, delegatorAddr, balances, amt); err != nil {
 		return sdkerrors.Wrap(err, "failed to track delegation")
 	}
@@ -486,7 +500,47 @@ func (k BaseKeeper) trackDelegation(ctx sdk.Context, addr sdk.AccAddress, balanc
 	}
 
 	vacc, ok := acc.(vestexported.VestingAccount)
+
 	if ok {
+
+		// Log Outputs for Vested, Locked, Currently Vesting
+		// TODO -> Fix Premature Unlockign Bug
+		vestedCoins := vacc.GetVestedCoins(ctx.BlockHeader().Time)
+
+		lockedCoins := vacc.LockedCoins(ctx.BlockHeader().Time)
+
+		currentlyVesting := vacc.GetVestingCoins(ctx.BlockHeader().Time)
+
+		//newBalance := balance.Sub(currentlyVesting)
+
+		if lockedCoins != nil {
+
+			for _, lockedcoin := range lockedCoins {
+				fmt.Println("LOCKED DENOM: ", lockedcoin.GetDenom())
+				fmt.Println("LOCKED COINS: ", lockedcoin.Amount)
+			}
+
+			fmt.Printf("\n\n")
+		}
+
+		if vestedCoins != nil {
+			for _, vestcoin := range vestedCoins {
+				fmt.Println("VESTED DENOM: ", vestcoin.GetDenom())
+				fmt.Println("VESTED COINS: ", vestcoin.Amount)
+			}
+
+			fmt.Printf("\n\n")
+		}
+
+		if currentlyVesting != nil {
+			for _, currvestcoin := range currentlyVesting {
+				fmt.Println("CURRENTLY VESTING DENOM: ", currvestcoin.GetDenom())
+				fmt.Println("CURRENTLY VESTING COINS: ", currvestcoin.Amount)
+			}
+
+			fmt.Printf("\n\n")
+		}
+
 		// TODO: return error on account.TrackDelegation
 		vacc.TrackDelegation(ctx.BlockHeader().Time, balance, amt)
 		k.ak.SetAccount(ctx, acc)

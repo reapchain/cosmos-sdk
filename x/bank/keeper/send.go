@@ -5,6 +5,7 @@ import (
 	"github.com/reapchain/cosmos-sdk/telemetry"
 	sdk "github.com/reapchain/cosmos-sdk/types"
 	sdkerrors "github.com/reapchain/cosmos-sdk/types/errors"
+	vestexported "github.com/reapchain/cosmos-sdk/x/auth/vesting/exported"
 	"github.com/reapchain/cosmos-sdk/x/bank/types"
 	paramtypes "github.com/reapchain/cosmos-sdk/x/params/types"
 )
@@ -130,6 +131,24 @@ func (k BaseSendKeeper) InputOutputCoins(ctx sdk.Context, inputs []types.Input, 
 // SendCoins transfers amt coins from a sending account to a receiving account.
 // An error is returned upon failure.
 func (k BaseSendKeeper) SendCoins(ctx sdk.Context, fromAddr sdk.AccAddress, toAddr sdk.AccAddress, amt sdk.Coins) error {
+
+	// Added code to check if current spendable balance is more the amount needed to be sent
+	// Current check in place to counter the locked -> unlcoked bug
+	// TODO - remove this once the premature unlocked bug is fixed.
+	currentlyVestingAmount := sdk.NewCoins()
+	acc := k.ak.GetAccount(ctx, fromAddr)
+	if acc != nil {
+		vacc, ok := acc.(vestexported.VestingAccount)
+		if ok {
+			currentlyVestingAmount = vacc.GetVestingCoins(ctx.BlockTime())
+		}
+	}
+	currentBalance := k.GetBalance(ctx, fromAddr, sdk.DefaultBondDenom)
+	spendableAmount := currentBalance.SubAmount(currentlyVestingAmount.AmountOf(sdk.DefaultBondDenom))
+	if spendableAmount.Amount.LT(amt.AmountOf(sdk.DefaultBondDenom)) {
+		return sdkerrors.ErrInsufficientFunds
+	}
+
 	err := k.subUnlockedCoins(ctx, fromAddr, amt)
 	if err != nil {
 		return err
@@ -179,6 +198,7 @@ func (k BaseSendKeeper) subUnlockedCoins(ctx sdk.Context, addr sdk.AccAddress, a
 	for _, coin := range amt {
 		balance := k.GetBalance(ctx, addr, coin.Denom)
 		locked := sdk.NewCoin(coin.Denom, lockedCoins.AmountOf(coin.Denom))
+
 		spendable := balance.Sub(locked)
 
 		_, hasNeg := sdk.Coins{spendable}.SafeSub(sdk.Coins{coin})
