@@ -1044,10 +1044,10 @@ github.com/rcrowley/go-metrics v0.0.0-20181016184325-3113b8401b8a/go.mod h1:bCqn
 github.com/rcrowley/go-metrics v0.0.0-20200313005456-10cdbea86bc0/go.mod h1:bCqnVzQkZxMG4s8nGwiZ5l3QUCyqpo9Y+/ZMZ9VjZe4=
 github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 h1:N/ElC8H3+5XpJzTSTfLsJV/mx9Q9g7kxmchpfZyxgzM=
 github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475/go.mod h1:bCqnVzQkZxMG4s8nGwiZ5l3QUCyqpo9Y+/ZMZ9VjZe4=
-github.com/reapchain/iavl v0.19.0-reap.iavl.v0.2.5-rc8 h1:3gc3CAR/PUsgFD5sw9OcmlRYANosmE5w1Zkm1Eb2Vyw=
-github.com/reapchain/iavl v0.19.0-reap.iavl.v0.2.5-rc8/go.mod h1:jWvIxs4tAQWH550ambl01YoUz+f0Llp1eIQQkDrpgAc=
-github.com/reapchain/reapchain-core v0.34.20-reap.core.v0.1.14-rc8 h1:j/NDdQ/QLHozU4XhnaQQtGjCoxP0LCxZ9kUFuEJN6Oo=
-github.com/reapchain/reapchain-core v0.34.20-reap.core.v0.1.14-rc8/go.mod h1:JvYq9sN5x1x6Uf3xG26pO/4xYRco0Wmdo5RJxUtgjSM=
+github.com/reapchain/iavl v0.19.0-reap.iavl.v0.2.6 h1:0UgzHDrMtlllJ27JYC7oCHwWDl1qnLgKC2dfmYHSgZw=
+github.com/reapchain/iavl v0.19.0-reap.iavl.v0.2.6/go.mod h1:oH74udpinILFE0YmpgSuKmEZBFRZ2mJi1pE+AtLrlJY=
+github.com/reapchain/reapchain-core v0.34.20-reap.core.v0.1.15 h1:zGuGtFa/2NwYM5vLmaEiofpbiVCkW+daw7PEPNAR+4E=
+github.com/reapchain/reapchain-core v0.34.20-reap.core.v0.1.15/go.mod h1:JvYq9sN5x1x6Uf3xG26pO/4xYRco0Wmdo5RJxUtgjSM=
 github.com/regen-network/cosmos-proto v0.3.1 h1:rV7iM4SSFAagvy8RiyhiACbWEGotmqzywPxOvwMdxcg=
 github.com/regen-network/cosmos-proto v0.3.1/go.mod h1:jO0sVX6a1B36nmE8C9xBFXpNwWejXC7QqCOnH3O0+YM=
 github.com/regen-network/protobuf v1.3.3-alpha.regen.1 h1:OHEc+q5iIAXpqiqFKeLpu5NwTIkVXUs48vFMwzqpqY4=
