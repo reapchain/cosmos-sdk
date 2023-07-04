@@ -133,7 +133,7 @@ func (k BaseSendKeeper) InputOutputCoins(ctx sdk.Context, inputs []types.Input, 
 func (k BaseSendKeeper) SendCoins(ctx sdk.Context, fromAddr sdk.AccAddress, toAddr sdk.AccAddress, amt sdk.Coins) error {
 
 	// Added code to check if current spendable balance is more the amount needed to be sent
-	// Current check in place to counter the locked -> unlcoked bug
+	// Current check in place to counter the locked -> unlocked bug
 	// TODO - remove this once the premature unlocked bug is fixed.
 	currentlyVestingAmount := sdk.NewCoins()
 	acc := k.ak.GetAccount(ctx, fromAddr)
