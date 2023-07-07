@@ -114,6 +114,11 @@ $ %s gentx my-key-name 100000stake steering --home=/path/to/home/dir --keyring-b
 			// validator type [standing | steering]
 			valType := args[2]
 
+			// check validator type
+			if valType != stakingtypes.ValidatorTypeStanding && valType != stakingtypes.ValidatorTypeSteering {
+				return errors.New("The validator type must be one of standing or steering.")
+			}
+
 			// set flags for creating a gentx
 			createValCfg, err := cli.PrepareConfigForTxCreateValidator(cmd.Flags(), moniker, nodeID, genDoc.ChainID, valPubKey, valType)
 			if err != nil {

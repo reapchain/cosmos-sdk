@@ -8,6 +8,8 @@ import (
 	"github.com/spf13/cobra"
 	flag "github.com/spf13/pflag"
 
+	"github.com/pkg/errors"
+
 	"github.com/reapchain/cosmos-sdk/client"
 	"github.com/reapchain/cosmos-sdk/client/flags"
 	"github.com/reapchain/cosmos-sdk/client/tx"
@@ -62,6 +64,13 @@ func NewCreateValidatorCmd() *cobra.Command {
 
 			txf := tx.NewFactoryCLI(clientCtx, cmd.Flags()).
 				WithTxConfig(clientCtx.TxConfig).WithAccountRetriever(clientCtx.AccountRetriever)
+
+			// check validator type
+			valType := cmd.Flag(FlagType)
+			if valType.Value.String() != types.ValidatorTypeStanding && valType.Value.String() != types.ValidatorTypeSteering {
+				return errors.New("The validator type must be one of standing or steering.")
+			}
+
 			txf, msg, err := newBuildCreateValidatorMsg(clientCtx, txf, cmd.Flags())
 			if err != nil {
 				return err
