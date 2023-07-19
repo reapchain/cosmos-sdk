@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"fmt"
+
 	"github.com/reapchain/cosmos-sdk/codec"
 	"github.com/reapchain/cosmos-sdk/store/prefix"
 	sdk "github.com/reapchain/cosmos-sdk/types"
@@ -11,7 +12,6 @@ import (
 	vestexported "github.com/reapchain/cosmos-sdk/x/auth/vesting/exported"
 	"github.com/reapchain/cosmos-sdk/x/bank/types"
 	paramtypes "github.com/reapchain/cosmos-sdk/x/params/types"
-	"time"
 )
 
 var _ Keeper = (*BaseKeeper)(nil)
@@ -150,13 +150,8 @@ func (k BaseKeeper) DelegateCoins(ctx sdk.Context, delegatorAddr, moduleAccAddr 
 
 	balances := sdk.NewCoins()
 
-	//TODO: Remove Logs once Premature-Unlock Bug is fully fixed
-	fmt.Println("\n==================================================")
-	fmt.Println("COSMOS SDK - DelegateCoins", time.Now().Format(time.RFC822))
-	fmt.Println("delegatorAddr: ", delegatorAddr)
 	for _, coin := range amt {
 		balance := k.GetBalance(ctx, delegatorAddr, coin.GetDenom())
-		fmt.Println("BALANCE: ", balance)
 
 		if balance.IsLT(coin) {
 			return sdkerrors.Wrapf(
@@ -171,14 +166,6 @@ func (k BaseKeeper) DelegateCoins(ctx sdk.Context, delegatorAddr, moduleAccAddr 
 		}
 	}
 
-	useableBalances := k.SpendableCoins(ctx, delegatorAddr)
-
-	for _, coin := range useableBalances {
-		balance := k.GetBalance(ctx, delegatorAddr, coin.GetDenom())
-		fmt.Println("SPENDABLE COINS: ", balance)
-
-	}
-	fmt.Println("\n==================================================")
 	if err := k.trackDelegation(ctx, delegatorAddr, balances, amt); err != nil {
 		return sdkerrors.Wrap(err, "failed to track delegation")
 	}
