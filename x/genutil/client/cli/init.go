@@ -4,9 +4,10 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
-	"github.com/reapchain/reapchain-core/privval"
 	"os"
 	"path/filepath"
+
+	"github.com/reapchain/reapchain-core/privval"
 
 	"github.com/cosmos/go-bip39"
 	"github.com/pkg/errors"
@@ -178,6 +179,9 @@ func InitCmd(mbm module.BasicManager, defaultNodeHome string) *cobra.Command {
 			genDoc.Vrfs = []types.Vrf{}
 
 			genDoc.ConsensusRound = types.NewConsensusRound(1, 4, 4, 4)
+
+			genDoc.NextVrfs = []types.Vrf{}
+			genDoc.NextQrns = []types.Qrn{}
 
 			if err = genutil.ExportGenesisFile(genDoc, genFile); err != nil {
 				return errors.Wrap(err, "Failed to export gensis file")

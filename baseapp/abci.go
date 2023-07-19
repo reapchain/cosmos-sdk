@@ -59,7 +59,7 @@ func (app *BaseApp) InitChain(req abci.RequestInitChain) (res abci.ResponseInitC
 	app.deliverState.ctx = app.deliverState.ctx.WithBlockGasMeter(sdk.NewInfiniteGasMeter())
 
 	res = app.initChainer(app.deliverState.ctx, req)
-
+	
 	// sanity check
 	if len(req.Validators) > 0 {
 		if len(req.Validators) != len(res.Validators) {
@@ -100,6 +100,14 @@ func (app *BaseApp) InitChain(req abci.RequestInitChain) (res abci.ResponseInitC
 		ConsensusParams: res.ConsensusParams,
 		Validators:      res.Validators,
 		AppHash:         appHash,
+
+		QrnUpdates: req.QrnUpdates,
+		VrfUpdates: req.VrfUpdates,
+		NextQrnUpdates: req.NextQrnUpdates,
+		NextVrfUpdates: req.NextVrfUpdates,
+		StandingMemberUpdates: req.StandingMemberUpdates,
+		SteeringMemberCandidateUpdates: req.SteeringMemberCandidateUpdates,
+		ConsensusRound: req.ConsensusRound,
 	}
 }
 
