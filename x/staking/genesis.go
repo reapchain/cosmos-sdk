@@ -202,7 +202,6 @@ func WriteValidators(ctx sdk.Context, keeper keeper.Keeper) (vals []tmtypes.Gene
 			return true
 		}
 
-		print("stompesi - validator", validator)
 		vals = append(vals, tmtypes.GenesisValidator{
 			Address: sdk.ConsAddress(tmPk.Address()).Bytes(),
 			PubKey:  tmPk,
