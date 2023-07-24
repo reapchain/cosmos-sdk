@@ -207,6 +207,7 @@ func WriteValidators(ctx sdk.Context, keeper keeper.Keeper) (vals []tmtypes.Gene
 			PubKey:  tmPk,
 			Power:   validator.GetConsensusPower(keeper.PowerReduction(ctx)),
 			Name:    validator.GetMoniker(),
+			Type: 	 validator.GetType(),
 		})
 
 		return false

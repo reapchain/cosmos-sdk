@@ -15,6 +15,7 @@ import (
 	"github.com/reapchain/cosmos-sdk/client/flags"
 	"github.com/reapchain/cosmos-sdk/server/types"
 	sdk "github.com/reapchain/cosmos-sdk/types"
+	sm "github.com/reapchain/reapchain-core/state"
 )
 
 const (
@@ -78,6 +79,65 @@ func ExportCmd(appExporter types.AppExporter, defaultNodeHome string) *cobra.Com
 				return err
 			}
 
+			exportedState, err := sm.ExportState(serverCtx.Config, exported.Height)
+			if err != nil {
+				return err
+			}
+
+			doc.StandingMembers = make([]tmtypes.GenesisMember, len(exportedState.StandingMemberSet.StandingMembers))
+
+			for i, standingMember := range exportedState.StandingMemberSet.StandingMembers {
+					if standingMember != nil {
+							doc.StandingMembers[i] = tmtypes.GenesisMember{
+									Address: standingMember.Address,
+									PubKey: standingMember.PubKey,
+									Power: standingMember.VotingPower,
+									Name: "",
+							}
+					}
+			}
+			
+			doc.SteeringMemberCandidates = make([]tmtypes.GenesisMember, len(exportedState.SteeringMemberCandidateSet.SteeringMemberCandidates))
+			for i, steeringMemberCandidate := range exportedState.SteeringMemberCandidateSet.SteeringMemberCandidates {
+					if steeringMemberCandidate != nil {
+							doc.SteeringMemberCandidates[i] = tmtypes.GenesisMember{
+									Address: steeringMemberCandidate.Address,
+									PubKey: steeringMemberCandidate.PubKey,
+									Power: steeringMemberCandidate.VotingPower,
+									Name: "",
+							}
+					}
+			}
+			
+			doc.ConsensusRound = tmtypes.ConsensusRound {
+				ConsensusStartBlockHeight: exportedState.ConsensusRound.ConsensusStartBlockHeight,
+				Period: exportedState.ConsensusRound.Period,
+				QrnPeriod: exportedState.ConsensusRound.QrnPeriod,
+				VrfPeriod: exportedState.ConsensusRound.VrfPeriod,
+				ValidatorPeriod: exportedState.ConsensusRound.ValidatorPeriod,
+			}
+			
+			
+			doc.Qrns = make([]tmtypes.Qrn, len(exportedState.QrnSet.Qrns))
+			for i, qrn := range exportedState.QrnSet.Qrns {
+				doc.Qrns[i] = *qrn.Copy()
+			}
+
+			doc.NextQrns = make([]tmtypes.Qrn, len(exportedState.NextQrnSet.Qrns))
+			for i, nextQrn := range exportedState.NextQrnSet.Qrns {
+					doc.NextQrns[i] = *nextQrn.Copy()
+			}
+			
+			doc.Vrfs = make([]tmtypes.Vrf, len(exportedState.VrfSet.Vrfs))
+			for i, vrf := range exportedState.VrfSet.Vrfs {
+					doc.Vrfs[i] = *vrf.Copy()
+			}
+
+			doc.NextVrfs = make([]tmtypes.Vrf, len(exportedState.NextVrfSet.Vrfs))
+			for i, nextVrf := range exportedState.NextVrfSet.Vrfs {
+					doc.NextVrfs[i] = *nextVrf.Copy()
+			}
+
 			doc.AppState = exported.AppState
 			doc.Validators = exported.Validators
 			doc.InitialHeight = exported.Height
@@ -96,6 +156,8 @@ func ExportCmd(appExporter types.AppExporter, defaultNodeHome string) *cobra.Com
 					PubKeyTypes: exported.ConsensusParams.Validator.PubKeyTypes,
 				},
 			}
+
+			
 
 			// NOTE: Tendermint uses a custom JSON decoder for GenesisDoc
 			// (except for stuff inside AppState). Inside AppState, we're free

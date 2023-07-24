@@ -31,8 +31,8 @@ require (
 	github.com/prometheus/client_golang v1.12.2
 	github.com/prometheus/common v0.34.0
 	github.com/rakyll/statik v0.1.7
-	github.com/reapchain/iavl v0.19.0-reap.iavl.v0.2.6
-	github.com/reapchain/reapchain-core v0.34.20-reap.core.v0.1.15
+	github.com/reapchain/iavl v0.19.0-reap.iavl.v0.2.8
+	github.com/reapchain/reapchain-core v0.34.20-reap.core.v0.1.17
 	github.com/regen-network/cosmos-proto v0.3.1
 	github.com/rs/zerolog v1.27.0
 	github.com/spf13/cast v1.5.0
@@ -133,4 +133,5 @@ replace (
 	// latest grpc doesn't work with with our modified proto compiler, so we need to enforce
 	// the following version across all dependencies.
 	google.golang.org/grpc => google.golang.org/grpc v1.33.2
+
 )

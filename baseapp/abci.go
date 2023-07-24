@@ -100,6 +100,14 @@ func (app *BaseApp) InitChain(req abci.RequestInitChain) (res abci.ResponseInitC
 		ConsensusParams: res.ConsensusParams,
 		Validators:      res.Validators,
 		AppHash:         appHash,
+
+		QrnUpdates: req.QrnUpdates,
+		VrfUpdates: req.VrfUpdates,
+		NextQrnUpdates: req.NextQrnUpdates,
+		NextVrfUpdates: req.NextVrfUpdates,
+		StandingMemberUpdates: req.StandingMemberUpdates,
+		SteeringMemberCandidateUpdates: req.SteeringMemberCandidateUpdates,
+		ConsensusRound: req.ConsensusRound,
 	}
 }
 
