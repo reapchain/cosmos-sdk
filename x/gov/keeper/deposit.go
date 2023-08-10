@@ -50,18 +50,19 @@ func (keeper Keeper) GetDeposits(ctx sdk.Context, proposalID uint64) (deposits t
 	return
 }
 
-// DeleteDeposits deletes all the deposits on a specific proposal without refunding them
+// DeleteDeposits transfers deposited amount from the governance module to the community pool
 func (keeper Keeper) DeleteDeposits(ctx sdk.Context, proposalID uint64) {
 	store := ctx.KVStore(keeper.storeKey)
 
 	keeper.IterateDeposits(ctx, proposalID, func(deposit types.Deposit) bool {
-		err := keeper.bankKeeper.BurnCoins(ctx, types.ModuleName, deposit.Amount)
+
+		govModuleAccount := keeper.authKeeper.GetModuleAccount(ctx, types.ModuleName).GetAddress()
+		err := keeper.distributionKeeper.FundCommunityPool(ctx, deposit.Amount, govModuleAccount)
 		if err != nil {
 			panic(err)
 		}
 
 		depositor := sdk.MustAccAddressFromBech32(deposit.Depositor)
-
 		store.Delete(types.DepositKey(proposalID, depositor))
 		return false
 	})
