@@ -75,6 +75,10 @@ func (k Keeper) AllocateTokens(
 	for _, smc := range vrfList.VrfCheckList {
 		if smc.IsVrfTransmission {
 			val := k.stakingKeeper.ValidatorByConsAddr(ctx, smc.GetSteeringMemberCandidateAddress())
+			if val == nil {
+				k.Logger(ctx).Info(fmt.Sprintf("Not exist Steering Member validator: %s", smc.GetSteeringMemberCandidateAddress()))
+				continue
+			}
 			steeringMemberCandidatesLived[i] = val
 			i++
 		}
@@ -164,20 +168,23 @@ func (k Keeper) AllocateTokens(
 		totalPowerStandingMember += val.GetConsensusPower(sdk.DefaultPowerReduction)
 	}
 
-	for _, val := range standingMembers {
-		// calculate each validator's power and rewards rate.
-		valPower := sdk.NewDecFromBigInt(big.NewInt(val.GetConsensusPower(sdk.DefaultPowerReduction)))
-		rewardRate := valPower.QuoTruncate(sdk.NewDec(totalPowerStandingMember))
+	if totalPowerStandingMember > 0 {
 
-		// calculate each reward from standing member's total rewards
-		reward := standingMemberReward.MulDecTruncate(rewardRate)
-		reward2 := standingMemberReward2.MulDecTruncate(rewardRate)
+		for _, val := range standingMembers {
+			// calculate each validator's power and rewards rate.
+			valPower := sdk.NewDecFromBigInt(big.NewInt(val.GetConsensusPower(sdk.DefaultPowerReduction)))
+			rewardRate := valPower.QuoTruncate(sdk.NewDec(totalPowerStandingMember))
 
-		rewardsTotalCoin := reward.AmountOf(sdk.DefaultBondDenom).Add(reward2.AmountOf(sdk.DefaultBondDenom))
-		rewards := sdk.NewDecCoins(sdk.NewDecCoinFromDec(sdk.DefaultBondDenom, rewardsTotalCoin))
+			// calculate each reward from standing member's total rewards
+			reward := standingMemberReward.MulDecTruncate(rewardRate)
+			reward2 := standingMemberReward2.MulDecTruncate(rewardRate)
 
-		k.AllocateTokensToValidator(ctx, val, rewards)
-		remaining = remaining.Sub(rewards)
+			rewardsTotalCoin := reward.AmountOf(sdk.DefaultBondDenom).Add(reward2.AmountOf(sdk.DefaultBondDenom))
+			rewards := sdk.NewDecCoins(sdk.NewDecCoinFromDec(sdk.DefaultBondDenom, rewardsTotalCoin))
+
+			k.AllocateTokensToValidator(ctx, val, rewards)
+			remaining = remaining.Sub(rewards)
+		}
 	}
 
 	// allocate tokens to Steering Members
