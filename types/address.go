@@ -8,12 +8,13 @@ import (
 	"fmt"
 	"strings"
 	"sync"
+	"unsafe"
 
 	"github.com/hashicorp/golang-lru/simplelru"
 	yaml "gopkg.in/yaml.v2"
 
 	cryptotypes "github.com/reapchain/cosmos-sdk/crypto/types"
-	"github.com/reapchain/cosmos-sdk/internal/conv"
+	//"github.com/reapchain/cosmos-sdk/internal/conv"
 	"github.com/reapchain/cosmos-sdk/types/address"
 	"github.com/reapchain/cosmos-sdk/types/bech32"
 	sdkerrors "github.com/reapchain/cosmos-sdk/types/errors"
@@ -280,7 +281,7 @@ func (aa AccAddress) String() string {
 		return ""
 	}
 
-	key := conv.UnsafeBytesToStr(aa)
+	key := *(*string)(unsafe.Pointer(&aa)) //conv.UnsafeBytesToStr(aa)
 	accAddrMu.Lock()
 	defer accAddrMu.Unlock()
 	addr, ok := accAddrCache.Get(key)
@@ -430,7 +431,7 @@ func (va ValAddress) String() string {
 		return ""
 	}
 
-	key := conv.UnsafeBytesToStr(va)
+	key := *(*string)(unsafe.Pointer(&va)) //conv.UnsafeBytesToStr(va)
 	valAddrMu.Lock()
 	defer valAddrMu.Unlock()
 	addr, ok := valAddrCache.Get(key)
@@ -585,7 +586,7 @@ func (ca ConsAddress) String() string {
 		return ""
 	}
 
-	key := conv.UnsafeBytesToStr(ca)
+	key := *(*string)(unsafe.Pointer(&ca)) //conv.UnsafeBytesToStr(ca)
 	consAddrMu.Lock()
 	defer consAddrMu.Unlock()
 	addr, ok := consAddrCache.Get(key)

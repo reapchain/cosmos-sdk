@@ -53,6 +53,16 @@ func (k Keeper) PowerReduction(ctx sdk.Context) sdk.Int {
 	return sdk.DefaultPowerReduction
 }
 
+func (k Keeper) MinStandingMemberStakingQuantity(ctx sdk.Context) (res string) {
+	k.paramstore.Get(ctx, types.KeyMinStandingMemberStakingQuantity, &res)
+	return
+}
+
+func (k Keeper) MinSteeringMemberStakingQuantity(ctx sdk.Context) (res string) {
+	k.paramstore.Get(ctx, types.KeyMinSteeringMemberStakingQuantity, &res)
+	return
+}
+
 // Get all parameteras as types.Params
 func (k Keeper) GetParams(ctx sdk.Context) types.Params {
 	return types.NewParams(
@@ -62,6 +72,8 @@ func (k Keeper) GetParams(ctx sdk.Context) types.Params {
 		k.MaxEntries(ctx),
 		k.HistoricalEntries(ctx),
 		k.BondDenom(ctx),
+		k.MinStandingMemberStakingQuantity(ctx),
+		k.MinSteeringMemberStakingQuantity(ctx),
 	)
 }
 

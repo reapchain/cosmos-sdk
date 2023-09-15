@@ -131,8 +131,8 @@ $ %s gentx my-key-name 100000stake steering --home=/path/to/home/dir --keyring-b
 				return errors.Wrap(err, "failed to parse coins")
 			}
 
-			// validate validator's conditions
-			if err := validateValidatorConditions(valType, coins); err != nil {
+			// validate validator's conditions(Min Staking)
+			if err := validateValidatorConditions(genesisState, valType, coins); err != nil {
 				return errors.Wrap(err, "failed to validate validator's condition")
 			}
 
@@ -230,15 +230,39 @@ $ %s gentx my-key-name 100000stake steering --home=/path/to/home/dir --keyring-b
 // validate validator's init conditions
 //	amount: standing member >= 2%(MUST)
 //	        steering member >= 100,000(MUST)
-func validateValidatorConditions(valType string, amount sdk.Coins) error {
-	minStandingMemberStakingCoin, _ := sdk.ParseCoinsNormalized(stakingtypes.MinStandingMemberStakingQuantity)
-	if valType == "standing" && amount.IsAllLT(minStandingMemberStakingCoin) {
-		return errors.New(fmt.Sprintf("Standing members must have more than %s.", stakingtypes.MinStandingMemberStakingQuantity))
+func validateValidatorConditions(appGenesisState map[string]json.RawMessage, valType string, amount sdk.Coins) error {
+
+	var genesisStaking map[string]json.RawMessage
+	if err := json.Unmarshal(appGenesisState["staking"], &genesisStaking); err != nil {
+		return errors.Wrap(err, "failed to unmarshal genesis staking state")
 	}
 
-	minSteeringMemberStakingCoin, _ := sdk.ParseCoinsNormalized(stakingtypes.MinSteeringMemberStakingQuantity)
-	if valType == stakingtypes.ValidatorTypeSteering && amount.IsAllLT(minSteeringMemberStakingCoin) {
-		return errors.New(fmt.Sprintf("Steering members must have more than %s.", stakingtypes.MinSteeringMemberStakingQuantity))
+	var genesisStakingParams map[string]json.RawMessage
+	if err := json.Unmarshal(genesisStaking["params"], &genesisStakingParams); err != nil {
+		return errors.Wrap(err, "failed to unmarshal genesis staking params state")
+	}
+
+	var minStandingMemberStaking string
+	if err := json.Unmarshal(genesisStakingParams["min_standing_member_staking_quantity"], &minStandingMemberStaking); err != nil {
+		return errors.Wrap(err, "failed to unmarshal genesis staking params [minStandingMemberStakingCoin] state")
+	}
+
+	var minSteeringMemberStakingCoin string
+	if err := json.Unmarshal(genesisStakingParams["min_steering_member_staking_quantity"], &minSteeringMemberStakingCoin); err != nil {
+		return errors.Wrap(err, "failed to unmarshal genesis staking params [minSteeringMemberStakingCoin] state")
+	}
+
+	minStandingCoin, _ := sdk.ParseCoinsNormalized(minStandingMemberStaking + sdk.DefaultBondDenom)
+	minSteeringCoin, _ := sdk.ParseCoinsNormalized(minSteeringMemberStakingCoin + sdk.DefaultBondDenom)
+
+	fmt.Printf("Genesis info - Min Standing Member Staking: %s, Min Steering Member Staking: %s\n", minStandingCoin, minSteeringCoin)
+
+	if valType == "standing" && amount.IsAllLT(minStandingCoin) {
+		return errors.New(fmt.Sprintf("Standing members must have more than %s. Got: %s", minStandingCoin, amount))
+	}
+
+	if valType == "steering" && amount.IsAllLT(minSteeringCoin) {
+		return errors.New(fmt.Sprintf("Steering members must have more than %s. Got: %s", minSteeringCoin, amount))
 	}
 
 	return nil
