@@ -6,8 +6,8 @@ import "cosmos/base/abci/v1beta1/abci.proto";
 import "cosmos/tx/v1beta1/tx.proto";
 import "gogoproto/gogo.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
-import "tendermint/types/block.proto";
-import "tendermint/types/types.proto";
+import "podc/types/block.proto";
+import "podc/types/types.proto";
 
 option (gogoproto.goproto_registration) = true;
 option go_package                       = "github.com/reapchain/cosmos-sdk/types/tx";

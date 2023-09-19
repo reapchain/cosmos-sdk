@@ -4,9 +4,9 @@ package cosmos.base.tendermint.v1beta1;
 import "gogoproto/gogo.proto";
 import "google/protobuf/any.proto";
 import "google/api/annotations.proto";
-import "tendermint/p2p/types.proto";
-import "tendermint/types/block.proto";
-import "tendermint/types/types.proto";
+import "podc/p2p/types.proto";
+import "podc/types/block.proto";
+import "podc/types/types.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 
 option go_package = "github.com/reapchain/cosmos-sdk/client/grpc/tmservice";

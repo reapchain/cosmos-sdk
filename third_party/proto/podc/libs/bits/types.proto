@@ -1,5 +1,5 @@
 syntax = "proto3";
-package tendermint.libs.bits;
+package podc.libs.bits;
 
 option go_package = "github.com/reapchain/reapchain-core/proto/podc/libs/bits";
 
