@@ -46,7 +46,7 @@ To test and run Rosetta API endpoints for applications that are running and expo
 
 ```
 appd rosetta
-     --blockchain "your application name (ex: gaia)"
+     --blockchain "your application name (ex: reapchain)"
      --network "your chain identifier (ex: testnet-1)"
      --tendermint "tendermint endpoint (ex: localhost:26657)"
      --grpc "gRPC endpoint (ex: localhost:9090)"
