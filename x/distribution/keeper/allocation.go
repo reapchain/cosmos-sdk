@@ -11,6 +11,12 @@ import (
 	stakingtypes "github.com/reapchain/cosmos-sdk/x/staking/types"
 )
 
+const (
+	// reward rate
+	StandingMemberRewardRate = "0.1"
+	SteeringMemberRewardRate = "0.2"
+)
+
 // AllocateTokens handles distribution of the collected fees
 // bondedVotes is a list of (validator address, validator voted on last block flag) for all
 // validators in the bonded set.
@@ -30,11 +36,6 @@ func (k Keeper) AllocateTokens(
 	if feesCollectedInt.IsZero() {
 		return
 	}
-
-	// For distribution test
-	//if feesCollectedInt.IsAllGT(sdk.NewCoins(sdk.NewInt64Coin("areap", 1000000))) {
-	//	feesCollectedInt = sdk.NewCoins(sdk.NewInt64Coin("areap", 1000000))
-	//}
 
 	feesCollected := sdk.NewDecCoinsFromCoins(feesCollectedInt...)
 
@@ -135,12 +136,11 @@ func (k Keeper) AllocateTokens(
 
 	// reward rate.
 	// TODO: need to set genesis params
-	standingMemberRewardPercent, _ := sdk.NewDecFromStr("0.1") // 10%
-	steeringMemberRewardPercent, _ := sdk.NewDecFromStr("0.2") // 20%
+	standingMemberRewardPercent, _ := sdk.NewDecFromStr(StandingMemberRewardRate) // 10%
+	steeringMemberRewardPercent, _ := sdk.NewDecFromStr(SteeringMemberRewardRate) // 20%
 
 	// calculate standing member rewards
 	standingMemberReward := feesCollected.MulDecTruncate(standingMemberRewardPercent)
-
 	// calculate steering member rewards
 	steeringMemberReward := feesCollected.MulDecTruncate(steeringMemberRewardPercent)
 
@@ -176,38 +176,34 @@ func (k Keeper) AllocateTokens(
 			rewardRate := valPower.QuoTruncate(sdk.NewDec(totalPowerStandingMember))
 
 			// calculate each reward from standing member's total rewards
-			reward := standingMemberReward.MulDecTruncate(rewardRate)
-			reward2 := standingMemberReward2.MulDecTruncate(rewardRate)
+			rewards := standingMemberReward.MulDecTruncate(rewardRate)
+			rewards2 := standingMemberReward2.MulDecTruncate(rewardRate)
 
-			rewardsTotalCoin := reward.AmountOf(sdk.DefaultBondDenom).Add(reward2.AmountOf(sdk.DefaultBondDenom))
-			rewards := sdk.NewDecCoins(sdk.NewDecCoinFromDec(sdk.DefaultBondDenom, rewardsTotalCoin))
+			totalRewards := rewards.Add(rewards2...)
 
-			k.AllocateTokensToValidator(ctx, val, rewards)
-			remaining = remaining.Sub(rewards)
+			k.AllocateTokensToValidator(ctx, val, totalRewards)
+
+			remaining = remaining.Sub(totalRewards)
 		}
 	}
 
 	// allocate tokens to Steering Members
 	totalSteeringMember := sdk.NewInt(int64(len(steeringMembers)))
 	for _, val := range steeringMembers {
-		reward := steeringMemberReward.MulDecTruncate(sdk.OneDec().QuoTruncate(sdk.NewDecFromInt(totalSteeringMember)))
-
-		rewardsTotalCoin := reward.AmountOf(sdk.DefaultBondDenom)
-		rewards := sdk.NewDecCoins(sdk.NewDecCoinFromDec(sdk.DefaultBondDenom, rewardsTotalCoin))
+		rewards := steeringMemberReward.MulDecTruncate(sdk.OneDec().QuoTruncate(sdk.NewDecFromInt(totalSteeringMember)))
 
 		k.AllocateTokensToValidator(ctx, val, rewards)
+
 		remaining = remaining.Sub(rewards)
 	}
 
 	// allocate tokens to Steering Members candidates lived
 	totalSteeringMemberCandidatesLived := sdk.NewInt(int64(len(steeringMemberCandidatesLived)))
 	for _, val := range steeringMemberCandidatesLived {
-		reward2 := steeringMemberReward2.MulDecTruncate(sdk.OneDec().QuoTruncate(sdk.NewDecFromInt(totalSteeringMemberCandidatesLived)))
-
-		rewardsTotalCoin := reward2.AmountOf(sdk.DefaultBondDenom)
-		rewards := sdk.NewDecCoins(sdk.NewDecCoinFromDec(sdk.DefaultBondDenom, rewardsTotalCoin))
+		rewards := steeringMemberReward2.MulDecTruncate(sdk.OneDec().QuoTruncate(sdk.NewDecFromInt(totalSteeringMemberCandidatesLived)))
 
 		k.AllocateTokensToValidator(ctx, val, rewards)
+
 		remaining = remaining.Sub(rewards)
 	}
 
