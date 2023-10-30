@@ -33,16 +33,21 @@ const (
 
 	// Default maximum number of bonded standing member validators
 	DefaultMaxStandingMembers uint32 = 14
+
+	DefaultMinStandingMemberStakingQuantity string = "44000000000000000000000000"
+	DefaultMinSteeringMemberStakingQuantity string = "100000000000000000000000"
 )
 
 var (
-	KeyUnbondingTime      = []byte("UnbondingTime")
-	KeyMaxValidators      = []byte("MaxValidators")
-	KeyMaxEntries         = []byte("MaxEntries")
-	KeyBondDenom          = []byte("BondDenom")
-	KeyHistoricalEntries  = []byte("HistoricalEntries")
-	KeyPowerReduction     = []byte("PowerReduction")
-	KeyMaxStandingMembers = []byte("MaxStandingMembers")
+	KeyUnbondingTime                    = []byte("UnbondingTime")
+	KeyMaxValidators                    = []byte("MaxValidators")
+	KeyMaxEntries                       = []byte("MaxEntries")
+	KeyBondDenom                        = []byte("BondDenom")
+	KeyHistoricalEntries                = []byte("HistoricalEntries")
+	KeyPowerReduction                   = []byte("PowerReduction")
+	KeyMaxStandingMembers               = []byte("MaxStandingMembers")
+	KeyMinStandingMemberStakingQuantity = []byte("MinStandingMemberStakingQuantity")
+	KeyMinSteeringMemberStakingQuantity = []byte("MinSteeringMemberStakingQuantity")
 )
 
 var _ paramtypes.ParamSet = (*Params)(nil)
@@ -53,14 +58,16 @@ func ParamKeyTable() paramtypes.KeyTable {
 }
 
 // NewParams creates a new Params instance
-func NewParams(unbondingTime time.Duration, maxValidators, maxStandingMembers, maxEntries, historicalEntries uint32, bondDenom string) Params {
+func NewParams(unbondingTime time.Duration, maxValidators, maxStandingMembers, maxEntries, historicalEntries uint32, bondDenom string, MinStandingMemberStakingQuantity string, MinSteeringMemberStakingQuantity string) Params {
 	return Params{
-		UnbondingTime:      unbondingTime,
-		MaxValidators:      maxValidators,
-		MaxStandingMembers: maxStandingMembers,
-		MaxEntries:         maxEntries,
-		HistoricalEntries:  historicalEntries,
-		BondDenom:          bondDenom,
+		UnbondingTime:                    unbondingTime,
+		MaxValidators:                    maxValidators,
+		MaxStandingMembers:               maxStandingMembers,
+		MaxEntries:                       maxEntries,
+		HistoricalEntries:                historicalEntries,
+		BondDenom:                        bondDenom,
+		MinStandingMemberStakingQuantity: MinStandingMemberStakingQuantity,
+		MinSteeringMemberStakingQuantity: MinSteeringMemberStakingQuantity,
 	}
 }
 
@@ -85,6 +92,8 @@ func DefaultParams() Params {
 		DefaultMaxEntries,
 		DefaultHistoricalEntries,
 		sdk.DefaultBondDenom,
+		DefaultMinStandingMemberStakingQuantity,
+		DefaultMinSteeringMemberStakingQuantity,
 	)
 }
 

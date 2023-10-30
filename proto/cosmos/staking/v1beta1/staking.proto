@@ -285,6 +285,9 @@ message Params {
   uint32 historical_entries = 5 [(gogoproto.moretags) = "yaml:\"historical_entries\""];
   // bond_denom defines the bondable coin denomination.
   string bond_denom = 6 [(gogoproto.moretags) = "yaml:\"bond_denom\""];
+  string min_standing_member_staking_quantity = 7 [(gogoproto.moretags) = "yaml:\"min_standing_member_staking_quantity\""];
+  string min_steering_member_staking_quantity = 8 [(gogoproto.moretags) = "yaml:\"min_steering_member_staking_quantity\""];
+
 }
 
 // DelegationResponse is equivalent to Delegation except that it contains a

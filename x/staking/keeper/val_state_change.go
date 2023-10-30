@@ -122,8 +122,8 @@ func (k Keeper) ApplyAndReturnValidatorSetUpdates(ctx sdk.Context) (updates []ab
 		return nil, err
 	}
 
-	minStandingMemberStakingCoin, _ := sdk.ParseCoinsNormalized(types.MinStandingMemberStakingQuantity)
-	minSteeringMemberStakingCoin, _ := sdk.ParseCoinsNormalized(types.MinSteeringMemberStakingQuantity)
+	minStandingMemberStakingCoin, _ := sdk.ParseCoinsNormalized(k.MinStandingMemberStakingQuantity(ctx) + sdk.DefaultBondDenom) //sdk.ParseCoinsNormalized(types.MinStandingMemberStakingQuantity)
+	minSteeringMemberStakingCoin, _ := sdk.ParseCoinsNormalized(k.MinSteeringMemberStakingQuantity(ctx) + sdk.DefaultBondDenom) //sdk.ParseCoinsNormalized(types.MinSteeringMemberStakingQuantity)
 
 	// Iterate over validators, highest power to lowest.
 	iterator := k.ValidatorsPowerStoreIterator(ctx)
