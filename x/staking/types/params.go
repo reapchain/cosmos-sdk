@@ -80,6 +80,8 @@ func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
 		paramtypes.NewParamSetPair(KeyMaxEntries, &p.MaxEntries, validateMaxEntries),
 		paramtypes.NewParamSetPair(KeyHistoricalEntries, &p.HistoricalEntries, validateHistoricalEntries),
 		paramtypes.NewParamSetPair(KeyBondDenom, &p.BondDenom, validateBondDenom),
+		paramtypes.NewParamSetPair(KeyMinStandingMemberStakingQuantity, &p.MinStandingMemberStakingQuantity, validateMinStandingMemberStakingQuantity),
+		paramtypes.NewParamSetPair(KeyMinSteeringMemberStakingQuantity, &p.MinSteeringMemberStakingQuantity, validateMinSteeringMemberStakingQuantity),
 	}
 }
 
@@ -230,6 +232,32 @@ func ValidatePowerReduction(i interface{}) error {
 
 	if v.LT(sdk.NewInt(1)) {
 		return fmt.Errorf("power reduction cannot be lower than 1")
+	}
+
+	return nil
+}
+
+func validateMinStandingMemberStakingQuantity(i interface{}) error {
+	v, ok := i.(string)
+	if !ok {
+		return fmt.Errorf("invalid parameter type: %T", i)
+	}
+
+	if strings.TrimSpace(v) == "" {
+		return errors.New("MinStandingMemberStakingQuantity cannot be blank")
+	}
+
+	return nil
+}
+
+func validateMinSteeringMemberStakingQuantity(i interface{}) error {
+	v, ok := i.(string)
+	if !ok {
+		return fmt.Errorf("invalid parameter type: %T", i)
+	}
+
+	if strings.TrimSpace(v) == "" {
+		return errors.New("SteeringMemberStakingQuantity cannot be blank")
 	}
 
 	return nil
