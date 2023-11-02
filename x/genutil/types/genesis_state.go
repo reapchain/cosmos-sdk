@@ -103,9 +103,9 @@ func ValidateGenesis(genesisState *GenesisState, txJSONDecoder sdk.TxDecoder) er
 		}
 
 		msgs := tx.GetMsgs()
-		if len(msgs) != 1 {
+		if len(msgs) != 2 {
 			return errors.New(
-				"must provide genesis Tx with exactly 1 CreateValidator message")
+				"must provide genesis Tx with exactly 2 messages")
 		}
 
 		// TODO: abstract back to staking
