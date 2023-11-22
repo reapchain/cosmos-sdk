@@ -235,6 +235,25 @@ func (k Keeper) GetBondedValidatorsByPower(ctx sdk.Context) []types.Validator {
 	return validators
 }
 
+// get the current group of bonded standing members sorted by power-rank
+func (k Keeper) GetBondedStandingMembersByPower(ctx sdk.Context) []types.Validator {
+	var validators []types.Validator
+
+	iterator := k.ValidatorsPowerStoreIterator(ctx)
+	defer iterator.Close()
+
+	for ; iterator.Valid(); iterator.Next() {
+		address := iterator.Value()
+		validator := k.mustGetValidator(ctx, address)
+
+		if validator.IsBonded() && validator.Type == types.ValidatorTypeStanding {
+			validators = append(validators, validator)
+		}
+	}
+
+	return validators
+}
+
 // returns an iterator for the current validator power store
 func (k Keeper) ValidatorsPowerStoreIterator(ctx sdk.Context) sdk.Iterator {
 	store := ctx.KVStore(k.storeKey)
