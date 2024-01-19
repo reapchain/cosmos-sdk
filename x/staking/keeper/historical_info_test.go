@@ -32,7 +32,7 @@ func TestHistoricalInfo(t *testing.T) {
 	validators := make([]types.Validator, len(addrVals))
 
 	for i, valAddr := range addrVals {
-		validators[i] = teststaking.NewValidator(t, valAddr, PKs[i])
+		validators[i] = teststaking.NewValidator(t, valAddr, PKs[i], types.ValidatorTypeStanding)
 	}
 
 	hi := types.NewHistoricalInfo(ctx.BlockHeader(), validators, app.StakingKeeper.PowerReduction(ctx))
@@ -72,8 +72,8 @@ func TestTrackHistoricalInfo(t *testing.T) {
 		Height:  5,
 	}
 	valSet := []types.Validator{
-		teststaking.NewValidator(t, addrVals[0], PKs[0]),
-		teststaking.NewValidator(t, addrVals[1], PKs[1]),
+		teststaking.NewValidator(t, addrVals[0], PKs[0], types.ValidatorTypeStanding),
+		teststaking.NewValidator(t, addrVals[1], PKs[1], types.ValidatorTypeStanding),
 	}
 	hi4 := types.NewHistoricalInfo(h4, valSet, app.StakingKeeper.PowerReduction(ctx))
 	hi5 := types.NewHistoricalInfo(h5, valSet, app.StakingKeeper.PowerReduction(ctx))
@@ -87,12 +87,12 @@ func TestTrackHistoricalInfo(t *testing.T) {
 	require.Equal(t, hi5, recv)
 
 	// Set bonded validators in keeper
-	val1 := teststaking.NewValidator(t, addrVals[2], PKs[2])
+	val1 := teststaking.NewValidator(t, addrVals[2], PKs[2], types.ValidatorTypeStanding)
 	val1.Status = types.Bonded // when not bonded, consensus power is Zero
 	val1.Tokens = app.StakingKeeper.TokensFromConsensusPower(ctx, 10)
 	app.StakingKeeper.SetValidator(ctx, val1)
 	app.StakingKeeper.SetLastValidatorPower(ctx, val1.GetOperator(), 10)
-	val2 := teststaking.NewValidator(t, addrVals[3], PKs[3])
+	val2 := teststaking.NewValidator(t, addrVals[3], PKs[3], types.ValidatorTypeStanding)
 	val1.Status = types.Bonded
 	val2.Tokens = app.StakingKeeper.TokensFromConsensusPower(ctx, 80)
 	app.StakingKeeper.SetValidator(ctx, val2)
@@ -135,8 +135,8 @@ func TestGetAllHistoricalInfo(t *testing.T) {
 	addrVals := simapp.ConvertAddrsToValAddrs(addrDels)
 
 	valSet := []types.Validator{
-		teststaking.NewValidator(t, addrVals[0], PKs[0]),
-		teststaking.NewValidator(t, addrVals[1], PKs[1]),
+		teststaking.NewValidator(t, addrVals[0], PKs[0], types.ValidatorTypeStanding),
+		teststaking.NewValidator(t, addrVals[1], PKs[1], types.ValidatorTypeStanding),
 	}
 
 	header1 := tmproto.Header{ChainID: "HelloChain", Height: 10}

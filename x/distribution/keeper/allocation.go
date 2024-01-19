@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"fmt"
+	"math/big"
 
 	abci "github.com/reapchain/reapchain-core/abci/types"
 
@@ -43,23 +44,15 @@ func (k Keeper) AllocateTokens(
 
 	for _, voteInfo := range bondedVotes {
 		validator := k.stakingKeeper.ValidatorByConsAddr(ctx, voteInfo.Validator.GetAddress())
-		if validator.GetType() == "standing" {
+		if validator.GetType() == stakingtypes.ValidatorTypeStanding {
 			standingMembers = append(standingMembers, validator)
-		} else if validator.GetType() == "steering" {
+		} else if validator.GetType() == stakingtypes.ValidatorTypeSteering {
 			steeringMembers = append(steeringMembers, validator)
 		}
 	}
 
 	// 4. allValidators is a list of validator in the Block of corresponding height.
 	allValidators := append(standingMembers, steeringMemberCandidatesLived...)
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	fmt.Println("######## validator info ########")
-	fmt.Println("steeringMemberCandidatesLived: ", len(steeringMemberCandidatesLived))
-	fmt.Println("standingMembers: ", len(standingMembers))
-	fmt.Println("steeringMembers: ", len(steeringMembers))
-	fmt.Println("allValidators: ", len(allValidators))
-	//////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// fetch and clear the collected fees for distribution, since this is
 	// called in BeginBlock, collected fees will be from the previous block
@@ -88,21 +81,26 @@ func (k Keeper) AllocateTokens(
 		k.SetFeePool(ctx, feePool)
 		return
 	}
+	/*
+		No rewards for proposer(2022.08.04)
 
-	// calculate fraction votes
-	previousFractionVotes := sdk.NewDec(sumPreviousPrecommitPower).Quo(sdk.NewDec(totalPreviousPower))
 
-	// calculate previous proposer reward
-	baseProposerReward := k.GetBaseProposerReward(ctx)
-	bonusProposerReward := k.GetBonusProposerReward(ctx)
-	proposerMultiplier := baseProposerReward.Add(bonusProposerReward.MulTruncate(previousFractionVotes))
-	proposerReward := feesCollected.MulDecTruncate(proposerMultiplier)
+		// calculate fraction votes
+		previousFractionVotes := sdk.NewDec(sumPreviousPrecommitPower).Quo(sdk.NewDec(totalPreviousPower))
 
+		// calculate previous proposer reward
+		baseProposerReward := k.GetBaseProposerReward(ctx)
+		bonusProposerReward := k.GetBonusProposerReward(ctx)
+		proposerMultiplier := baseProposerReward.Add(bonusProposerReward.MulTruncate(previousFractionVotes))
+		proposerReward := feesCollected.MulDecTruncate(proposerMultiplier)
+	*/
 	// pay previous proposer
 	remaining := feesCollected
 	proposerValidator := k.stakingKeeper.ValidatorByConsAddr(ctx, previousProposer)
 
 	if proposerValidator != nil {
+		/* No rewards for proposer(2022.08.04)
+
 		ctx.EventManager().EmitEvent(
 			sdk.NewEvent(
 				types.EventTypeProposerReward,
@@ -113,6 +111,7 @@ func (k Keeper) AllocateTokens(
 
 		k.AllocateTokensToValidator(ctx, proposerValidator, proposerReward)
 		remaining = remaining.Sub(proposerReward)
+		*/
 	} else {
 		// previous proposer can be unknown if say, the unbonding period is 1 block, so
 		// e.g. a validator undelegates at block X, it's removed entirely by
@@ -140,73 +139,54 @@ func (k Keeper) AllocateTokens(
 	communityTax := k.GetCommunityTax(ctx)
 
 	// calculate all validator(alive) rewards
-	voteMultiplier := sdk.OneDec().Sub(proposerMultiplier).Sub(standingMemberRewardPercent).Sub(steeringMemberRewardPercent).Sub(communityTax)
+	// No rewards for proposer(2022.08.04)
+	//voteMultiplier := sdk.OneDec().Sub(proposerMultiplier).Sub(standingMemberRewardPercent).Sub(steeringMemberRewardPercent).Sub(communityTax)
+	voteMultiplier := sdk.OneDec().Sub(standingMemberRewardPercent).Sub(steeringMemberRewardPercent).Sub(communityTax)
 	allValidatorReward := feesCollected.MulDecTruncate(voteMultiplier)
 
-	//remaining = remaining.Sub(standingMemberReward).Sub(steeringMemberReward).Sub(allValidatorReward)
+	// allocate tokens to validators who lived node
+	totalValidator := sdk.NewDec(int64(len(allValidators)))
+	totalStandingMember := sdk.NewDec(int64(len(standingMembers)))
+	totalStandingMemberRates := totalStandingMember.QuoTruncate(totalValidator)
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	fmt.Println("############ Rewards ############")
-	fmt.Println("feesCollected: ", feesCollected)
-
-	fmt.Println("baseProposerReward: ", baseProposerReward)
-	fmt.Println("bonusProposerReward: ", bonusProposerReward)
-	fmt.Println("proposerMultiplier: ", proposerMultiplier)
-	fmt.Println("proposerReward: ", proposerReward)
-
-	fmt.Println("communityTax: ", communityTax)
-	fmt.Println("voteMultiplier: ", voteMultiplier)
-
-	fmt.Println("standingMemberReward: ", standingMemberReward)
-	fmt.Println("steeringMemberReward: ", steeringMemberReward)
-	fmt.Println("allValidatorReward: ", allValidatorReward)
-	//fmt.Println("remain: ", remaining)
-	//////////////////////////////////////////////////////////////////////////////////////////////////
+	standingMemberReward2 := allValidatorReward.MulDecTruncate(totalStandingMemberRates)
+	steeringMemberReward2 := allValidatorReward.MulDecTruncate(sdk.OneDec().Sub(totalStandingMemberRates))
 
 	// allocate tokens to Standing Members
-	totalStandingMember := sdk.NewInt(int64(len(standingMembers)))
+	// calculate total standing members power
+	totalPowerStandingMember := int64(0)
 	for _, val := range standingMembers {
-		reward := standingMemberReward.MulDecTruncate(sdk.OneDec().QuoTruncate(sdk.NewDecFromInt(totalStandingMember)))
-
-		// For debug
-		addr, _ := val.GetConsAddr()
-		fmt.Println("Standing 1: ", addr, reward)
-
-		k.AllocateTokensToValidator(ctx, val, reward)
-		remaining = remaining.Sub(reward)
+		totalPowerStandingMember += val.GetConsensusPower(sdk.DefaultPowerReduction)
 	}
 
-	fmt.Println("remain: ", remaining)
+	for _, val := range standingMembers {
+		// calculate each validator's power and rewards rate.
+		valPower := sdk.NewDecFromBigInt(big.NewInt(val.GetConsensusPower(sdk.DefaultPowerReduction)))
+		rewardRate := valPower.QuoTruncate(sdk.NewDec(totalPowerStandingMember))
+
+		// calculate each reward from standing member's total rewards
+		reward := standingMemberReward.MulDecTruncate(rewardRate)
+		reward2 := standingMemberReward2.MulDecTruncate(rewardRate)
+
+		rewardsTotalCoin := reward.AmountOf(sdk.DefaultBondDenom).Add(reward2.AmountOf(sdk.DefaultBondDenom))
+		rewards := sdk.NewDecCoins(sdk.NewDecCoinFromDec(sdk.DefaultBondDenom, rewardsTotalCoin))
+
+		k.AllocateTokensToValidator(ctx, val, rewards)
+		remaining = remaining.Sub(rewards)
+	}
 
 	// allocate tokens to Steering Members
 	totalSteeringMember := sdk.NewInt(int64(len(steeringMembers)))
 	for _, val := range steeringMembers {
 		reward := steeringMemberReward.MulDecTruncate(sdk.OneDec().QuoTruncate(sdk.NewDecFromInt(totalSteeringMember)))
+		reward2 := steeringMemberReward2.MulDecTruncate(sdk.OneDec().QuoTruncate(sdk.NewDecFromInt(totalSteeringMember)))
 
-		// For debug
-		addr, _ := val.GetConsAddr()
-		fmt.Println("Steering 1: ", addr, reward)
+		rewardsTotalCoin := reward.AmountOf(sdk.DefaultBondDenom).Add(reward2.AmountOf(sdk.DefaultBondDenom))
+		rewards := sdk.NewDecCoins(sdk.NewDecCoinFromDec(sdk.DefaultBondDenom, rewardsTotalCoin))
 
-		k.AllocateTokensToValidator(ctx, val, reward)
-		remaining = remaining.Sub(reward)
+		k.AllocateTokensToValidator(ctx, val, rewards)
+		remaining = remaining.Sub(rewards)
 	}
-
-	fmt.Println("remain: ", remaining)
-
-	// allocate tokens to validators who lived node
-	totalValidator := sdk.NewInt(int64(len(allValidators)))
-	for _, val := range allValidators {
-		reward := allValidatorReward.MulDecTruncate(sdk.OneDec().QuoTruncate(sdk.NewDecFromInt(totalValidator)))
-
-		// For debug
-		addr, _ := val.GetConsAddr()
-		fmt.Println("Validator 1: ", addr, reward)
-
-		k.AllocateTokensToValidator(ctx, val, reward)
-		remaining = remaining.Sub(reward)
-	}
-
-	fmt.Println("remain: ", remaining)
 
 	/*
 		// allocate tokens proportionally to voting power
@@ -262,12 +242,14 @@ func (k Keeper) AllocateTokensToValidator(ctx sdk.Context, val stakingtypes.Vali
 	outstanding.Rewards = outstanding.Rewards.Add(tokens...)
 	k.SetValidatorOutstandingRewards(ctx, val.GetOperator(), outstanding)
 
-	fmt.Println("######################## Allocate Validator ########################")
-	fmt.Println("tokens: ", tokens)
-	fmt.Println("commission: ", commission)
-	fmt.Println("shared: ", shared)
-	fmt.Println("currentRewards.Rewards: ", currentRewards.Rewards)
-	fmt.Println("outstanding.Rewards: ", outstanding.Rewards)
-	fmt.Println("######################## Allocate Validator ########################")
-
+	/*
+		fmt.Println("######################## Allocate Validator ########################")
+		fmt.Println("valAddress: ", val.GetOperator())
+		fmt.Println("tokens: ", tokens)
+		fmt.Println("commission: ", commission)
+		fmt.Println("shared: ", shared)
+		fmt.Println("currentRewards.Rewards: ", currentRewards.Rewards)
+		fmt.Println("outstanding.Rewards: ", outstanding.Rewards)
+		fmt.Println("####################################################################")
+	*/
 }

@@ -32,7 +32,7 @@ func TestCannotUnjailUnlessJailed(t *testing.T) {
 	slh := slashing.NewHandler(app.SlashingKeeper)
 	addr, val := sdk.ValAddress(pks[0].Address()), pks[0]
 
-	amt := tstaking.CreateValidatorWithValPower(addr, val, 100, true)
+	amt := tstaking.CreateValidatorWithValPower(addr, val, 100, true, stakingtypes.ValidatorTypeStanding)
 	staking.EndBlocker(ctx, app.StakingKeeper)
 	require.Equal(
 		t, app.BankKeeper.GetAllBalances(ctx, sdk.AccAddress(addr)),
@@ -58,7 +58,7 @@ func TestCannotUnjailUnlessMeetMinSelfDelegation(t *testing.T) {
 	slh := slashing.NewHandler(app.SlashingKeeper)
 	addr, val := sdk.ValAddress(pks[0].Address()), pks[0]
 	amt := app.StakingKeeper.TokensFromConsensusPower(ctx, 100)
-	msg := tstaking.CreateValidatorMsg(addr, val, amt)
+	msg := tstaking.CreateValidatorMsg(addr, val, amt, stakingtypes.ValidatorTypeStanding)
 	msg.MinSelfDelegation = amt
 	tstaking.Handle(msg, true)
 
@@ -92,7 +92,7 @@ func TestJailedValidatorDelegations(t *testing.T) {
 	app.StakingKeeper.SetParams(ctx, stakingParams)
 	valAddr, consAddr := sdk.ValAddress(pks[1].Address()), sdk.ConsAddress(pks[0].Address())
 
-	amt := tstaking.CreateValidatorWithValPower(valAddr, pks[1], 10, true)
+	amt := tstaking.CreateValidatorWithValPower(valAddr, pks[1], 10, true, stakingtypes.ValidatorTypeStanding)
 	staking.EndBlocker(ctx, app.StakingKeeper)
 
 	// set dummy signing info
@@ -153,7 +153,7 @@ func TestHandleAbsentValidator(t *testing.T) {
 	slh := slashing.NewHandler(app.SlashingKeeper)
 	tstaking := teststaking.NewHelper(t, ctx, app.StakingKeeper)
 
-	amt := tstaking.CreateValidatorWithValPower(addr, val, power, true)
+	amt := tstaking.CreateValidatorWithValPower(addr, val, power, true, stakingtypes.ValidatorTypeStanding)
 	staking.EndBlocker(ctx, app.StakingKeeper)
 
 	require.Equal(

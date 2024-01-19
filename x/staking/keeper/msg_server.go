@@ -30,9 +30,9 @@ var _ types.MsgServer = msgServer{}
 func (k msgServer) CreateValidator(goCtx context.Context, msg *types.MsgCreateValidator) (*types.MsgCreateValidatorResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// check standing member quantity.
-	if msg.ValidatorType == "standing" && k.CountStandingMember(ctx) >= types.MaxStandingMember {
-		return nil, sdkerrors.Wrapf(sdkerrors.ErrExcessStandingMember, "Excess Standing Member.")
+	// check max standing members.
+	if msg.ValidatorType == types.ValidatorTypeStanding && k.CountStandingMember(ctx) >= k.MaxStandingMembers(ctx) {
+		return nil, sdkerrors.Wrapf(sdkerrors.ErrExcessStandingMember, "Excess Standing Member. Max Standing Members: %d", k.MaxStandingMembers(ctx))
 	}
 
 	valAddr, err := sdk.ValAddressFromBech32(msg.ValidatorAddress)
@@ -212,7 +212,7 @@ func (k msgServer) Delegate(goCtx context.Context, msg *types.MsgDelegate) (*typ
 	}
 
 	// if validator is steering member, valAddr and delegatorAddress must be the same.
-	if validator.Type == "steering" && !valAddr.Equals(delegatorAddress) {
+	if validator.Type == types.ValidatorTypeSteering && !valAddr.Equals(delegatorAddress) {
 		return nil, sdkerrors.Wrapf(
 			sdkerrors.ErrInvalidRequest, "validator and delegator must be the same.",
 		)
@@ -266,6 +266,10 @@ func (k msgServer) BeginRedelegate(goCtx context.Context, msg *types.MsgBeginRed
 	if err != nil {
 		return nil, err
 	}
+	valDstAddr, err := sdk.ValAddressFromBech32(msg.ValidatorDstAddress)
+	if err != nil {
+		return nil, err
+	}
 	delegatorAddress, err := sdk.AccAddressFromBech32(msg.DelegatorAddress)
 	if err != nil {
 		return nil, err
@@ -277,16 +281,23 @@ func (k msgServer) BeginRedelegate(goCtx context.Context, msg *types.MsgBeginRed
 		return nil, err
 	}
 
+	validatorDst, found := k.GetValidator(ctx, valDstAddr)
+	if !found {
+		return nil, types.ErrNoValidatorFound
+	}
+
+	// if destination validator is steering member, it can't redelegate.
+	if !delegatorAddress.Equals(valDstAddr) && validatorDst.Type == types.ValidatorTypeSteering {
+		return nil, sdkerrors.Wrapf(
+			sdkerrors.ErrInvalidRequest, "if destination validator is steering, it can't redelegate",
+		)
+	}
+
 	bondDenom := k.BondDenom(ctx)
 	if msg.Amount.Denom != bondDenom {
 		return nil, sdkerrors.Wrapf(
 			sdkerrors.ErrInvalidRequest, "invalid coin denomination: got %s, expected %s", msg.Amount.Denom, bondDenom,
 		)
-	}
-
-	valDstAddr, err := sdk.ValAddressFromBech32(msg.ValidatorDstAddress)
-	if err != nil {
-		return nil, err
 	}
 
 	completionTime, err := k.BeginRedelegation(

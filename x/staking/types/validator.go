@@ -27,11 +27,17 @@ const (
 	MaxSecurityContactLength = 140
 	MaxDetailsLength         = 280
 
+	// TODO: Currently 'standing' and 'steering' are case-sensitive. 
+	// Creating a validator with the validator-type tage as 'STANDING' or 'STEERING' executes properly without error messages but does not create a validator.
+	// Need to allow for case-insensitivity.
+	ValidatorTypeStanding = "standing"
+	ValidatorTypeSteering = "steering"
+
 	// Standing member Minimum staking quantity
-	MinStandingMemberStakingQuantity = "44000000reap" //2200000000 * 2%
+	MinStandingMemberStakingQuantity = "44000000000000000000000000" + sdk.DefaultBondDenom //2200000000 * 2%
 
 	// Steering member Minimum staking quantity
-	MinSteeringMemberStakingQuantity = "100000reap"
+	MinSteeringMemberStakingQuantity = "100000000000000000000000" + sdk.DefaultBondDenom
 
 	MaxStandingMember = 14
 )

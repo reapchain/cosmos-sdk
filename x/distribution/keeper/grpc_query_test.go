@@ -343,7 +343,7 @@ func (suite *KeeperTestSuite) TestGRPCDelegationRewards() {
 
 	tstaking := teststaking.NewHelper(suite.T(), ctx, app.StakingKeeper)
 	tstaking.Commission = stakingtypes.NewCommissionRates(sdk.NewDecWithPrec(5, 1), sdk.NewDecWithPrec(5, 1), sdk.NewDec(0))
-	tstaking.CreateValidator(valAddrs[0], valConsPk1, sdk.NewInt(100), true)
+	tstaking.CreateValidator(valAddrs[0], valConsPk1, sdk.NewInt(100), true, stakingtypes.ValidatorTypeSteering)
 
 	staking.EndBlocker(ctx, app.StakingKeeper)
 	ctx = ctx.WithBlockHeight(ctx.BlockHeight() + 1)
@@ -464,7 +464,7 @@ func (suite *KeeperTestSuite) TestGRPCDelegationRewards() {
 				}
 
 				expectedDelReward := types.NewDelegationDelegatorReward(valAddrs[0],
-					sdk.DecCoins{sdk.NewInt64DecCoin("stake", 5)})
+					sdk.DecCoins{sdk.NewInt64DecCoin("areap", 5)})
 
 				expTotalRewardsRes = &types.QueryDelegationTotalRewardsResponse{
 					Rewards: []types.DelegationDelegatorReward{expectedDelReward},

@@ -172,7 +172,7 @@ func TestQueries(t *testing.T) {
 	// test delegation rewards query
 	tstaking := teststaking.NewHelper(t, ctx, app.StakingKeeper)
 	tstaking.Commission = stakingtypes.NewCommissionRates(sdk.NewDecWithPrec(5, 1), sdk.NewDecWithPrec(5, 1), sdk.NewDec(0))
-	tstaking.CreateValidator(valOpAddr1, valConsPk1, sdk.NewInt(100), true)
+	tstaking.CreateValidator(valOpAddr1, valConsPk1, sdk.NewInt(100), true, stakingtypes.ValidatorTypeSteering)
 
 	staking.EndBlocker(ctx, app.StakingKeeper)
 
@@ -189,7 +189,7 @@ func TestQueries(t *testing.T) {
 	// test delegator's total rewards query
 	delRewards = getQueriedDelegatorTotalRewards(t, ctx, cdc, querier, sdk.AccAddress(valOpAddr1))
 	expectedDelReward := types.NewDelegationDelegatorReward(valOpAddr1,
-		sdk.DecCoins{sdk.NewInt64DecCoin("stake", 5)})
+		sdk.DecCoins{sdk.NewInt64DecCoin("areap", 5)})
 	wantDelRewards := types.NewQueryDelegatorTotalRewardsResponse(
 		[]types.DelegationDelegatorReward{expectedDelReward}, expectedDelReward.Reward)
 	require.Equal(t, wantDelRewards, delRewards)

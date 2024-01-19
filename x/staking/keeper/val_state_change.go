@@ -122,6 +122,9 @@ func (k Keeper) ApplyAndReturnValidatorSetUpdates(ctx sdk.Context) (updates []ab
 		return nil, err
 	}
 
+	minStandingMemberStakingCoin, _ := sdk.ParseCoinsNormalized(types.MinStandingMemberStakingQuantity)
+	minSteeringMemberStakingCoin, _ := sdk.ParseCoinsNormalized(types.MinSteeringMemberStakingQuantity)
+
 	// Iterate over validators, highest power to lowest.
 	iterator := k.ValidatorsPowerStoreIterator(ctx)
 	defer iterator.Close()
@@ -174,14 +177,12 @@ func (k Keeper) ApplyAndReturnValidatorSetUpdates(ctx sdk.Context) (updates []ab
 		newPower := validator.ConsensusPower(powerReduction)
 		newPowerBytes := k.cdc.MustMarshal(&gogotypes.Int64Value{Value: newPower})
 
-		minStandingMemberStakingCoin, _ := sdk.ParseCoinsNormalized(types.MinStandingMemberStakingQuantity)
-		minSteeringMemberStakingCoin, _ := sdk.ParseCoinsNormalized(types.MinSteeringMemberStakingQuantity)
 		// update the validator set if power has changed
 		if found {
 			if !bytes.Equal(oldPowerBytes, newPowerBytes) {
 				k.SetLastValidatorPower(ctx, valAddr, newPower)
 
-				if validator.Type == "standing" &&
+				if validator.Type == types.ValidatorTypeStanding &&
 					oldPower.Value >= sdk.TokensToConsensusPower(minStandingMemberStakingCoin.AmountOf("areap"), powerReduction) &&
 					validator.Tokens.LT(minStandingMemberStakingCoin.AmountOf("areap")) {
 					k.Logger(ctx).Info(fmt.Sprintf("Remove update for Standing member, validator: %s,Tokens: %s", validator.OperatorAddress, validator.Tokens))
@@ -193,7 +194,7 @@ func (k Keeper) ApplyAndReturnValidatorSetUpdates(ctx sdk.Context) (updates []ab
 					amtFromBondedToNotBonded = amtFromBondedToNotBonded.Add(validator.GetTokens())
 
 					updates = append(updates, validator.ABCIValidatorUpdateZero())
-				} else if validator.Type == "steering" &&
+				} else if validator.Type == types.ValidatorTypeSteering &&
 					oldPower.Value >= sdk.TokensToConsensusPower(minSteeringMemberStakingCoin.AmountOf("areap"), powerReduction) &&
 					validator.Tokens.LT(minSteeringMemberStakingCoin.AmountOf("areap")) {
 					k.Logger(ctx).Info(fmt.Sprintf("Remove update for Steering member, validator: %s,Tokens: %s", validator.OperatorAddress, validator.Tokens))
@@ -205,14 +206,14 @@ func (k Keeper) ApplyAndReturnValidatorSetUpdates(ctx sdk.Context) (updates []ab
 					amtFromBondedToNotBonded = amtFromBondedToNotBonded.Add(validator.GetTokens())
 
 					updates = append(updates, validator.ABCIValidatorUpdateZero())
-				} else if validator.Type == "standing" &&
-					oldPower.Value < sdk.TokensToConsensusPower(minStandingMemberStakingCoin.AmountOf("areap"), powerReduction) &&
+				} else if validator.Type == types.ValidatorTypeStanding &&
+					//					oldPower.Value < sdk.TokensToConsensusPower(minStandingMemberStakingCoin.AmountOf("areap"), powerReduction) &&
 					validator.Tokens.GTE(minStandingMemberStakingCoin.AmountOf("areap")) {
 					k.Logger(ctx).Info(fmt.Sprintf("Add update for Standing member, validator: %s,Tokens: %s", validator.OperatorAddress, validator.Tokens))
 
 					updates = append(updates, validator.ABCIValidatorUpdate(powerReduction))
-				} else if validator.Type == "steering" &&
-					oldPower.Value < sdk.TokensToConsensusPower(minSteeringMemberStakingCoin.AmountOf("areap"), powerReduction) &&
+				} else if validator.Type == types.ValidatorTypeSteering &&
+					//					oldPower.Value < sdk.TokensToConsensusPower(minSteeringMemberStakingCoin.AmountOf("areap"), powerReduction) &&
 					validator.Tokens.GTE(minSteeringMemberStakingCoin.AmountOf("areap")) {
 					k.Logger(ctx).Info(fmt.Sprintf("Add update for Steering member, validator: %s,Tokens: %s", validator.OperatorAddress, validator.Tokens))
 
@@ -221,10 +222,10 @@ func (k Keeper) ApplyAndReturnValidatorSetUpdates(ctx sdk.Context) (updates []ab
 
 			}
 		} else {
-			if validator.Type == "standing" && validator.Tokens.GTE(minStandingMemberStakingCoin.AmountOf("areap")) {
+			if validator.Type == types.ValidatorTypeStanding && validator.Tokens.GTE(minStandingMemberStakingCoin.AmountOf("areap")) {
 				k.Logger(ctx).Info(fmt.Sprintf("Add update for new Standing member(2), validator: %s,Tokens: %s", validator.OperatorAddress, validator.Tokens))
 				updates = append(updates, validator.ABCIValidatorUpdate(powerReduction))
-			} else if validator.Type == "steering" && validator.Tokens.GTE(minSteeringMemberStakingCoin.AmountOf("areap")) {
+			} else if validator.Type == types.ValidatorTypeSteering && validator.Tokens.GTE(minSteeringMemberStakingCoin.AmountOf("areap")) {
 				k.Logger(ctx).Info(fmt.Sprintf("Add update for new Steering member(2), validator: %s,Tokens: %s", validator.OperatorAddress, validator.Tokens))
 				updates = append(updates, validator.ABCIValidatorUpdate(powerReduction))
 			}
@@ -250,6 +251,8 @@ func (k Keeper) ApplyAndReturnValidatorSetUpdates(ctx sdk.Context) (updates []ab
 		}
 		amtFromBondedToNotBonded = amtFromBondedToNotBonded.Add(validator.GetTokens())
 		k.DeleteLastValidatorPower(ctx, validator.GetOperator())
+		k.Logger(ctx).Info(fmt.Sprintf("Remove update no longer bonded, validator: %s,Tokens: %s, Type: %s", validator.OperatorAddress, validator.Tokens, validator.Type))
+
 		updates = append(updates, validator.ABCIValidatorUpdateZero())
 	}
 

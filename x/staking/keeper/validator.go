@@ -438,9 +438,9 @@ func (k Keeper) UnbondAllMatureValidators(ctx sdk.Context) {
 }
 
 // jailed 상태의 validator도 포함되어야 한다.
-func (k Keeper) CountStandingMember(ctx sdk.Context) int {
+func (k Keeper) CountStandingMember(ctx sdk.Context) uint32 {
 	validators := k.GetAllValidators(ctx)
-	totalStandingMember := 0
+	totalStandingMember := uint32(0)
 
 	for _, validator := range validators {
 		if validator.Type == "standing" {

@@ -1,10 +1,12 @@
 package types
 
+import "math/big"
+
 // staking constants
 const (
 
 	// default bond denomination
-	DefaultBondDenom = "stake"
+	DefaultBondDenom = "areap"
 
 	// Delay, in blocks, between when validator updates are returned to the
 	// consensus-engine and when they are applied. For example, if
@@ -19,7 +21,7 @@ const (
 )
 
 // DefaultPowerReduction is the default amount of staking tokens required for 1 unit of consensus-engine power
-var DefaultPowerReduction = NewIntFromUint64(1000000)
+var DefaultPowerReduction = NewIntFromBigInt(new(big.Int).Exp(big.NewInt(10), big.NewInt(18), nil)) //NewIntFromUint64(1000000)
 
 // TokensToConsensusPower - convert input tokens to potential consensus-engine power
 func TokensToConsensusPower(tokens Int, powerReduction Int) int64 {

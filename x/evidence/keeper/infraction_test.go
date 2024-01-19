@@ -7,6 +7,7 @@ import (
 	"github.com/reapchain/cosmos-sdk/x/evidence/types"
 	"github.com/reapchain/cosmos-sdk/x/staking"
 	"github.com/reapchain/cosmos-sdk/x/staking/teststaking"
+	stakingtypes "github.com/reapchain/cosmos-sdk/x/staking/types"
 )
 
 func (suite *KeeperTestSuite) TestHandleDoubleSign() {
@@ -18,7 +19,7 @@ func (suite *KeeperTestSuite) TestHandleDoubleSign() {
 	operatorAddr, val := valAddresses[0], pubkeys[0]
 	tstaking := teststaking.NewHelper(suite.T(), ctx, suite.app.StakingKeeper)
 
-	selfDelegation := tstaking.CreateValidatorWithValPower(operatorAddr, val, power, true)
+	selfDelegation := tstaking.CreateValidatorWithValPower(operatorAddr, val, power, true, stakingtypes.ValidatorTypeStanding)
 
 	// execute end-blocker and verify validator attributes
 	staking.EndBlocker(ctx, suite.app.StakingKeeper)
@@ -84,7 +85,7 @@ func (suite *KeeperTestSuite) TestHandleDoubleSign_TooOld() {
 	operatorAddr, val := valAddresses[0], pubkeys[0]
 	tstaking := teststaking.NewHelper(suite.T(), ctx, suite.app.StakingKeeper)
 
-	amt := tstaking.CreateValidatorWithValPower(operatorAddr, val, power, true)
+	amt := tstaking.CreateValidatorWithValPower(operatorAddr, val, power, true, stakingtypes.ValidatorTypeStanding)
 
 	// execute end-blocker and verify validator attributes
 	staking.EndBlocker(ctx, suite.app.StakingKeeper)
