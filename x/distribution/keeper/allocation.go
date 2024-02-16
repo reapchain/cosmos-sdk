@@ -136,8 +136,11 @@ func (k Keeper) AllocateTokens(
 
 	// reward rate.
 	// TODO: need to set genesis params
-	standingMemberRewardPercent, _ := sdk.NewDecFromStr(StandingMemberRewardRate) // 10%
-	steeringMemberRewardPercent, _ := sdk.NewDecFromStr(SteeringMemberRewardRate) // 20%
+	standingMemberRewardPercent := k.GetStandingMemberRewardRate(ctx)
+	steeringMemberRewardPercent := k.GetSteeringMemberRewardRate(ctx)
+
+	fmt.Println("standingMemberRewardPercent: ", standingMemberRewardPercent)
+	fmt.Println("steeringMemberRewardPercent: ", steeringMemberRewardPercent)
 
 	// calculate standing member rewards
 	standingMemberReward := feesCollected.MulDecTruncate(standingMemberRewardPercent)
@@ -261,14 +264,13 @@ func (k Keeper) AllocateTokensToValidator(ctx sdk.Context, val stakingtypes.Vali
 	outstanding.Rewards = outstanding.Rewards.Add(tokens...)
 	k.SetValidatorOutstandingRewards(ctx, val.GetOperator(), outstanding)
 
-	/*
-		fmt.Println("######################## Allocate Validator ########################")
-		fmt.Println("valAddress: ", val.GetOperator())
-		fmt.Println("tokens: ", tokens)
-		fmt.Println("commission: ", commission)
-		fmt.Println("shared: ", shared)
-		fmt.Println("currentRewards.Rewards: ", currentRewards.Rewards)
-		fmt.Println("outstanding.Rewards: ", outstanding.Rewards)
-		fmt.Println("####################################################################")
-	*/
+	fmt.Println("######################## Allocate Validator ########################")
+	fmt.Println("valAddress: ", val.GetOperator())
+	fmt.Println("tokens: ", tokens)
+	fmt.Println("commission: ", commission)
+	fmt.Println("shared: ", shared)
+	fmt.Println("currentRewards.Rewards: ", currentRewards.Rewards)
+	fmt.Println("outstanding.Rewards: ", outstanding.Rewards)
+	fmt.Println("####################################################################")
+
 }

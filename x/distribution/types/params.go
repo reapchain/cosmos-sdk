@@ -11,10 +11,13 @@ import (
 
 // Parameter keys
 var (
-	ParamStoreKeyCommunityTax        = []byte("communitytax")
-	ParamStoreKeyBaseProposerReward  = []byte("baseproposerreward")
-	ParamStoreKeyBonusProposerReward = []byte("bonusproposerreward")
-	ParamStoreKeyWithdrawAddrEnabled = []byte("withdrawaddrenabled")
+	ParamStoreKeyCommunityTax             = []byte("communitytax")
+	ParamStoreKeyBaseProposerReward       = []byte("baseproposerreward")
+	ParamStoreKeyBonusProposerReward      = []byte("bonusproposerreward")
+	ParamStoreKeyWithdrawAddrEnabled      = []byte("withdrawaddrenabled")
+	ParamStoreKeyStandingMemberRewardRate = []byte("standingmemberrewardrate")
+	ParamStoreKeySteeringMemberRewardRate = []byte("steeringmemberrewardrate")
+	ParamStoreKeyAllMemberRewardRate      = []byte("allmemberrewardrate")
 )
 
 // ParamKeyTable returns the parameter key table.
@@ -44,6 +47,9 @@ func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
 		paramtypes.NewParamSetPair(ParamStoreKeyBaseProposerReward, &p.BaseProposerReward, validateBaseProposerReward),
 		paramtypes.NewParamSetPair(ParamStoreKeyBonusProposerReward, &p.BonusProposerReward, validateBonusProposerReward),
 		paramtypes.NewParamSetPair(ParamStoreKeyWithdrawAddrEnabled, &p.WithdrawAddrEnabled, validateWithdrawAddrEnabled),
+		paramtypes.NewParamSetPair(ParamStoreKeyStandingMemberRewardRate, &p.StandingMemberRewardRate, validateStandingMemberRewardRate),
+		paramtypes.NewParamSetPair(ParamStoreKeySteeringMemberRewardRate, &p.SteeringMemberRewardRate, validateSteeringMemberRewardRate),
+		paramtypes.NewParamSetPair(ParamStoreKeyAllMemberRewardRate, &p.AllMemberRewardRate, validateAllMemberRewardRate),
 	}
 }
 
@@ -67,6 +73,12 @@ func (p Params) ValidateBasic() error {
 	if v := p.BaseProposerReward.Add(p.BonusProposerReward).Add(p.CommunityTax); v.GT(sdk.OneDec()) {
 		return fmt.Errorf(
 			"sum of base, bonus proposer rewards, and community tax cannot be greater than one: %s", v,
+		)
+	}
+
+	if v := p.StandingMemberRewardRate.Add(p.SteeringMemberRewardRate).Add(p.AllMemberRewardRate); v.GT(sdk.OneDec()) {
+		return fmt.Errorf(
+			"sum of standing member, steering member and All member reward cannot be greater than one: %s", v,
 		)
 	}
 
@@ -134,6 +146,63 @@ func validateWithdrawAddrEnabled(i interface{}) error {
 	_, ok := i.(bool)
 	if !ok {
 		return fmt.Errorf("invalid parameter type: %T", i)
+	}
+
+	return nil
+}
+
+func validateStandingMemberRewardRate(i interface{}) error {
+	v, ok := i.(sdk.Dec)
+	if !ok {
+		return fmt.Errorf("invalid parameter type: %T", i)
+	}
+
+	if v.IsNil() {
+		return fmt.Errorf("StandingMemberRewardRate must be not nil")
+	}
+	if v.IsNegative() {
+		return fmt.Errorf("StandingMemberRewardRate must be positive: %s", v)
+	}
+	if v.GT(sdk.OneDec()) {
+		return fmt.Errorf("StandingMemberRewardRate too large: %s", v)
+	}
+
+	return nil
+}
+
+func validateSteeringMemberRewardRate(i interface{}) error {
+	v, ok := i.(sdk.Dec)
+	if !ok {
+		return fmt.Errorf("invalid parameter type: %T", i)
+	}
+
+	if v.IsNil() {
+		return fmt.Errorf("SteeringMemberRewardRate must be not nil")
+	}
+	if v.IsNegative() {
+		return fmt.Errorf("SteeringMemberRewardRate must be positive: %s", v)
+	}
+	if v.GT(sdk.OneDec()) {
+		return fmt.Errorf("SteeringMemberRewardRate too large: %s", v)
+	}
+
+	return nil
+}
+
+func validateAllMemberRewardRate(i interface{}) error {
+	v, ok := i.(sdk.Dec)
+	if !ok {
+		return fmt.Errorf("invalid parameter type: %T", i)
+	}
+
+	if v.IsNil() {
+		return fmt.Errorf("AllMemberRewardRate must be not nil")
+	}
+	if v.IsNegative() {
+		return fmt.Errorf("AllMemberRewardRate must be positive: %s", v)
+	}
+	if v.GT(sdk.OneDec()) {
+		return fmt.Errorf("AllMemberRewardRate too large: %s", v)
 	}
 
 	return nil

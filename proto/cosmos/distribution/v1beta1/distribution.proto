@@ -26,6 +26,22 @@ message Params {
     (gogoproto.nullable)   = false
   ];
   bool withdraw_addr_enabled = 4 [(gogoproto.moretags) = "yaml:\"withdraw_addr_enabled\""];
+  string standing_member_reward_rate = 5 [
+    (gogoproto.moretags)   = "yaml:\"standing_member_reward_rate\"",
+    (gogoproto.customtype) = "github.com/reapchain/cosmos-sdk/types.Dec",
+    (gogoproto.nullable)   = false
+  ];
+  string steering_member_reward_rate = 6 [
+    (gogoproto.moretags)   = "yaml:\"steering_member_reward_rate\"",
+    (gogoproto.customtype) = "github.com/reapchain/cosmos-sdk/types.Dec",
+    (gogoproto.nullable)   = false
+  ];
+  string all_member_reward_rate = 7 [
+    (gogoproto.moretags)   = "yaml:\"all_member_reward_rate\"",
+    (gogoproto.customtype) = "github.com/reapchain/cosmos-sdk/types.Dec",
+    (gogoproto.nullable)   = false
+  ];
+
 }
 
 // ValidatorHistoricalRewards represents historical rewards for a validator.
