@@ -6,9 +6,9 @@ package types
 import (
 	context "context"
 	fmt "fmt"
-	_ "github.com/gogo/protobuf/gogoproto"
-	grpc1 "github.com/gogo/protobuf/grpc"
+	grpc1 "github.com/cosmos/gogoproto/grpc"
 	proto "github.com/gogo/protobuf/proto"
+	_ "github.com/gogo/protobuf/gogoproto"
 	types "github.com/reapchain/cosmos-sdk/codec/types"
 	query "github.com/reapchain/cosmos-sdk/types/query"
 	github_com_reapchain_reapchain_core_libs_bytes "github.com/reapchain/reapchain-core/libs/bytes"

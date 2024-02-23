@@ -5,8 +5,8 @@ package tx
 
 import (
 	fmt "fmt"
-	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
+	_ "github.com/gogo/protobuf/gogoproto"
 	types "github.com/reapchain/cosmos-sdk/codec/types"
 	types1 "github.com/reapchain/cosmos-sdk/crypto/types"
 	github_com_reapchain_cosmos_sdk_types "github.com/reapchain/cosmos-sdk/types"

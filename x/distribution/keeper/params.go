@@ -41,3 +41,18 @@ func (k Keeper) GetWithdrawAddrEnabled(ctx sdk.Context) (enabled bool) {
 	k.paramSpace.Get(ctx, types.ParamStoreKeyWithdrawAddrEnabled, &enabled)
 	return enabled
 }
+
+func (k Keeper) GetStandingMemberRewardRate(ctx sdk.Context) (percent sdk.Dec) {
+	k.paramSpace.Get(ctx, types.ParamStoreKeyStandingMemberRewardRate, &percent)
+	return percent
+}
+
+func (k Keeper) GetSteeringMemberRewardRate(ctx sdk.Context) (percent sdk.Dec) {
+	k.paramSpace.Get(ctx, types.ParamStoreKeySteeringMemberRewardRate, &percent)
+	return percent
+}
+
+func (k Keeper) GetAllMemberRewardRate(ctx sdk.Context) (percent sdk.Dec) {
+	k.paramSpace.Get(ctx, types.ParamStoreKeyAllMemberRewardRate, &percent)
+	return percent
+}
