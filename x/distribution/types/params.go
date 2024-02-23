@@ -28,10 +28,13 @@ func ParamKeyTable() paramtypes.KeyTable {
 // DefaultParams returns default distribution parameters
 func DefaultParams() Params {
 	return Params{
-		CommunityTax:        sdk.NewDecWithPrec(0, 2), // 0%
-		BaseProposerReward:  sdk.NewDecWithPrec(1, 2), // 1%
-		BonusProposerReward: sdk.NewDecWithPrec(4, 2), // 4%
-		WithdrawAddrEnabled: true,
+		CommunityTax:             sdk.NewDecWithPrec(0, 2),  // 0%
+		BaseProposerReward:       sdk.NewDecWithPrec(0, 2),  // 0%
+		BonusProposerReward:      sdk.NewDecWithPrec(0, 2),  // 0%
+		StandingMemberRewardRate: sdk.NewDecWithPrec(10, 2), // 10%
+		SteeringMemberRewardRate: sdk.NewDecWithPrec(20, 2), // 20%
+		AllMemberRewardRate:      sdk.NewDecWithPrec(70, 2), // 70%
+		WithdrawAddrEnabled:      true,
 	}
 }
 
@@ -70,15 +73,9 @@ func (p Params) ValidateBasic() error {
 			"bonus proposer reward should be positive: %s", p.BonusProposerReward,
 		)
 	}
-	if v := p.BaseProposerReward.Add(p.BonusProposerReward).Add(p.CommunityTax); v.GT(sdk.OneDec()) {
+	if v := p.BaseProposerReward.Add(p.BonusProposerReward).Add(p.CommunityTax).Add(p.StandingMemberRewardRate).Add(p.SteeringMemberRewardRate).Add(p.AllMemberRewardRate); v.GT(sdk.OneDec()) {
 		return fmt.Errorf(
-			"sum of base, bonus proposer rewards, and community tax cannot be greater than one: %s", v,
-		)
-	}
-
-	if v := p.StandingMemberRewardRate.Add(p.SteeringMemberRewardRate).Add(p.AllMemberRewardRate); v.GT(sdk.OneDec()) {
-		return fmt.Errorf(
-			"sum of standing member, steering member and All member reward cannot be greater than one: %s", v,
+			"sum of base, bonus proposer rewards, community tax, standing member rewards, steering member rewards and All member rewards cannot be greater than one: %s", v,
 		)
 	}
 
