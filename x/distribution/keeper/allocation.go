@@ -31,11 +31,7 @@ func (k Keeper) AllocateTokens(
 		return
 	}
 
-	// For test
-	coins := sdk.NewCoins(sdk.NewCoin("reap", sdk.NewInt(100)))
-	feesCollected := sdk.NewDecCoinsFromCoins(coins...)
-
-	//feesCollected := sdk.NewDecCoinsFromCoins(feesCollectedInt...)
+	feesCollected := sdk.NewDecCoinsFromCoins(feesCollectedInt...)
 
 	// transfer collected fees to the distribution module account
 	err := k.bankKeeper.SendCoinsFromModuleToModule(ctx, k.feeCollectorName, types.ModuleName, feesCollectedInt)
