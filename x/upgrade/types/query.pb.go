@@ -6,7 +6,7 @@ package types
 import (
 	context "context"
 	fmt "fmt"
-	grpc1 "github.com/gogo/protobuf/grpc"
+	grpc1 "github.com/cosmos/gogoproto/grpc"
 	proto "github.com/gogo/protobuf/proto"
 	_ "github.com/reapchain/cosmos-sdk/codec/types"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
