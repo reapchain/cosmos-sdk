@@ -102,3 +102,42 @@ func (k msgServer) MultiSend(goCtx context.Context, msg *types.MsgMultiSend) (*t
 
 	return &types.MsgMultiSendResponse{}, nil
 }
+
+func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBurnResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	if err := k.IsSendEnabledCoins(ctx, msg.Amount...); err != nil {
+		return nil, err
+	}
+
+	from, err := sdk.AccAddressFromBech32(msg.FromAddress)
+	if err != nil {
+		return nil, err
+	}
+
+	err = k.BurnAccountCoins(ctx, from, msg.Amount)
+	if err != nil {
+		return nil, err
+	}
+
+	defer func() {
+		for _, a := range msg.Amount {
+			if a.Amount.IsInt64() {
+				telemetry.SetGaugeWithLabels(
+					[]string{"tx", "msg", "burn"},
+					float32(a.Amount.Int64()),
+					[]metrics.Label{telemetry.NewLabel("denom", a.Denom)},
+				)
+			}
+		}
+	}()
+
+	ctx.EventManager().EmitEvent(
+		sdk.NewEvent(
+			sdk.EventTypeMessage,
+			sdk.NewAttribute(sdk.AttributeKeyModule, types.AttributeValueCategory),
+		),
+	)
+
+	return &types.MsgBurnResponse{}, nil
+}

@@ -14,6 +14,8 @@ service Msg {
 
   // MultiSend defines a method for sending coins from some accounts to other accounts.
   rpc MultiSend(MsgMultiSend) returns (MsgMultiSendResponse);
+
+  rpc Burn(MsgBurn) returns (MsgBurnResponse);
 }
 
 // MsgSend represents a message to send coins from one account to another.
@@ -24,7 +26,7 @@ message MsgSend {
   string   from_address                    = 1 [(gogoproto.moretags) = "yaml:\"from_address\""];
   string   to_address                      = 2 [(gogoproto.moretags) = "yaml:\"to_address\""];
   repeated cosmos.base.v1beta1.Coin amount = 3
-      [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/reapchain/cosmos-sdk/types.Coins"];
+  [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/reapchain/cosmos-sdk/types.Coins"];
 }
 
 // MsgSendResponse defines the Msg/Send response type.
@@ -40,3 +42,15 @@ message MsgMultiSend {
 
 // MsgMultiSendResponse defines the Msg/MultiSend response type.
 message MsgMultiSendResponse {}
+
+
+message MsgBurn {
+  option (gogoproto.equal)           = false;
+  option (gogoproto.goproto_getters) = false;
+
+  string   from_address                    = 1 [(gogoproto.moretags) = "yaml:\"from_address\""];
+  repeated cosmos.base.v1beta1.Coin amount = 2
+  [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/reapchain/cosmos-sdk/types.Coins"];
+}
+
+message MsgBurnResponse {}
