@@ -107,6 +107,53 @@ func (msg MsgMultiSend) GetSigners() []sdk.AccAddress {
 	return addrs
 }
 
+var _ sdk.Msg = &MsgBurn{}
+
+// NewMsgBurn - construct a msg to burn coins from one account.
+//
+//nolint:interfacer
+func NewMsgBurn(fromAddr sdk.AccAddress, amount sdk.Coins) *MsgBurn {
+	return &MsgBurn{FromAddress: fromAddr.String(), Amount: amount}
+}
+
+// Route Implements Msg.
+func (msg MsgBurn) Route() string { return RouterKey }
+
+// Type Implements Msg.
+func (msg MsgBurn) Type() string { return TypeMsgSend }
+
+// ValidateBasic Implements Msg.
+func (msg MsgBurn) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.FromAddress)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "Invalid sender address (%s)", err)
+	}
+
+	if !msg.Amount.IsValid() {
+		return sdkerrors.Wrap(sdkerrors.ErrInvalidCoins, msg.Amount.String())
+	}
+
+	if !msg.Amount.IsAllPositive() {
+		return sdkerrors.Wrap(sdkerrors.ErrInvalidCoins, msg.Amount.String())
+	}
+
+	return nil
+}
+
+// GetSignBytes Implements Msg.
+func (msg MsgBurn) GetSignBytes() []byte {
+	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(&msg))
+}
+
+// GetSigners Implements Msg.
+func (msg MsgBurn) GetSigners() []sdk.AccAddress {
+	from, err := sdk.AccAddressFromBech32(msg.FromAddress)
+	if err != nil {
+		panic(err)
+	}
+	return []sdk.AccAddress{from}
+}
+
 // ValidateBasic - validate transaction input
 func (in Input) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(in.Address)

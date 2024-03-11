@@ -39,7 +39,7 @@ type Keeper interface {
 	UndelegateCoinsFromModuleToAccount(ctx sdk.Context, senderModule string, recipientAddr sdk.AccAddress, amt sdk.Coins) error
 	MintCoins(ctx sdk.Context, moduleName string, amt sdk.Coins) error
 	BurnCoins(ctx sdk.Context, moduleName string, amt sdk.Coins) error
-
+	BurnAccountCoins(ctx sdk.Context, addr sdk.AccAddress, amt sdk.Coins) error
 	DelegateCoins(ctx sdk.Context, delegatorAddr, moduleAccAddr sdk.AccAddress, amt sdk.Coins) error
 	UndelegateCoins(ctx sdk.Context, moduleAccAddr, delegatorAddr sdk.AccAddress, amt sdk.Coins) error
 
@@ -457,6 +457,44 @@ func (k BaseKeeper) BurnCoins(ctx sdk.Context, moduleName string, amounts sdk.Co
 	ctx.EventManager().EmitEvent(
 		types.NewCoinBurnEvent(acc.GetAddress(), amounts),
 	)
+
+	return nil
+}
+
+// BurnAccountCoins burns coins deletes coins from the balance of a specific account.
+// It will panic if the specified account does not exist or is unauthorized.
+func (k BaseKeeper) BurnAccountCoins(ctx sdk.Context, addr sdk.AccAddress, amounts sdk.Coins) error {
+	acc := k.ak.GetAccount(ctx, addr)
+	if acc == nil {
+		panic(sdkerrors.Wrapf(sdkerrors.ErrUnknownAddress, "account %s does not exist", addr))
+	}
+
+	err := k.subUnlockedCoins(ctx, acc.GetAddress(), amounts)
+	if err != nil {
+		return err
+	}
+
+	for _, amount := range amounts {
+		supply := k.GetSupply(ctx, amount.GetDenom())
+		supply = supply.Sub(amount)
+		k.setSupply(ctx, supply)
+	}
+
+	logger := k.Logger(ctx)
+	logger.Info("burned tokens from account", "amount", amounts.String(), "from", acc.GetAddress().String())
+
+	// emit burn event
+	ctx.EventManager().EmitEvents(sdk.Events{
+		sdk.NewEvent(
+			types.EventTypeCoinBurn,
+			sdk.NewAttribute(types.AttributeKeySender, acc.GetAddress().String()),
+			sdk.NewAttribute(sdk.AttributeKeyAmount, amounts.String()),
+		),
+		sdk.NewEvent(
+			sdk.EventTypeMessage,
+			sdk.NewAttribute(types.AttributeKeySender, acc.GetAddress().String()),
+		),
+	})
 
 	return nil
 }
