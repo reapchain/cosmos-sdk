@@ -484,9 +484,17 @@ func (k BaseKeeper) BurnAccountCoins(ctx sdk.Context, addr sdk.AccAddress, amoun
 	logger.Info("burned tokens from account", "amount", amounts.String(), "from", acc.GetAddress().String())
 
 	// emit burn event
-	ctx.EventManager().EmitEvent(
-		types.NewCoinBurnEvent(acc.GetAddress(), amounts),
-	)
+	ctx.EventManager().EmitEvents(sdk.Events{
+		sdk.NewEvent(
+			types.EventTypeCoinBurn,
+			sdk.NewAttribute(types.AttributeKeySender, acc.GetAddress().String()),
+			sdk.NewAttribute(sdk.AttributeKeyAmount, amounts.String()),
+		),
+		sdk.NewEvent(
+			sdk.EventTypeMessage,
+			sdk.NewAttribute(types.AttributeKeySender, acc.GetAddress().String()),
+		),
+	})
 
 	return nil
 }
