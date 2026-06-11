@@ -38,7 +38,7 @@ require (
 	github.com/rs/zerolog v1.27.0
 	github.com/spf13/cast v1.5.0
 	github.com/spf13/cobra v1.5.0
-	github.com/spf13/pflag v1.0.5
+	github.com/spf13/pflag v1.0.10
 	github.com/spf13/viper v1.12.0
 	github.com/stretchr/testify v1.8.0
 	github.com/tendermint/btcd v0.1.1
@@ -136,5 +136,4 @@ replace (
 	// latest grpc doesn't work with with our modified proto compiler, so we need to enforce
 	// the following version across all dependencies.
 	google.golang.org/grpc => google.golang.org/grpc v1.33.2
-
 )
