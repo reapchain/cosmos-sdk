@@ -25,7 +25,7 @@ require (
 	github.com/hdevalence/ed25519consensus v0.0.0-20210204194344-59a8610d2b87
 	github.com/improbable-eng/grpc-web v0.14.1
 	github.com/jhump/protoreflect v1.12.1-0.20220417024638-438db461d753
-	github.com/magiconair/properties v1.8.6
+	github.com/magiconair/properties v1.18.11
 	github.com/mattn/go-isatty v0.0.14
 	github.com/otiai10/copy v1.6.0
 	github.com/pkg/errors v0.9.1
@@ -136,5 +136,4 @@ replace (
 	// latest grpc doesn't work with with our modified proto compiler, so we need to enforce
 	// the following version across all dependencies.
 	google.golang.org/grpc => google.golang.org/grpc v1.33.2
-
 )
